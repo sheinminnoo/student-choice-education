@@ -1,17 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, KeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/universities", label: "Universities" },
-  { href: "/scholarships", label: "Scholarships" },
-  { href: "/onlinecourses", label: "Online Courses" },
-  { href: "/ambassadors", label: "Ambassadors" },
-  { href: "/contactus", label: "Contact" },
+type SubLink = {
+  href: string;
+  label: string;
+};
+
+type MainLink = {
+  href: string;
+  label: string;
+  children?: SubLink[];
+};
+
+const mainLinks: MainLink[] = [
+  {
+    href: "/",
+    label: "Home",
+    children: [
+      { href: "/ourservices", label: "Our Service" },
+      { href: "/aboutus", label: "About Us" },
+      { href: "/contactus", label: "Contact" },
+    ],
+  },
+  {
+    href: "/universities",
+    label: "Universities",
+  },
+  {
+    href: "/scholarships",
+    label: "Scholarships",
+  },
+  {
+    href: "/onlinecourses",
+    label: "Online Courses",
+  },
+  {
+    href: "/ambassadors",
+    label: "Ambassadors",
+  },
 ];
 
 interface NavItemProps {
@@ -31,6 +61,8 @@ interface MobileItemProps {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const [mobileHomeOpen, setMobileHomeOpen] = useState(false);
+  const [desktopHomeOpen, setDesktopHomeOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -41,31 +73,55 @@ export default function Navbar() {
   }, []);
 
   const linkBase =
-    "relative px-3 py-2 text-[12px] md:text-[13px] tracking-wide uppercase font-semibold transition before:absolute before:left-3 before:-bottom-0.5 before:h-[2px] before:w-0 before:bg-emerald-400 before:rounded-full before:transition-all before:duration-300 hover:before:w-[calc(100%-1.5rem)]";
+    "relative px-3 py-2 text-[12px] md:text-[13px] tracking-wide uppercase font-semibold transition before:absolute before:left-3 before:-bottom-0.5 before:h-[2px] before:w-0 before:bg-lime-400 before:rounded-full before:transition-all before:duration-300 hover:before:w-[calc(100%-1.5rem)]";
+
+  const focusRingDark =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B2348]";
+  const focusRingLight =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+
+  const handleDesktopToggleKey = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+      e.preventDefault();
+      setDesktopHomeOpen(true);
+    }
+    if (e.key === "Escape") {
+      setDesktopHomeOpen(false);
+    }
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      {/* Desktop top bar */}
       <div className="hidden lg:block w-full bg-[#050f22]">
         <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-end gap-3 px-4 sm:px-6 lg:px-8 h-9 text-[11px] sm:text-xs text-gray-300">
-          <a href="mailto:info@studentchoice.com" className="hover:text-white">
+          <a
+            href="mailto:info@studentchoice.com"
+            className={`hover:text-white ${focusRingDark}`}
+          >
             info@studentchoice.com
           </a>
-          <a href="tel:+441234567890" className="hover:text-white">
+          <a
+            href="tel:+441234567890"
+            className={`hover:text-white ${focusRingDark}`}
+          >
             +44 1234 567 890
           </a>
         </div>
       </div>
 
-      {/* Main navbar */}
       <div
         className={`w-full transition-colors duration-200 ${
           scrolled ? "bg-[#0B2348]" : "bg-[#0B2348]"
         }`}
       >
-        <nav className="mx-auto max-w-7xl h-16 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
-          {/* Logo + brand */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <nav
+          className="mx-auto max-w-7xl h-16 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2"
+          aria-label="Main navigation"
+        >
+          <Link
+            href="/"
+            className={`flex items-center gap-2 sm:gap-3 min-w-0 ${focusRingDark}`}
+          >
             <div className="h-10 w-10 sm:h-11 sm:w-11 xl:h-12 xl:w-12 rounded-full bg-white shadow flex items-center justify-center flex-shrink-0">
               <Image
                 src="/logo.png"
@@ -75,39 +131,117 @@ export default function Navbar() {
                 className="object-contain"
               />
             </div>
-            <span
-              className="
-                font-bold text-white tracking-wide
-                text-base md:text-lg
-                hidden xl:inline
-              "
-            >
+            <span className="font-bold text-white tracking-wide text-base md:text-lg hidden xl:inline">
               STUDENT CHOICE EDUCATION
             </span>
           </Link>
 
-          {/* Desktop menu */}
           <ul className="hidden xl:flex items-center gap-1 lg:gap-2">
-            {navLinks.map((item) => (
-              <li key={item.href}>
-                <NavItem
-                  href={item.href}
-                  label={item.label}
-                  className={linkBase}
-                  isActive={
-                    item.href === "/"
-                      ? pathname === "/"
-                      : pathname.startsWith(item.href)
-                  }
-                />
-              </li>
-            ))}
+            {mainLinks.map((item) =>
+              item.children ? (
+                <li
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => setDesktopHomeOpen(true)}
+                  onMouseLeave={() => setDesktopHomeOpen(false)}
+                >
+                  {(() => {
+                    const isSectionActive =
+                      pathname === item.href ||
+                      item.children?.some((c) => pathname.startsWith(c.href));
+                    return (
+                      <div className="flex items-center gap-1">
+                        <Link
+                          href={item.href}
+                          className={`${linkBase} ${
+                            isSectionActive
+                              ? "text-lime-300 before:w-[calc(100%-1.5rem)]"
+                              : "text-slate-100 hover:text-lime-200"
+                          } ${focusRingDark}`}
+                          aria-current={isSectionActive ? "page" : undefined}
+                        >
+                          {item.label}
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label="Toggle home menu"
+                          aria-haspopup="true"
+                          aria-expanded={desktopHomeOpen}
+                          className={`text-slate-100 hover:text-lime-200 mt-[1px] rounded-full p-1 ${focusRingDark}`}
+                          onClick={() => setDesktopHomeOpen((prev) => !prev)}
+                          onKeyDown={handleDesktopToggleKey}
+                        >
+                          <svg viewBox="0 0 16 16" className="h-3 w-3">
+                            <path
+                              d="M4 6l4 4 4-4"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    );
+                  })()}
+
+                  <div
+                    className={`absolute left-0 mt-2 min-w-[220px] rounded-md bg-white border border-slate-100 shadow-[0_12px_30px_rgba(15,23,42,0.18)] transition-all duration-150 origin-top ${
+                      desktopHomeOpen
+                        ? "opacity-100 visible translate-y-0"
+                        : "opacity-0 invisible -translate-y-1"
+                    }`}
+                    role="menu"
+                    aria-label="Home section"
+                  >
+                    <ul className="py-2 text-[13px]">
+                      {item.children.map((child) => {
+                        const active = pathname.startsWith(child.href);
+                        return (
+                          <li key={child.href} role="none">
+                            <Link
+                              href={child.href}
+                              onClick={() => setDesktopHomeOpen(false)}
+                              className={`block px-5 py-2.5 leading-snug border-b last:border-b-0 border-slate-100 hover:bg-slate-50 ${
+                                active
+                                  ? "text-lime-500 font-semibold"
+                                  : "text-slate-700 hover:text-lime-500"
+                              } ${focusRingLight}`}
+                              role="menuitem"
+                              aria-current={active ? "page" : undefined}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </li>
+              ) : (
+                <li key={item.href}>
+                  <NavItem
+                    href={item.href}
+                    label={item.label}
+                    className={linkBase}
+                    isActive={
+                      item.href === "/"
+                        ? pathname === "/"
+                        : pathname.startsWith(item.href)
+                    }
+                  />
+                </li>
+              )
+            )}
           </ul>
 
-          {/* Mobile / tablet hamburger */}
           <button
-            onClick={() => setDrawer(true)}
-            className="xl:hidden flex items-center text-emerald-300 flex-shrink-0"
+            onClick={() => {
+              setDrawer(true);
+              setMobileHomeOpen(false);
+            }}
+            className={`xl:hidden flex items-center text-lime-300 flex-shrink-0 rounded-md p-1.5 ${focusRingDark}`}
             aria-label="Open main menu"
             aria-expanded={drawer}
             aria-controls="mobile-menu"
@@ -124,33 +258,26 @@ export default function Navbar() {
         </nav>
       </div>
 
-      {/* Backdrop + drawer (mobile / tablet only) */}
       <div
         className={`fixed inset-0 xl:hidden ${
           drawer ? "visible" : "invisible"
         }`}
       >
-        {/* Backdrop fade */}
-        <div
+        <button
           onClick={() => setDrawer(false)}
           className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ease-out ${
             drawer ? "opacity-100" : "opacity-0"
           }`}
+          aria-label="Close menu backdrop"
         />
 
-        {/* Drawer with slide + fade + soft edge shadow */}
         <aside
           id="mobile-menu"
           role="dialog"
           aria-modal="true"
-          className={`absolute top-0 left-0 h-full w-72 sm:w-80 bg-white 
-            shadow-[0_0_35px_rgba(0,0,0,0.35)]
-            transform transition-all duration-300 ease-out
-            ${
-              drawer
-                ? "translate-x-0 opacity-100"
-                : "-translate-x-full opacity-0"
-            }`}
+          className={`absolute top-0 left-0 h-full w-72 sm:w-80 bg-white shadow-[0_0_35px_rgba(0,0,0,0.35)] transform transition-all duration-300 ease-out ${
+            drawer ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
+          }`}
         >
           <div className="h-16 flex items-center justify-between px-4 border-b bg-[#0B2348]">
             <div className="flex items-center gap-2">
@@ -171,7 +298,7 @@ export default function Navbar() {
             </div>
             <button
               onClick={() => setDrawer(false)}
-              className="p-2 text-gray-100"
+              className={`p-2 text-gray-100 rounded-full ${focusRingLight}`}
               aria-label="Close menu"
             >
               <svg viewBox="0 0 24 24" className="h-6 w-6">
@@ -185,18 +312,77 @@ export default function Navbar() {
             </button>
           </div>
 
-          <nav className="py-2">
-            {navLinks.map((item) => (
+          <nav className="py-1 text-sm" aria-label="Mobile navigation">
+            <div className="border-b border-slate-100">
+              <div className="flex items-stretch">
+                <Link
+                  href="/"
+                  onClick={() => {
+                    setDrawer(false);
+                    setMobileHomeOpen(false);
+                  }}
+                  className={`flex-1 px-6 py-3.5 font-semibold text-slate-900 hover:bg-slate-50 ${focusRingLight}`}
+                  aria-current={pathname === "/" ? "page" : undefined}
+                >
+                  Home
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setMobileHomeOpen((prev) => !prev)}
+                  className={`w-12 flex items-center justify-center text-slate-400 hover:text-lime-500 hover:bg-slate-50 ${focusRingLight}`}
+                  aria-label="Toggle home submenu"
+                  aria-expanded={mobileHomeOpen}
+                  aria-haspopup="true"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    className={`h-3.5 w-3.5 transition-transform ${
+                      mobileHomeOpen ? "rotate-180 text-lime-500" : ""
+                    }`}
+                  >
+                    <path
+                      d="M4 6l4 4 4-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {mobileHomeOpen && (
+              <div className="border-b border-slate-100 bg-slate-50/70">
+                {mainLinks[0].children?.map((child) => {
+                  const active = pathname.startsWith(child.href);
+                  return (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      onClick={() => setDrawer(false)}
+                      className={`block pl-10 pr-6 py-3 text-[15px] border-t border-slate-100 ${
+                        active
+                          ? "bg-lime-50 text-lime-600 font-semibold"
+                          : "text-slate-800 hover:bg-white"
+                      } ${focusRingLight}`}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {child.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+
+            {mainLinks.slice(1).map((item) => (
               <MobileItem
                 key={item.href}
                 href={item.href}
                 label={item.label}
                 onClick={() => setDrawer(false)}
-                isActive={
-                  item.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(item.href)
-                }
+                isActive={pathname.startsWith(item.href)}
               />
             ))}
           </nav>
@@ -208,34 +394,38 @@ export default function Navbar() {
 
 function NavItem({ href, label, className, isActive }: NavItemProps) {
   const activeClass = isActive
-    ? "text-emerald-300 before:w-[calc(100%-1.5rem)]"
-    : "text-slate-100 hover:text-emerald-200";
+    ? "text-lime-300 before:w-[calc(100%-1.5rem)]"
+    : "text-slate-100 hover:text-lime-200";
+  const focusRingDark =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B2348]";
+
   return (
-    <Link href={href} className={`${className} ${activeClass}`}>
+    <Link
+      href={href}
+      className={`${className} ${activeClass} ${focusRingDark}`}
+      aria-current={isActive ? "page" : undefined}
+    >
       {label}
     </Link>
   );
 }
 
 function MobileItem({ href, label, onClick, isActive }: MobileItemProps) {
+  const focusRingLight =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+
   return (
     <Link
       href={href}
       onClick={onClick}
-      className={`flex items-center justify-between px-4 py-3 text-[15px] font-medium hover:bg-gray-100 ${
-        isActive ? "text-emerald-600 bg-emerald-50" : "text-gray-800"
-      }`}
+      className={`flex items-center justify-between px-6 py-3.5 text-[15px] font-semibold border-b border-slate-100 ${
+        isActive
+          ? "text-lime-600 bg-lime-50"
+          : "text-slate-900 hover:bg-slate-50"
+      } ${focusRingLight}`}
+      aria-current={isActive ? "page" : undefined}
     >
       <span>{label}</span>
-      <svg viewBox="0 0 20 20" className="h-4 w-4">
-        <path
-          d="M7 5l6 5-6 5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-      </svg>
     </Link>
   );
 }
