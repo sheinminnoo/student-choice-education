@@ -1,156 +1,118 @@
 import Link from "next/link";
-import type { University } from "@/data/universities";
+import { MapPin, GraduationCap, ArrowRight, Bookmark } from "lucide-react";
+import type { University } from "@/data/universities"; // Assuming this is correct
 
 type Props = {
   uni: University;
 };
 
-export default function UniversityCard({ uni }: Props) {
-  return (
-    <article className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-sky-500 via-emerald-400 to-sky-500" />
+export default function UniversityCardPremium({ uni }: Props) {
+  const initial = uni.name.charAt(0).toUpperCase();
 
-      <div className="pl-4 pr-4 sm:pr-5 lg:pr-6 py-4 sm:py-5 lg:py-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div className="flex items-start gap-3 sm:gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-lg font-bold text-sky-700">
-              {uni.name.charAt(0)}
+  return (
+    <article className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-950/70 backdrop-blur-md shadow-2xl transition-all duration-300 ease-in-out hover:border-sky-500/60 hover:shadow-sky-500/20">
+      {/* --- Top Accent Bar & Subtle Outer Glow (Premium Effect) --- */}
+      <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-400/90 via-indigo-500/90 to-cyan-400/90" />
+
+      {/* --- Inner Radial Shadow/Glow on Hover --- */}
+      <div className="absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div className="absolute -inset-10 animate-pulse bg-radial-gradient from-sky-500/5 via-transparent to-transparent" />
+      </div>
+
+      <div className="relative z-10 p-6 sm:p-8 lg:p-9 flex flex-col gap-6">
+        {/* --- Header Section (Logo, Title, Actions) --- */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-start gap-4">
+            {/* --- Initial/Logo Placeholder (Enhanced) --- */}
+            <div className="mt-1 h-12 w-12 shrink-0 rounded-xl bg-slate-800 border border-slate-700 text-sky-300 flex items-center justify-center text-lg font-bold shadow-inner shadow-slate-900/50">
+              {initial}
             </div>
+
             <div>
-              <Link
-                href={`/universities/${uni.slug}`}
-                className="inline-flex items-center gap-1 text-base sm:text-lg font-semibold text-slate-900 hover:text-sky-700"
-              >
-                <span>{uni.name}</span>
-              </Link>
-              <p className="mt-1 text-xs sm:text-sm text-slate-600">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-50 leading-tight tracking-tight">
+                {uni.name}
+              </h2>
+              <p className="text-sm text-slate-400 mt-0.5">
+                <GraduationCap
+                  size={14}
+                  className="inline mr-1 text-indigo-400"
+                />
                 {uni.type} • {uni.city}, {uni.country}
               </p>
-              <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-sky-50 px-2.5 py-1 text-[11px] sm:text-xs font-medium text-sky-800">
-                <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
-                <span>{uni.ranking.label}</span>
-                <span className="text-sky-900">· {uni.ranking.value}</span>
+
+              {/* --- Ranking Badge (Clearer Focus) --- */}
+              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-slate-800 px-3 py-1 text-xs text-slate-200 border border-slate-700/80 shadow-md">
+                <span className="inline-flex h-2 w-2 rounded-full bg-sky-400/90 shadow-lg shadow-sky-500/50" />
+                <span className="font-semibold text-sky-200">
+                  {uni.ranking.label}
+                </span>
+                <span className="text-slate-500">•</span>
+                <span>#{uni.ranking.value}</span>
               </div>
             </div>
           </div>
 
-          <button className="inline-flex items-center gap-1 self-start rounded-full border border-slate-200 px-3 py-1.5 text-[11px] sm:text-xs font-medium text-slate-600 hover:border-sky-400 hover:text-sky-700">
-            <svg viewBox="0 0 20 20" className="h-3.5 w-3.5">
-              <path
-                d="M5 3.5h10a1 1 0 0 1 1 1V17l-6-3-6 3V4.5a1 1 0 0 1 1-1Z"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span>Save</span>
-          </button>
-        </div>
+          {/* --- Action Buttons --- */}
+          <div className="flex items-center gap-3 mt-2 sm:mt-0">
+            <button className="text-sm inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1.5 text-slate-400 hover:border-indigo-400 hover:text-indigo-300 transition duration-300">
+              <Bookmark size={16} />
+              Save
+            </button>
 
-        <div className="mt-4 grid gap-3 sm:grid-cols-3 text-xs sm:text-sm text-slate-700">
-          <div className="flex items-start gap-2">
-            <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-[11px] text-slate-700">
-              <svg viewBox="0 0 20 20" className="h-3.5 w-3.5">
-                <path
-                  d="M5 4h10v12H5z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                />
-                <path
-                  d="M8 7h4M8 10h4M8 13h3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
-                Programmes
-              </p>
-              <p className="mt-0.5 font-medium">{uni.stats.programmes}</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2">
-            <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-[11px] text-slate-700">
-              <svg viewBox="0 0 20 20" className="h-3.5 w-3.5">
-                <path
-                  d="M4 8.5C4 5.5 6.5 3 10 3s6 2.5 6 5.5c0 3.5-3.5 6.5-6 8.5-2.5-2-6-5-6-8.5Z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
-                Location
-              </p>
-              <p className="mt-0.5 font-medium">
-                {uni.city}, {uni.region}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2">
-            <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-[11px] text-slate-700">
-              <svg viewBox="0 0 20 20" className="h-3.5 w-3.5">
-                <path
-                  d="M4 11c1.5 1.5 3.25 2.25 5.25 2.25S13 12.5 14.5 11"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                />
-                <circle
-                  cx="10"
-                  cy="8"
-                  r="3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                />
-              </svg>
-            </span>
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">
-                Employability
-              </p>
-              <p className="mt-0.5 font-medium">{uni.stats.employability}</p>
-            </div>
+            <Link
+              href={`/universities/${uni.slug}`}
+              className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-indigo-400 transition duration-300 shadow-lg shadow-indigo-500/40 transform active:scale-95"
+            >
+              Details
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
-          <p className="hidden text-xs text-slate-500 sm:block">
-            {uni.overview}
-          </p>
-          <Link
-            href={`/universities/${uni.slug}`}
-            className="inline-flex items-center text-xs sm:text-sm font-semibold text-sky-700 hover:text-sky-800"
-          >
-            View details
-            <span className="ml-1.5">
-              <svg viewBox="0 0 20 20" className="h-3.5 w-3.5">
-                <path
-                  d="M7 4l6 6-6 6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </Link>
+        {/* --- Stats/Features Grid (More Spacing, Cleaner Look) --- */}
+        <div className="grid gap-6 pt-2 text-sm text-slate-200 md:grid-cols-3 border-t border-slate-800/70">
+          <div className="space-y-1">
+            <p className="text-[0.7rem] uppercase tracking-widest font-medium text-indigo-400">
+              Programmes
+            </p>
+            <p className="text-lg font-extrabold text-slate-50">
+              {uni.stats.programmes}
+            </p>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Undergraduate and postgraduate options
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-[0.7rem] uppercase tracking-widest font-medium text-indigo-400">
+              Location
+            </p>
+            <p className="inline-flex items-center gap-1.5 text-lg font-extrabold text-slate-50">
+              <MapPin size={16} className="text-sky-300" />
+              {uni.city}, {uni.country}
+            </p>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              {uni.region}
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-[0.7rem] uppercase tracking-widest font-medium text-indigo-400">
+              Employability
+            </p>
+            <p className="text-lg font-extrabold text-slate-50">
+              {uni.stats.employability}
+            </p>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Graduate outcomes and career support
+            </p>
+          </div>
         </div>
+
+        {/* --- Overview/Description (Refined Separator) --- */}
+        <p className="border-t border-slate-800 pt-5 text-sm text-slate-300 line-clamp-3 leading-relaxed">
+          {uni.overview}
+        </p>
       </div>
     </article>
   );
