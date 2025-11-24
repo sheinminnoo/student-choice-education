@@ -33,24 +33,24 @@ const staggerContainer: Variants = {
 };
 
 const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 0.5,
       ease: "easeOut",
     },
   },
 };
 
 const fadeInUpFast: Variants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.45,
+      duration: 0.35,
       ease: "easeOut",
     },
   },
@@ -95,10 +95,12 @@ const SectionTitle: React.FC<{
   </motion.div>
 );
 
+/* HERO – background glows disabled on mobile, only from sm/lg */
+
 const HeroSection: React.FC = () => (
   <section className="relative overflow-hidden border-b border-white/5">
-    {/* Softer background glows, optimized for mobile */}
-    <div className="pointer-events-none absolute inset-0">
+    {/* Background glows only from sm+ to save mobile GPU */}
+    <div className="pointer-events-none absolute inset-0 hidden sm:block">
       <div
         className="
           absolute -top-32 right-[-20%]
@@ -165,7 +167,7 @@ const HeroSection: React.FC = () => (
             className="flex flex-col sm:flex-row gap-3 sm:gap-4"
           >
             <button
-              className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-xl transition duration-300 hover:translate-y-[-2px] hover:shadow-emerald-500/40 active:translate-y-[0px]"
+              className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-md md:shadow-xl transition duration-300 hover:translate-y-[-2px] hover:shadow-emerald-500/40 active:translate-y-[0px]"
               style={{
                 background: "linear-gradient(135deg, #1ef7a5, #4ade80)",
                 color: "#031015",
@@ -179,9 +181,9 @@ const HeroSection: React.FC = () => (
           </motion.div>
         </div>
 
-        {/* RIGHT: Snapshot card (desktop only, unchanged) */}
+        {/* RIGHT: Snapshot card (desktop only) */}
         <motion.div variants={fadeInUp} className="hidden lg:block">
-          <div className="rounded-3xl border border-[rgba(148,255,214,0.35)] bg-slate-950/60 shadow-[0_26px_75px_rgba(0,0,0,0.9)] backdrop-blur-2xl p-6 flex flex-col gap-5">
+          <div className="rounded-3xl border border-[rgba(148,255,214,0.35)] bg-slate-950/70 shadow-[0_26px_75px_rgba(0,0,0,0.9)] p-6 flex flex-col gap-5">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-emerald-200/80">
@@ -220,7 +222,7 @@ const HeroSection: React.FC = () => (
               </div>
             </div>
 
-            <div className="mt-2 rounded-2xl bg-slate-900/70 border border-white/10 px-4 py-3 text-xs text-slate-200/90">
+            <div className="mt-2 rounded-2xl bg-slate-900/80 border border-white/10 px-4 py-3 text-xs text-slate-200/90">
               Next step: tell us your background and budget. We&apos;ll map out
               3–5 realistic options for you — no pressure, no obligations.
             </div>
@@ -230,6 +232,8 @@ const HeroSection: React.FC = () => (
     </motion.div>
   </section>
 );
+
+/* ANIMATED COUNTER – fine on mobile, just runs once */
 
 const AnimatedCounter: React.FC<{ value: string }> = ({ value }) => {
   const ref = useRef<HTMLSpanElement | null>(null);
@@ -269,6 +273,8 @@ const AnimatedCounter: React.FC<{ value: string }> = ({ value }) => {
   return <span ref={ref}>{displayValue}</span>;
 };
 
+/* STATS – heavy blur/shadow only from md+ */
+
 const StatsSection: React.FC = () => {
   const stats = [
     { value: "150+", label: "Partner Universities", icon: University },
@@ -290,7 +296,14 @@ const StatsSection: React.FC = () => {
           <motion.div
             key={stat.label}
             variants={fadeInUpFast}
-            className="relative overflow-hidden rounded-2xl border shadow-[0_18px_40px_rgba(0,0,0,0.5)] border-[rgba(148,255,214,0.2)] bg-slate-900/40 backdrop-blur-xl p-4 sm:p-5 text-center"
+            className="
+              relative overflow-hidden rounded-2xl border
+              border-[rgba(148,255,214,0.2)]
+              bg-slate-900/60
+              shadow-sm md:shadow-[0_18px_40px_rgba(0,0,0,0.5)]
+              md:backdrop-blur-xl
+              p-4 sm:p-5 text-center
+            "
           >
             <div className="absolute inset-x-0 -top-10 h-16 bg-gradient-to-b from-emerald-400/15 to-transparent pointer-events-none" />
             <stat.icon
@@ -310,6 +323,8 @@ const StatsSection: React.FC = () => {
     </ContentSection>
   );
 };
+
+/* CORE FEATURES – already optimized for mobile */
 
 const CoreFeaturesSection: React.FC = () => {
   const features = [
@@ -357,15 +372,14 @@ const CoreFeaturesSection: React.FC = () => {
             className="
               group relative flex h-full flex-col
               rounded-2xl border border-[rgba(148,255,214,0.26)]
-              bg-slate-950/60
+              bg-slate-950/70
               p-6 sm:p-7
-              shadow-md md:shadow-[0_20px_60px_rgba(0,0,0,0.7)]
+              shadow-sm md:shadow-[0_20px_60px_rgba(0,0,0,0.7)]
               will-change-transform
               transition-transform duration-300
               md:hover:-translate-y-1.5
             "
           >
-            {/* subtle glow only on hover + desktop */}
             <div
               className="
                 pointer-events-none absolute inset-0 rounded-2xl
@@ -403,6 +417,8 @@ const CoreFeaturesSection: React.FC = () => {
     </ContentSection>
   );
 };
+
+/* VALUE PROPOSITION – heavy card only on lg (desktop) */
 
 const ValuePropositionSection: React.FC = () => {
   const valueProps = [
@@ -450,7 +466,7 @@ const ValuePropositionSection: React.FC = () => {
 
         <motion.div
           variants={fadeInUp}
-          className="hidden lg:block h-80 lg:h-96 rounded-3xl border border-[rgba(148,255,214,0.3)] bg-slate-950/50 shadow-[0_25px_70px_rgba(0,0,0,0.8)] backdrop-blur-2xl relative overflow-hidden"
+          className="hidden lg:block h-80 lg:h-96 rounded-3xl border border-[rgba(148,255,214,0.3)] bg-slate-950/60 shadow-[0_25px_70px_rgba(0,0,0,0.8)] relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(16,185,129,0.25),_transparent_60%)]" />
           <div className="relative z-10 flex h-full flex-col items-center justify-center px-10 text-center text-slate-100/90 text-sm">
@@ -470,6 +486,8 @@ const ValuePropositionSection: React.FC = () => {
     </ContentSection>
   );
 };
+
+/* DESTINATIONS – heavy blur/shadow only from md+ */
 
 const DestinationsSection: React.FC = () => {
   const destinations = [
@@ -517,7 +535,14 @@ const DestinationsSection: React.FC = () => {
           <motion.div
             key={index}
             variants={fadeInUp}
-            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50 shadow-[0_18px_55px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1.5"
+            className="
+              group flex h-full flex-col overflow-hidden
+              rounded-2xl border border-white/10
+              bg-slate-950/70
+              shadow-sm md:shadow-[0_18px_55px_rgba(0,0,0,0.75)]
+              md:backdrop-blur-xl
+              transition-transform duration-300 hover:-translate-y-1.5
+            "
           >
             <div className="h-32 sm:h-40 bg-slate-800/60 flex items-center justify-center text-slate-300 text-[0.7rem] sm:text-xs">
               [Image: {dest.image}]
@@ -546,6 +571,8 @@ const DestinationsSection: React.FC = () => {
     </ContentSection>
   );
 };
+
+/* TESTIMONIALS – blur/shadow tuned for mobile */
 
 const TestimonialsSection: React.FC = () => {
   const testimonials = [
@@ -587,7 +614,15 @@ const TestimonialsSection: React.FC = () => {
           <motion.div
             key={index}
             variants={fadeInUp}
-            className="relative flex h-full flex-col rounded-2xl border border-[rgba(148,255,214,0.24)] bg-slate-950/50 p-6 sm:p-7 shadow-[0_22px_60px_rgba(0,0,0,0.85)] backdrop-blur-xl overflow-hidden"
+            className="
+              relative flex h-full flex-col
+              rounded-2xl border border-[rgba(148,255,214,0.24)]
+              bg-slate-950/70
+              p-6 sm:p-7
+              shadow-sm md:shadow-[0_22px_60px_rgba(0,0,0,0.85)]
+              md:backdrop-blur-xl
+              overflow-hidden
+            "
           >
             <div className="absolute inset-x-0 -top-24 h-32 bg-gradient-to-b from-emerald-400/20 to-transparent" />
             <div className="relative z-10">
@@ -624,10 +659,20 @@ const TestimonialsSection: React.FC = () => {
   );
 };
 
+/* FINAL CTA – heavy blur/shadow only md+ */
+
 const FinalCtaStrip: React.FC = () => (
   <ContentSection pyClass="py-16 lg:py-20">
     <motion.div
-      className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-[rgba(148,255,214,0.35)] bg-slate-950/60 p-8 sm:p-10 md:p-14 shadow-[0_26px_75px_rgba(0,0,0,0.9)] backdrop-blur-2xl text-center"
+      className="
+        relative mx-auto max-w-4xl overflow-hidden
+        rounded-3xl border border-[rgba(148,255,214,0.35)]
+        bg-slate-950/70
+        p-8 sm:p-10 md:p-14
+        shadow-md md:shadow-[0_26px_75px_rgba(0,0,0,0.9)]
+        md:backdrop-blur-2xl
+        text-center
+      "
       variants={fadeInUp}
       initial="hidden"
       whileInView="visible"
@@ -645,7 +690,7 @@ const FinalCtaStrip: React.FC = () => (
 
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
           <button
-            className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full shadow-lg transition duration-300 hover:scale-[1.04] hover:-translate-y-0.5"
+            className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full shadow-md md:shadow-lg transition duration-300 hover:scale-[1.04] hover:-translate-y-0.5"
             style={{
               background: "linear-gradient(135deg, #1ef7a5, #4ade80)",
               color: "#031015",
@@ -653,7 +698,7 @@ const FinalCtaStrip: React.FC = () => (
           >
             Book Your Free Session
           </button>
-          <button className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full border border-emerald-300/70 text-slate-50/95 bg-white/5 hover:bg-white/10 hover:-translate-y-0.5 transition duration-300 backdrop-blur-sm">
+          <button className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full border border-emerald-300/70 text-slate-50/95 bg-white/5 hover:bg:white/10 hover:-translate-y-0.5 transition duration-300">
             Chat with an Ambassador
           </button>
         </div>
