@@ -97,16 +97,27 @@ const SectionTitle: React.FC<{
 
 const HeroSection: React.FC = () => (
   <section className="relative overflow-hidden border-b border-white/5">
+    {/* Softer background glows, optimized for mobile */}
     <div className="pointer-events-none absolute inset-0">
       <div
-        className="absolute -top-32 right-[-8%] h-64 w-64 sm:h-80 sm:w-80 rounded-full blur-3xl opacity-40"
+        className="
+          absolute -top-32 right-[-20%]
+          h-40 w-40 sm:h-56 sm:w-56 lg:h-72 lg:w-72
+          rounded-full opacity-40
+          lg:blur-2xl
+        "
         style={{
           background:
             "radial-gradient(circle at center, rgba(30,247,165,0.45), transparent 65%)",
         }}
       />
       <div
-        className="absolute -bottom-40 left-[-10%] h-72 w-72 sm:h-80 sm:w-80 rounded-full blur-3xl opacity-25"
+        className="
+          absolute -bottom-40 left-[-25%]
+          h-40 w-40 sm:h-56 sm:w-56 lg:h-72 lg:w-72
+          rounded-full opacity-25
+          lg:blur-2xl
+        "
         style={{
           background:
             "radial-gradient(circle at center, rgba(56,189,248,0.35), transparent 65%)",
@@ -118,13 +129,15 @@ const HeroSection: React.FC = () => (
       className={`${MAX_WIDTH_CLASS} relative z-10 pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20`}
       variants={staggerContainer}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.7 }}
     >
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-center">
-        <div>
+        {/* LEFT: Text / CTAs */}
+        <div className="will-change-transform">
           <motion.div
             variants={fadeInUpFast}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-4 text-[0.7rem] sm:text-xs text-slate-200/80 backdrop-blur-md"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-4 text-[0.7rem] sm:text-xs text-slate-200/80"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             Trusted guidance for international students
@@ -160,12 +173,13 @@ const HeroSection: React.FC = () => (
             >
               Start with Universities
             </button>
-            <button className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl border border-emerald-300/60 bg-white/5 text-slate-50/95 hover:bg-white/10 hover:translate-y-[-2px] active:translate-y-[0px] transition duration-300 backdrop-blur-sm">
+            <button className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl border border-emerald-300/60 bg-white/5 text-slate-50/95 hover:bg-white/10 hover:translate-y-[-2px] active:translate-y-[0px] transition duration-300">
               Book a Free Consultation
             </button>
           </motion.div>
         </div>
 
+        {/* RIGHT: Snapshot card (desktop only, unchanged) */}
         <motion.div variants={fadeInUp} className="hidden lg:block">
           <div className="rounded-3xl border border-[rgba(148,255,214,0.35)] bg-slate-950/60 shadow-[0_26px_75px_rgba(0,0,0,0.9)] backdrop-blur-2xl p-6 flex flex-col gap-5">
             <div className="flex items-center justify-between">
@@ -337,12 +351,29 @@ const CoreFeaturesSection: React.FC = () => {
         viewport={{ once: true, amount: 0.25 }}
       >
         {features.map((feature, index) => (
-          <motion.div
+          <motion.article
             key={index}
             variants={fadeInUp}
-            className="group relative flex h-full flex-col rounded-2xl border border-[rgba(148,255,214,0.26)] bg-slate-950/40 p-6 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1.5"
+            className="
+              group relative flex h-full flex-col
+              rounded-2xl border border-[rgba(148,255,214,0.26)]
+              bg-slate-950/60
+              p-6 sm:p-7
+              shadow-md md:shadow-[0_20px_60px_rgba(0,0,0,0.7)]
+              will-change-transform
+              transition-transform duration-300
+              md:hover:-translate-y-1.5
+            "
           >
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-400/0 via-emerald-400/5 to-sky-400/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            {/* subtle glow only on hover + desktop */}
+            <div
+              className="
+                pointer-events-none absolute inset-0 rounded-2xl
+                bg-gradient-to-br from-emerald-400/0 via-emerald-400/6 to-sky-400/0
+                opacity-0 transition-opacity duration-300
+                md:group-hover:opacity-100
+              "
+            />
             <div className="relative z-10">
               <feature.icon
                 size={40}
@@ -362,11 +393,11 @@ const CoreFeaturesSection: React.FC = () => {
                 Learn More
                 <ChevronRight
                   size={16}
-                  className="ml-1 transition-transform group-hover:translate-x-1"
+                  className="ml-1 transition-transform md:group-hover:translate-x-1"
                 />
               </a>
             </div>
-          </motion.div>
+          </motion.article>
         ))}
       </motion.div>
     </ContentSection>
