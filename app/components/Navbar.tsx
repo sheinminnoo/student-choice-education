@@ -22,8 +22,8 @@ const mainLinks: MainLink[] = [
     label: "Home",
     children: [
       { href: "/ourservices", label: "Our Service" },
-      { href: "/aboutus", label: "About Us" },
-      { href: "/contactus", label: "Contact" },
+      { href: "/about-us", label: "About Us" },
+      { href: "/contact-us", label: "Contact" },
     ],
   },
   {
@@ -35,7 +35,7 @@ const mainLinks: MainLink[] = [
     label: "Scholarships",
   },
   {
-    href: "/onlinecourses",
+    href: "/online-courses",
     label: "Online Courses",
   },
   {

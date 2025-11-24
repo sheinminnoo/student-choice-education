@@ -3,7 +3,7 @@ import ServiceCard from "./components/ServiceCard";
 
 export default function ServicesPage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 pt-10">
       <header className="max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">
           Our Services
