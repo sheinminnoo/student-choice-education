@@ -4,7 +4,7 @@ import UniversityFilters from "./components/UniversityFilters";
 
 export default function UniversitiesPage() {
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8 pt-10">
       <header className="space-y-3">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
           {universities.length} Universities in the UK
