@@ -18,7 +18,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-const EMERALD = "#1ef7a5";
+const EMERALD = "#facc15";
 const MAX_WIDTH_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 const staggerContainer: Variants = {
@@ -85,7 +85,7 @@ const SectionTitle: React.FC<{
     variants={fadeInUpFast}
   >
     {subtitle && (
-      <p className="text-emerald-300/80 font-semibold mb-2 tracking-[0.22em] uppercase text-[0.65rem] sm:text-xs">
+      <p className="text-yellow-300/80 font-semibold mb-2 tracking-[0.22em] uppercase text-[0.65rem] sm:text-xs">
         {subtitle}
       </p>
     )}
@@ -95,11 +95,8 @@ const SectionTitle: React.FC<{
   </motion.div>
 );
 
-/* HERO – background glows disabled on mobile, only from sm/lg */
-
 const HeroSection: React.FC = () => (
   <section className="relative overflow-hidden border-b border-white/5">
-    {/* Background glows only from sm+ to save mobile GPU */}
     <div className="pointer-events-none absolute inset-0 hidden sm:block">
       <div
         className="
@@ -110,7 +107,7 @@ const HeroSection: React.FC = () => (
         "
         style={{
           background:
-            "radial-gradient(circle at center, rgba(30,247,165,0.45), transparent 65%)",
+            "radial-gradient(circle at center, rgba(250,204,21,0.45), transparent 65%)",
         }}
       />
       <div
@@ -135,13 +132,12 @@ const HeroSection: React.FC = () => (
       viewport={{ once: true, amount: 0.7 }}
     >
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-center">
-        {/* LEFT: Text / CTAs */}
         <div className="will-change-transform">
           <motion.div
             variants={fadeInUpFast}
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-4 text-[0.7rem] sm:text-xs text-slate-200/80"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />
             Trusted guidance for international students
           </motion.div>
 
@@ -149,7 +145,7 @@ const HeroSection: React.FC = () => (
             variants={fadeInUp}
             className="text-[2.1rem] sm:text-4xl md:text-5xl lg:text-[3.3rem] leading-tight font-extrabold tracking-tight text-white mb-4"
           >
-            Find the <span className="text-emerald-300">right university</span>{" "}
+            Find the <span className="text-yellow-300">right university</span>{" "}
             for your future.
           </motion.h1>
 
@@ -167,33 +163,32 @@ const HeroSection: React.FC = () => (
             className="flex flex-col sm:flex-row gap-3 sm:gap-4"
           >
             <button
-              className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-md md:shadow-xl transition duration-300 hover:translate-y-[-2px] hover:shadow-emerald-500/40 active:translate-y-[0px]"
+              className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-md md:shadow-xl transition duration-300 hover:translate-y-[-2px] hover:shadow-yellow-400/40 active:translate-y-[0px]"
               style={{
-                background: "linear-gradient(135deg, #1ef7a5, #4ade80)",
+                background: "linear-gradient(135deg, #facc15, #fde047)",
                 color: "#031015",
               }}
             >
               Start with Universities
             </button>
-            <button className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl border border-emerald-300/60 bg-white/5 text-slate-50/95 hover:bg-white/10 hover:translate-y-[-2px] active:translate-y-[0px] transition duration-300">
+            <button className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl border border-yellow-300/60 bg-white/5 text-slate-50/95 hover:bg-white/10 hover:translate-y-[-2px] active:translate-y-[0px] transition duration-300">
               Book a Free Consultation
             </button>
           </motion.div>
         </div>
 
-        {/* RIGHT: Snapshot card (desktop only) */}
         <motion.div variants={fadeInUp} className="hidden lg:block">
-          <div className="rounded-3xl border border-[rgba(148,255,214,0.35)] bg-slate-950/70 shadow-[0_26px_75px_rgba(0,0,0,0.9)] p-6 flex flex-col gap-5">
+          <div className="rounded-3xl border border-[rgba(250,204,21,0.4)] bg-slate-950/70 shadow-[0_26px_75px_rgba(0,0,0,0.9)] p-6 flex flex-col gap-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-emerald-200/80">
+                <p className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">
                   Snapshot
                 </p>
                 <p className="text-sm text-slate-200/90">
                   Today&apos;s opportunities
                 </p>
               </div>
-              <div className="rounded-full border border-emerald-300/50 px-3 py-1 text-[0.7rem] text-emerald-200 bg-emerald-500/10">
+              <div className="rounded-full border border-yellow-300/50 px-3 py-1 text-[0.7rem] text-yellow-200 bg-yellow-500/10">
                 Live updated
               </div>
             </div>
@@ -201,24 +196,24 @@ const HeroSection: React.FC = () => (
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-slate-100">
-                  <University size={18} className="text-emerald-300" />
+                  <University size={18} className="text-yellow-300" />
                   <span>Partner universities</span>
                 </div>
-                <span className="font-semibold text-emerald-200">150+</span>
+                <span className="font-semibold text-yellow-200">150+</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-slate-100">
-                  <Award size={18} className="text-emerald-300" />
+                  <Award size={18} className="text-yellow-300" />
                   <span>Scholarships listed</span>
                 </div>
-                <span className="font-semibold text-emerald-200">300+</span>
+                <span className="font-semibold text-yellow-200">300+</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-slate-100">
-                  <Globe size={18} className="text-emerald-300" />
+                  <Globe size={18} className="text-yellow-300" />
                   <span>Study destinations</span>
                 </div>
-                <span className="font-semibold text-emerald-200">40+</span>
+                <span className="font-semibold text-yellow-200">40+</span>
               </div>
             </div>
 
@@ -232,8 +227,6 @@ const HeroSection: React.FC = () => (
     </motion.div>
   </section>
 );
-
-/* ANIMATED COUNTER – fine on mobile, just runs once */
 
 const AnimatedCounter: React.FC<{ value: string }> = ({ value }) => {
   const ref = useRef<HTMLSpanElement | null>(null);
@@ -273,8 +266,6 @@ const AnimatedCounter: React.FC<{ value: string }> = ({ value }) => {
   return <span ref={ref}>{displayValue}</span>;
 };
 
-/* STATS – heavy blur/shadow only from md+ */
-
 const StatsSection: React.FC = () => {
   const stats = [
     { value: "150+", label: "Partner Universities", icon: University },
@@ -298,14 +289,14 @@ const StatsSection: React.FC = () => {
             variants={fadeInUpFast}
             className="
               relative overflow-hidden rounded-2xl border
-              border-[rgba(148,255,214,0.2)]
+              border-[rgba(250,204,21,0.2)]
               bg-slate-900/60
               shadow-sm md:shadow-[0_18px_40px_rgba(0,0,0,0.5)]
               md:backdrop-blur-xl
               p-4 sm:p-5 text-center
             "
           >
-            <div className="absolute inset-x-0 -top-10 h-16 bg-gradient-to-b from-emerald-400/15 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 -top-10 h-16 bg-gradient-to-b from-yellow-400/15 to-transparent pointer-events-none" />
             <stat.icon
               size={26}
               className="mx-auto mb-2 sm:mb-3"
@@ -323,8 +314,6 @@ const StatsSection: React.FC = () => {
     </ContentSection>
   );
 };
-
-/* CORE FEATURES – already optimized for mobile */
 
 const CoreFeaturesSection: React.FC = () => {
   const features = [
@@ -371,7 +360,7 @@ const CoreFeaturesSection: React.FC = () => {
             variants={fadeInUp}
             className="
               group relative flex h-full flex-col
-              rounded-2xl border border-[rgba(148,255,214,0.26)]
+              rounded-2xl border border-[rgba(250,204,21,0.26)]
               bg-slate-950/70
               p-6 sm:p-7
               shadow-sm md:shadow-[0_20px_60px_rgba(0,0,0,0.7)]
@@ -383,7 +372,7 @@ const CoreFeaturesSection: React.FC = () => {
             <div
               className="
                 pointer-events-none absolute inset-0 rounded-2xl
-                bg-gradient-to-br from-emerald-400/0 via-emerald-400/6 to-sky-400/0
+                bg-gradient-to-br from-yellow-400/0 via-yellow-400/8 to-sky-400/0
                 opacity-0 transition-opacity duration-300
                 md:group-hover:opacity-100
               "
@@ -402,7 +391,7 @@ const CoreFeaturesSection: React.FC = () => {
               </p>
               <a
                 href={feature.link}
-                className="inline-flex items-center text-xs sm:text-sm font-semibold text-emerald-300 hover:text-emerald-200"
+                className="inline-flex items-center text-xs sm:text-sm font-semibold text-yellow-300 hover:text-yellow-200"
               >
                 Learn More
                 <ChevronRight
@@ -417,8 +406,6 @@ const CoreFeaturesSection: React.FC = () => {
     </ContentSection>
   );
 };
-
-/* VALUE PROPOSITION – heavy card only on lg (desktop) */
 
 const ValuePropositionSection: React.FC = () => {
   const valueProps = [
@@ -466,11 +453,11 @@ const ValuePropositionSection: React.FC = () => {
 
         <motion.div
           variants={fadeInUp}
-          className="hidden lg:block h-80 lg:h-96 rounded-3xl border border-[rgba(148,255,214,0.3)] bg-slate-950/60 shadow-[0_25px_70px_rgba(0,0,0,0.8)] relative overflow-hidden"
+          className="hidden lg:block h-80 lg:h-96 rounded-3xl border border-[rgba(250,204,21,0.3)] bg-slate-950/60 shadow-[0_25px_70px_rgba(0,0,0,0.8)] relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(16,185,129,0.25),_transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(250,204,21,0.3),_transparent_60%)]" />
           <div className="relative z-10 flex h-full flex-col items-center justify-center px-10 text-center text-slate-100/90 text-sm">
-            <p className="uppercase tracking-[0.25em] text-[0.65rem] text-emerald-200/80 mb-3">
+            <p className="uppercase tracking-[0.25em] text-[0.65rem] text-yellow-200/80 mb-3">
               FROM FIRST QUESTION TO VISA
             </p>
             <p className="text-lg font-semibold mb-3">
@@ -486,8 +473,6 @@ const ValuePropositionSection: React.FC = () => {
     </ContentSection>
   );
 };
-
-/* DESTINATIONS – heavy blur/shadow only from md+ */
 
 const DestinationsSection: React.FC = () => {
   const destinations = [
@@ -556,7 +541,7 @@ const DestinationsSection: React.FC = () => {
               </p>
               <a
                 href={dest.link}
-                className="inline-flex items-center text-xs sm:text-sm font-semibold text-emerald-300 hover:text-emerald-200 mt-auto"
+                className="inline-flex items-center text-xs sm:text-sm font-semibold text-yellow-300 hover:text-yellow-200 mt-auto"
               >
                 Explore destination
                 <ChevronRight
@@ -571,8 +556,6 @@ const DestinationsSection: React.FC = () => {
     </ContentSection>
   );
 };
-
-/* TESTIMONIALS – blur/shadow tuned for mobile */
 
 const TestimonialsSection: React.FC = () => {
   const testimonials = [
@@ -616,7 +599,7 @@ const TestimonialsSection: React.FC = () => {
             variants={fadeInUp}
             className="
               relative flex h-full flex-col
-              rounded-2xl border border-[rgba(148,255,214,0.24)]
+              rounded-2xl border border-[rgba(250,204,21,0.24)]
               bg-slate-950/70
               p-6 sm:p-7
               shadow-sm md:shadow-[0_22px_60px_rgba(0,0,0,0.85)]
@@ -624,7 +607,7 @@ const TestimonialsSection: React.FC = () => {
               overflow-hidden
             "
           >
-            <div className="absolute inset-x-0 -top-24 h-32 bg-gradient-to-b from-emerald-400/20 to-transparent" />
+            <div className="absolute inset-x-0 -top-24 h-32 bg-gradient-to-b from-yellow-400/20 to-transparent" />
             <div className="relative z-10">
               <Star
                 size={22}
@@ -636,7 +619,7 @@ const TestimonialsSection: React.FC = () => {
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
               <div className="flex items-center pt-4 border-t border-slate-700/60">
-                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-emerald-500/25 flex items-center justify-center text-xs font-bold text-emerald-200 mr-3 flex-shrink-0">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-yellow-500/25 flex items-center justify-center text-xs font-bold text-yellow-200 mr-3 flex-shrink-0">
                   {testimonial.name
                     .split(" ")
                     .map((n) => n[0])
@@ -646,7 +629,7 @@ const TestimonialsSection: React.FC = () => {
                   <p className="text-sm sm:text-base font-semibold text-white">
                     {testimonial.name}
                   </p>
-                  <p className="text-xs sm:text-sm text-emerald-300/90">
+                  <p className="text-xs sm:text-sm text-yellow-300/90">
                     {testimonial.destination}
                   </p>
                 </div>
@@ -659,14 +642,12 @@ const TestimonialsSection: React.FC = () => {
   );
 };
 
-/* FINAL CTA – heavy blur/shadow only md+ */
-
 const FinalCtaStrip: React.FC = () => (
   <ContentSection pyClass="py-16 lg:py-20">
     <motion.div
       className="
         relative mx-auto max-w-4xl overflow-hidden
-        rounded-3xl border border-[rgba(148,255,214,0.35)]
+        rounded-3xl border border-[rgba(250,204,21,0.35)]
         bg-slate-950/70
         p-8 sm:p-10 md:p-14
         shadow-md md:shadow-[0_26px_75px_rgba(0,0,0,0.9)]
@@ -678,7 +659,7 @@ const FinalCtaStrip: React.FC = () => (
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(16,185,129,0.35),_transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(250,204,21,0.35),_transparent_60%)]" />
       <div className="relative z-10">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
           Ready to take the next step?
@@ -692,13 +673,13 @@ const FinalCtaStrip: React.FC = () => (
           <button
             className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full shadow-md md:shadow-lg transition duration-300 hover:scale-[1.04] hover:-translate-y-0.5"
             style={{
-              background: "linear-gradient(135deg, #1ef7a5, #4ade80)",
+              background: "linear-gradient(135deg, #facc15, #fde047)",
               color: "#031015",
             }}
           >
             Book Your Free Session
           </button>
-          <button className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full border border-emerald-300/70 text-slate-50/95 bg-white/5 hover:bg:white/10 hover:-translate-y-0.5 transition duration-300">
+          <button className="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold rounded-full border border-yellow-300/70 text-slate-50/95 bg-white/5 hover:bg-white/10 hover:-translate-y-0.5 transition duration-300">
             Chat with an Ambassador
           </button>
         </div>
