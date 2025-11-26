@@ -60,7 +60,7 @@ const ContentSection: React.FC<{
   children: React.ReactNode;
   pyClass?: string;
 }> = ({ children, pyClass = "py-16 sm:py-20 lg:py-24" }) => (
-  <section className={`${pyClass} border-t border-slate-200 last:border-b`}>
+  <section className={`${pyClass} border-t border-white/5 last:border-b`}>
     <motion.div
       className={MAX_WIDTH_CLASS}
       variants={fadeInUp}
@@ -85,21 +85,18 @@ const SectionTitle: React.FC<{
     variants={fadeInUpFast}
   >
     {subtitle && (
-      <p className="text-yellow-500 font-semibold mb-2 tracking-[0.22em] uppercase text-[0.65rem] sm:text-xs">
+      <p className="text-yellow-300/80 font-semibold mb-2 tracking-[0.22em] uppercase text-[0.65rem] sm:text-xs">
         {subtitle}
       </p>
     )}
-    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
       {title}
     </h2>
   </motion.div>
 );
 
-/* HERO – now on light background */
-
 const HeroSection: React.FC = () => (
-  <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50">
-    {/* soft glows kept but work on light bg */}
+  <section className="relative overflow-hidden border-b border-white/5">
     <div className="pointer-events-none absolute inset-0 hidden sm:block">
       <div
         className="
@@ -110,7 +107,7 @@ const HeroSection: React.FC = () => (
         "
         style={{
           background:
-            "radial-gradient(circle at center, rgba(250,204,21,0.35), transparent 65%)",
+            "radial-gradient(circle at center, rgba(250,204,21,0.45), transparent 65%)",
         }}
       />
       <div
@@ -122,7 +119,7 @@ const HeroSection: React.FC = () => (
         "
         style={{
           background:
-            "radial-gradient(circle at center, rgba(56,189,248,0.25), transparent 65%)",
+            "radial-gradient(circle at center, rgba(56,189,248,0.35), transparent 65%)",
         }}
       />
     </div>
@@ -135,11 +132,10 @@ const HeroSection: React.FC = () => (
       viewport={{ once: true, amount: 0.7 }}
     >
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-center">
-        {/* LEFT: Text / CTAs */}
         <div className="will-change-transform">
           <motion.div
             variants={fadeInUpFast}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-1 mb-4 text-[0.7rem] sm:text-xs text-slate-700"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-4 text-[0.7rem] sm:text-xs text-slate-200/80"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />
             Trusted guidance for international students
@@ -147,15 +143,15 @@ const HeroSection: React.FC = () => (
 
           <motion.h1
             variants={fadeInUp}
-            className="text-[2.1rem] sm:text-4xl md:text-5xl lg:text-[3.3rem] leading-tight font-extrabold tracking-tight text-slate-900 mb-4"
+            className="text-[2.1rem] sm:text-4xl md:text-5xl lg:text-[3.3rem] leading-tight font-extrabold tracking-tight text-white mb-4"
           >
-            Find the <span className="text-yellow-500">right university</span>{" "}
+            Find the <span className="text-yellow-300">right university</span>{" "}
             for your future.
           </motion.h1>
 
           <motion.p
             variants={fadeInUp}
-            className="text-sm sm:text-lg text-slate-600 max-w-xl mb-7"
+            className="text-sm sm:text-lg text-slate-300/90 max-w-xl mb-7"
           >
             Compare universities, discover scholarships, and explore online or
             on-campus programs — all curated for real students, real budgets,
@@ -167,7 +163,7 @@ const HeroSection: React.FC = () => (
             className="flex flex-col sm:flex-row gap-3 sm:gap-4"
           >
             <button
-              className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-md md:shadow-lg transition duration-300 hover:translate-y-[-2px] hover:shadow-yellow-400/40 active:translate-y-[0px]"
+              className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-md md:shadow-xl transition duration-300 hover:translate-y-[-2px] hover:shadow-yellow-400/40 active:translate-y-[0px]"
               style={{
                 background: "linear-gradient(135deg, #facc15, #fde047)",
                 color: "#031015",
@@ -175,46 +171,45 @@ const HeroSection: React.FC = () => (
             >
               Start with Universities
             </button>
-            <button className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 hover:bg-slate-50 hover:translate-y-[-2px] active:translate-y-[0px] transition duration-300">
+            <button className="px-6 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold rounded-xl border border-yellow-300/60 bg-white/5 text-slate-50/95 hover:bg-white/10 hover:translate-y-[-2px] active:translate-y-[0px] transition duration-300">
               Book a Free Consultation
             </button>
           </motion.div>
         </div>
 
-        {/* RIGHT: Snapshot card */}
         <motion.div variants={fadeInUp} className="hidden lg:block">
-          <div className="rounded-3xl border border-slate-200 bg-slate-900 text-slate-50 shadow-[0_20px_60px_rgba(15,23,42,0.6)] p-6 flex flex-col gap-5">
+          <div className="rounded-3xl border border-[rgba(250,204,21,0.4)] bg-slate-950/70 shadow-[0_26px_75px_rgba(0,0,0,0.9)] p-6 flex flex-col gap-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-yellow-200/90">
+                <p className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">
                   Snapshot
                 </p>
-                <p className="text-sm text-slate-100">
+                <p className="text-sm text-slate-200/90">
                   Today&apos;s opportunities
                 </p>
               </div>
-              <div className="rounded-full border border-yellow-300/70 px-3 py-1 text-[0.7rem] text-yellow-200 bg-yellow-500/15">
+              <div className="rounded-full border border-yellow-300/50 px-3 py-1 text-[0.7rem] text-yellow-200 bg-yellow-500/10">
                 Live updated
               </div>
             </div>
 
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-slate-50">
+                <div className="flex items-center gap-2 text-slate-100">
                   <University size={18} className="text-yellow-300" />
                   <span>Partner universities</span>
                 </div>
                 <span className="font-semibold text-yellow-200">150+</span>
               </div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-slate-50">
+                <div className="flex items-center gap-2 text-slate-100">
                   <Award size={18} className="text-yellow-300" />
                   <span>Scholarships listed</span>
                 </div>
                 <span className="font-semibold text-yellow-200">300+</span>
               </div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-slate-50">
+                <div className="flex items-center gap-2 text-slate-100">
                   <Globe size={18} className="text-yellow-300" />
                   <span>Study destinations</span>
                 </div>
@@ -222,7 +217,7 @@ const HeroSection: React.FC = () => (
               </div>
             </div>
 
-            <div className="mt-2 rounded-2xl bg-slate-800 border border-slate-700 px-4 py-3 text-xs text-slate-100">
+            <div className="mt-2 rounded-2xl bg-slate-900/80 border border-white/10 px-4 py-3 text-xs text-slate-200/90">
               Next step: tell us your background and budget. We&apos;ll map out
               3–5 realistic options for you — no pressure, no obligations.
             </div>
@@ -295,7 +290,7 @@ const StatsSection: React.FC = () => {
             className="
               relative overflow-hidden rounded-2xl border
               border-[rgba(250,204,21,0.2)]
-              bg-slate-900/80
+              bg-slate-900/60
               shadow-sm md:shadow-[0_18px_40px_rgba(0,0,0,0.5)]
               md:backdrop-blur-xl
               p-4 sm:p-5 text-center
@@ -310,7 +305,7 @@ const StatsSection: React.FC = () => {
             <p className="text-2xl sm:text-3xl font-bold text-white mb-1">
               <AnimatedCounter value={stat.value} />
             </p>
-            <p className="text-[0.7rem] sm:text-xs text-slate-200">
+            <p className="text-[0.7rem] sm:text-xs text-slate-300">
               {stat.label}
             </p>
           </motion.div>
@@ -366,7 +361,7 @@ const CoreFeaturesSection: React.FC = () => {
             className="
               group relative flex h-full flex-col
               rounded-2xl border border-[rgba(250,204,21,0.26)]
-              bg-slate-950/80
+              bg-slate-950/70
               p-6 sm:p-7
               shadow-sm md:shadow-[0_20px_60px_rgba(0,0,0,0.7)]
               will-change-transform
@@ -391,7 +386,7 @@ const CoreFeaturesSection: React.FC = () => {
               <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3">
                 {feature.title}
               </h3>
-              <p className="text-sm sm:text-base text-slate-200 mb-6">
+              <p className="text-sm sm:text-base text-slate-300/90 mb-6">
                 {feature.description}
               </p>
               <a
@@ -448,7 +443,7 @@ const ValuePropositionSection: React.FC = () => {
                   className="mt-0.5 sm:mt-1 flex-shrink-0"
                   style={{ color: EMERALD }}
                 />
-                <p className="ml-3 sm:ml-4 text-sm sm:text-lg text-slate-700">
+                <p className="ml-3 sm:ml-4 text-sm sm:text-lg text-slate-100/95">
                   {prop}
                 </p>
               </motion.div>
@@ -458,17 +453,17 @@ const ValuePropositionSection: React.FC = () => {
 
         <motion.div
           variants={fadeInUp}
-          className="hidden lg:block h-80 lg:h-96 rounded-3xl border border-[rgba(250,204,21,0.3)] bg-slate-950/80 shadow-[0_25px_70px_rgba(0,0,0,0.8)] relative overflow-hidden"
+          className="hidden lg:block h-80 lg:h-96 rounded-3xl border border-[rgba(250,204,21,0.3)] bg-slate-950/60 shadow-[0_25px_70px_rgba(0,0,0,0.8)] relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(250,204,21,0.3),_transparent_60%)]" />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center px-10 text-center text-slate-100 text-sm">
-            <p className="uppercase tracking-[0.25em] text-[0.65rem] text-yellow-200/90 mb-3">
+          <div className="relative z-10 flex h-full flex-col items-center justify-center px-10 text-center text-slate-100/90 text-sm">
+            <p className="uppercase tracking-[0.25em] text-[0.65rem] text-yellow-200/80 mb-3">
               FROM FIRST QUESTION TO VISA
             </p>
             <p className="text-lg font-semibold mb-3">
               One partner, all the key steps:
             </p>
-            <p className="text-sm text-slate-100/90">
+            <p className="text-sm text-slate-200/90">
               Shortlist options, understand your budget, secure offers, and
               prepare documents — with one team who already knows your story.
             </p>
@@ -527,25 +522,26 @@ const DestinationsSection: React.FC = () => {
             variants={fadeInUp}
             className="
               group flex h-full flex-col overflow-hidden
-              rounded-2xl border border-slate-200
-              bg-white
-              shadow-sm md:shadow-[0_18px_55px_rgba(15,23,42,0.18)]
+              rounded-2xl border border-white/10
+              bg-slate-950/70
+              shadow-sm md:shadow-[0_18px_55px_rgba(0,0,0,0.75)]
+              md:backdrop-blur-xl
               transition-transform duration-300 hover:-translate-y-1.5
             "
           >
-            <div className="h-32 sm:h-40 bg-slate-100 flex items-center justify-center text-slate-500 text-[0.7rem] sm:text-xs">
+            <div className="h-32 sm:h-40 bg-slate-800/60 flex items-center justify-center text-slate-300 text-[0.7rem] sm:text-xs">
               [Image: {dest.image}]
             </div>
             <div className="flex flex-col flex-grow p-5 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">
+              <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
                 {dest.title}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 mb-4 flex-grow">
+              <p className="text-xs sm:text-sm text-slate-300 mb-4 flex-grow">
                 {dest.text}
               </p>
               <a
                 href={dest.link}
-                className="inline-flex items-center text-xs sm:text-sm font-semibold text-yellow-600 hover:text-yellow-500 mt-auto"
+                className="inline-flex items-center text-xs sm:text-sm font-semibold text-yellow-300 hover:text-yellow-200 mt-auto"
               >
                 Explore destination
                 <ChevronRight
@@ -604,7 +600,7 @@ const TestimonialsSection: React.FC = () => {
             className="
               relative flex h-full flex-col
               rounded-2xl border border-[rgba(250,204,21,0.24)]
-              bg-slate-950/80
+              bg-slate-950/70
               p-6 sm:p-7
               shadow-sm md:shadow-[0_22px_60px_rgba(0,0,0,0.85)]
               md:backdrop-blur-xl
@@ -652,7 +648,7 @@ const FinalCtaStrip: React.FC = () => (
       className="
         relative mx-auto max-w-4xl overflow-hidden
         rounded-3xl border border-[rgba(250,204,21,0.35)]
-        bg-slate-950/80
+        bg-slate-950/70
         p-8 sm:p-10 md:p-14
         shadow-md md:shadow-[0_26px_75px_rgba(0,0,0,0.9)]
         md:backdrop-blur-2xl
@@ -694,7 +690,13 @@ const FinalCtaStrip: React.FC = () => (
 
 const HomePage: React.FC = () => {
   return (
-    <div className="font-sans min-h-full bg-white text-slate-900">
+    <div
+      className="font-sans min-h-full text-slate-50"
+      style={{
+        background:
+          "radial-gradient(circle at top, #0b2342 0%, #020617 45%, #020b1b 100%)",
+      }}
+    >
       <HeroSection />
       <StatsSection />
       <CoreFeaturesSection />
