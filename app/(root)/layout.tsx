@@ -20,7 +20,8 @@ export default function RootGroupLayout({
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#020b1b]">
+    <div className="flex min-h-screen flex-col bg-white text-slate-900">
+      {" "}
       <Navbar />
       <main className="flex-1 pt-16 lg:pt-[6.25rem]">{children}</main>
       <Footer />
