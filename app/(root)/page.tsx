@@ -494,12 +494,6 @@ const DestinationsSection: React.FC = () => {
       link: "/destination/europe",
     },
     {
-      title: "Asia & Australia",
-      text: "Fast-growing hubs for technology, business, and innovation, with work routes.",
-      image: "Asia_Australia_Placeholder",
-      link: "/destination/asia-aus",
-    },
-    {
       title: "Online & Hybrid",
       text: "Build your degree or skills remotely with flexible, fully online or blended options.",
       image: "Online_Placeholder",
@@ -699,7 +693,8 @@ const HomePage: React.FC = () => {
       <StatsSection />
       <CoreFeaturesSection />
       <ValuePropositionSection />
-      <DestinationsSection />
+      {/*       <DestinationsSection />
+       */}
       <TestimonialsSection />
       <FinalCtaStrip />
     </div>

@@ -12,9 +12,10 @@ const navLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-slate-50 text-slate-700">
+    <footer className="border-t border-slate-200 bg-slate-50 text-slate-700">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,2.1fr)_minmax(0,1.4fr)_minmax(0,1.5fr)]">
+          {/* Logo + Description */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-slate-200">
@@ -38,6 +39,7 @@ export default function Footer() {
             </p>
           </div>
 
+          {/* Explore */}
           <div className="space-y-4 text-sm">
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
               Explore
@@ -55,16 +57,19 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Contact */}
           <div className="space-y-4 text-sm">
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
               Contact
             </h3>
+
             <div className="space-y-2 text-slate-600">
               <p className="text-[13px] leading-relaxed">
                 Flat 1, 8A Nightingales Corner,
                 <br />
                 Little Chalfont, London, UK
               </p>
+
               <div className="space-y-1 text-[13px]">
                 <a
                   href="mailto:info@studentchoice.com"
@@ -72,12 +77,14 @@ export default function Footer() {
                 >
                   info@studentchoice.com
                 </a>
+
                 <a
                   href="mailto:hi@studentchoice.com"
                   className="block hover:text-yellow-600 transition"
                 >
                   hi@studentchoice.com
                 </a>
+
                 <a
                   href="tel:+441234567890"
                   className="block hover:text-yellow-600 transition"
@@ -87,10 +94,12 @@ export default function Footer() {
               </div>
             </div>
 
+            {/* Social */}
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
                 Follow us
               </p>
+
               <div className="flex flex-wrap items-center gap-3">
                 <SocialIcon label="Facebook" abbr="f" />
                 <SocialIcon label="X / Twitter" abbr="x" />
@@ -102,12 +111,14 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Bottom Bar */}
       <div className="border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-2 text-[11px] sm:text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
           <p>
             © {new Date().getFullYear()} Student Choice Education. All rights
             reserved.
           </p>
+
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/legal/terms"
