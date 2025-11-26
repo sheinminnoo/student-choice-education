@@ -18,7 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={inter.variable}>
+      {/* dark navy frame behind everything (navbar + edges) */}
       <body className="font-inter antialiased bg-[#020b1b]">{children}</body>
     </html>
   );

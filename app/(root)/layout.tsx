@@ -20,10 +20,11 @@ export default function RootGroupLayout({
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-slate-900">
-      {" "}
+    <div className="flex min-h-screen flex-col bg-[#f4f6fb] text-slate-900">
       <Navbar />
-      <main className="flex-1 pt-16 lg:pt-[6.25rem]">{children}</main>
+
+      {/* no extra top padding here – each page handles its own pt */}
+      <main className="flex-1 pt-14 lg:pt-[5.5rem]">{children}</main>
       <Footer />
     </div>
   );
