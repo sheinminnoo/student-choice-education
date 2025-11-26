@@ -699,7 +699,7 @@ const HomePage: React.FC = () => {
       <StatsSection />
       <CoreFeaturesSection />
       <ValuePropositionSection />
-      {/* <DestinationsSection /> */}
+      <DestinationsSection />
       <TestimonialsSection />
       <FinalCtaStrip />
     </div>

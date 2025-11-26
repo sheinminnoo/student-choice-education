@@ -12,14 +12,12 @@ const navLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-16 bg-[#050f22] text-slate-100">
-      {/* Top section */}
+    <footer className="mt-16 border-t border-slate-200 bg-slate-50 text-slate-700">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,2.1fr)_minmax(0,1.4fr)_minmax(0,1.5fr)]">
-          {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+              <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-slate-200">
                 <Image
                   src="/logo.png"
                   alt="Student Choice Education Logo"
@@ -28,30 +26,20 @@ export default function Footer() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-sm sm:text-base font-semibold tracking-wide">
+              <span className="text-sm sm:text-base font-semibold tracking-wide text-slate-900">
                 STUDENT CHOICE EDUCATION
               </span>
             </Link>
 
-            <p className="text-sm text-slate-300 max-w-md">
+            <p className="text-sm text-slate-600 max-w-md">
               Student Choice Education helps learners compare universities,
               scholarships and online courses so they can make confident
               decisions about their future.
             </p>
-            {/* Badges
-                <div className="hidden md:flex items-center gap-4 text-[11px] text-slate-400">
-              <span className="inline-flex h-6 items-center rounded-full border border-slate-700 px-3">
-                Trusted student advisory
-              </span>
-              <span className="inline-flex h-6 items-center rounded-full border border-slate-700 px-3">
-                UK · Global reach
-              </span>
-            </div> */}
           </div>
 
-          {/* Navigation */}
           <div className="space-y-4 text-sm">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
               Explore
             </h3>
             <div className="grid grid-cols-2 gap-y-2 gap-x-6">
@@ -59,7 +47,7 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-slate-300 hover:text-emerald-300 transition"
+                  className="text-slate-600 hover:text-yellow-600 transition"
                 >
                   {link.label}
                 </Link>
@@ -67,12 +55,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Contact + Social */}
           <div className="space-y-4 text-sm">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
               Contact
             </h3>
-            <div className="space-y-2 text-slate-300">
+            <div className="space-y-2 text-slate-600">
               <p className="text-[13px] leading-relaxed">
                 Flat 1, 8A Nightingales Corner,
                 <br />
@@ -81,19 +68,19 @@ export default function Footer() {
               <div className="space-y-1 text-[13px]">
                 <a
                   href="mailto:info@studentchoice.com"
-                  className="block hover:text-emerald-300 transition"
+                  className="block hover:text-yellow-600 transition"
                 >
                   info@studentchoice.com
                 </a>
                 <a
                   href="mailto:hi@studentchoice.com"
-                  className="block hover:text-emerald-300 transition"
+                  className="block hover:text-yellow-600 transition"
                 >
                   hi@studentchoice.com
                 </a>
                 <a
                   href="tel:+441234567890"
-                  className="block hover:text-emerald-300 transition"
+                  className="block hover:text-yellow-600 transition"
                 >
                   +44 1234 567 890
                 </a>
@@ -101,7 +88,7 @@ export default function Footer() {
             </div>
 
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
                 Follow us
               </p>
               <div className="flex flex-wrap items-center gap-3">
@@ -115,9 +102,8 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-slate-800">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-2 text-[11px] sm:text-xs text-slate-400 md:flex-row md:items-center md:justify-between">
+      <div className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-2 text-[11px] sm:text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
           <p>
             © {new Date().getFullYear()} Student Choice Education. All rights
             reserved.
@@ -125,14 +111,14 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/legal/terms"
-              className="hover:text-emerald-300 transition"
+              className="hover:text-yellow-600 transition"
             >
               Terms
             </Link>
-            <span className="hidden md:inline text-slate-600">•</span>
+            <span className="hidden md:inline text-slate-400">•</span>
             <Link
               href="/legal/privacy"
-              className="hover:text-emerald-300 transition"
+              className="hover:text-yellow-600 transition"
             >
               Privacy
             </Link>
@@ -148,17 +134,9 @@ function SocialIcon({ label, abbr }: { label: string; abbr: string }) {
     <button
       type="button"
       aria-label={label}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-600 text-xs font-semibold uppercase text-slate-100 hover:border-emerald-400 hover:text-emerald-300 transition"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white text-[11px] font-semibold uppercase text-slate-600 hover:border-yellow-500 hover:text-yellow-600 shadow-sm transition"
     >
       {abbr}
     </button>
-  );
-}
-
-function Badge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-full bg-slate-800/70 px-3 py-1 text-[11px] text-slate-200">
-      {children}
-    </span>
   );
 }
