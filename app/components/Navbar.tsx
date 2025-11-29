@@ -23,7 +23,7 @@ const mainLinks: MainLink[] = [
     children: [
       { href: "/ourservices", label: "Our Service" },
       { href: "/about-us", label: "About Us" },
-      { href: "/contact-us", label: "Contact" },
+      { href: "/contact-us", label: "Contact Us" },
     ],
   },
   {
@@ -73,7 +73,7 @@ export default function Navbar() {
   }, []);
 
   const linkBase =
-    "relative px-3 py-2 text-[12px] md:text-[13px] tracking-wide uppercase font-semibold transition before:absolute before:left-3 before:-bottom-0.5 before:h-[2px] before:w-0 before:bg-lime-400 before:rounded-full before:transition-all before:duration-300 hover:before:w-[calc(100%-1.5rem)]";
+    "relative px-3 py-2 text-[12px] md:text-[13px] tracking-wide uppercase font-semibold transition before:absolute before:left-3 before:-bottom-0.5 before:h-[2px] before:w-0 before:bg-yellow-400 before:rounded-full before:transition-all before:duration-300 hover:before:w-[calc(100%-1.5rem)]";
 
   const focusRingDark =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B2348]";
@@ -155,8 +155,8 @@ export default function Navbar() {
                           href={item.href}
                           className={`${linkBase} ${
                             isSectionActive
-                              ? "text-lime-300 before:w-[calc(100%-1.5rem)]"
-                              : "text-slate-100 hover:text-lime-200"
+                              ? "text-yellow-400 before:w-[calc(100%-1.5rem)]"
+                              : "text-slate-100 hover:text-yellow-300"
                           } ${focusRingDark}`}
                           aria-current={isSectionActive ? "page" : undefined}
                         >
@@ -167,7 +167,7 @@ export default function Navbar() {
                           aria-label="Toggle home menu"
                           aria-haspopup="true"
                           aria-expanded={desktopHomeOpen}
-                          className={`text-slate-100 hover:text-lime-200 mt-[1px] rounded-full p-1 ${focusRingDark}`}
+                          className={`text-slate-100 hover:text-yellow-300 mt-[1px] rounded-full p-1 ${focusRingDark}`}
                           onClick={() => setDesktopHomeOpen((prev) => !prev)}
                           onKeyDown={handleDesktopToggleKey}
                         >
@@ -205,8 +205,8 @@ export default function Navbar() {
                               onClick={() => setDesktopHomeOpen(false)}
                               className={`block px-5 py-2.5 leading-snug border-b last:border-b-0 border-slate-100 hover:bg-slate-50 ${
                                 active
-                                  ? "text-lime-500 font-semibold"
-                                  : "text-slate-700 hover:text-lime-500"
+                                  ? "text-yellow-500 font-semibold"
+                                  : "text-slate-700 hover:text-yellow-500"
                               } ${focusRingLight}`}
                               role="menuitem"
                               aria-current={active ? "page" : undefined}
@@ -329,7 +329,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setMobileHomeOpen((prev) => !prev)}
-                  className={`w-12 flex items-center justify-center text-slate-400 hover:text-lime-500 hover:bg-slate-50 ${focusRingLight}`}
+                  className={`w-12 flex items-center justify-center text-slate-400 hover:text-yellow-500 hover:bg-slate-50 ${focusRingLight}`}
                   aria-label="Toggle home submenu"
                   aria-expanded={mobileHomeOpen}
                   aria-haspopup="true"
@@ -337,7 +337,7 @@ export default function Navbar() {
                   <svg
                     viewBox="0 0 16 16"
                     className={`h-3.5 w-3.5 transition-transform ${
-                      mobileHomeOpen ? "rotate-180 text-lime-500" : ""
+                      mobileHomeOpen ? "rotate-180 text-yellow-500" : ""
                     }`}
                   >
                     <path
@@ -364,7 +364,7 @@ export default function Navbar() {
                       onClick={() => setDrawer(false)}
                       className={`block pl-10 pr-6 py-3 text-[15px] border-t border-slate-100 ${
                         active
-                          ? "bg-lime-50 text-lime-600 font-semibold"
+                          ? "bg-yellow-50 text-yellow-600 font-semibold"
                           : "text-slate-800 hover:bg-white"
                       } ${focusRingLight}`}
                       aria-current={active ? "page" : undefined}
@@ -394,8 +394,8 @@ export default function Navbar() {
 
 function NavItem({ href, label, className, isActive }: NavItemProps) {
   const activeClass = isActive
-    ? "text-lime-300 before:w-[calc(100%-1.5rem)]"
-    : "text-slate-100 hover:text-lime-200";
+    ? "text-yellow-400 before:w-[calc(100%-1.5rem)]"
+    : "text-slate-100 hover:text-yellow-300";
   const focusRingDark =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B2348]";
 
@@ -420,7 +420,7 @@ function MobileItem({ href, label, onClick, isActive }: MobileItemProps) {
       onClick={onClick}
       className={`flex items-center justify-between px-6 py-3.5 text-[15px] font-semibold border-b border-slate-100 ${
         isActive
-          ? "text-lime-600 bg-lime-50"
+          ? "text-yellow-600 bg-yellow-50"
           : "text-slate-900 hover:bg-slate-50"
       } ${focusRingLight}`}
       aria-current={isActive ? "page" : undefined}
