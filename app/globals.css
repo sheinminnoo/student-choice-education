@@ -126,3 +126,22 @@ body {
     animation: none !important;
   }
 }
+/* Hero background swiper pagination */
+.hero-swiper .swiper-pagination {
+  position: absolute;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  bottom: 1.75rem !important;
+  z-index: 30;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background: #ffffff !important;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background: #ffffff !important;
+  opacity: 1;
+}
