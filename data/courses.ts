@@ -64,7 +64,7 @@ export const courses: Course[] = [
   {
     id: "introducing-gdpr",
     title: "Introducing GDPR",
-    category: "Business",
+    category: "IT",
     image: "/courses/introducing-gdpr.png",
     level: "Beginner",
     duration: "2–3 hours",
