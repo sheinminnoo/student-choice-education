@@ -23,12 +23,13 @@ export const metadata: Metadata = {
   },
 };
 
-const PAGE_WRAPPER = "space-y-16 pb-16 lg:space-y-24";
+const PAGE_WRAPPER = "pb-16 lg:pb-24";
 
 export default function HomePage() {
   return (
     <div className={PAGE_WRAPPER}>
       <HeroRecruitment />
+      <Testimonials />
     </div>
   );
 }
