@@ -12,13 +12,14 @@ const navLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-50 text-slate-700">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+    <footer className="bg-slate-50 text-slate-700">
+      {/* Top Section */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-10 lg:pt-8 lg:pb-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,2.1fr)_minmax(0,1.4fr)_minmax(0,1.5fr)]">
           {/* Logo + Description */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-slate-200">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm">
                 <Image
                   src="/logo.png"
                   alt="Student Choice Education Logo"
@@ -27,12 +28,12 @@ export default function Footer() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-sm sm:text-base font-semibold tracking-wide text-slate-900">
+              <span className="text-sm font-semibold tracking-wide text-slate-900 sm:text-base">
                 STUDENT CHOICE EDUCATION
               </span>
             </Link>
 
-            <p className="text-sm text-slate-600 max-w-md">
+            <p className="max-w-md text-sm text-slate-600">
               Student Choice Education helps learners compare universities,
               scholarships and online courses so they can make confident
               decisions about their future.
@@ -44,12 +45,12 @@ export default function Footer() {
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
               Explore
             </h3>
-            <div className="grid grid-cols-2 gap-y-2 gap-x-6">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-slate-600 hover:text-yellow-600 transition"
+                  className="transition hover:text-yellow-600 text-slate-600"
                 >
                   {link.label}
                 </Link>
@@ -73,21 +74,21 @@ export default function Footer() {
               <div className="space-y-1 text-[13px]">
                 <a
                   href="mailto:info@studentchoice.com"
-                  className="block hover:text-yellow-600 transition"
+                  className="block transition hover:text-yellow-600"
                 >
                   info@studentchoice.com
                 </a>
 
                 <a
                   href="mailto:hi@studentchoice.com"
-                  className="block hover:text-yellow-600 transition"
+                  className="block transition hover:text-yellow-600"
                 >
                   hi@studentchoice.com
                 </a>
 
                 <a
                   href="tel:+441234567890"
-                  className="block hover:text-yellow-600 transition"
+                  className="block transition hover:text-yellow-600"
                 >
                   +44 1234 567 890
                 </a>
@@ -113,7 +114,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-2 text-[11px] sm:text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-[11px] text-slate-500 sm:px-6 sm:text-xs md:flex-row md:items-center md:justify-between lg:px-8">
           <p>
             © {new Date().getFullYear()} Student Choice Education. All rights
             reserved.
@@ -122,14 +123,14 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/legal/terms"
-              className="hover:text-yellow-600 transition"
+              className="transition hover:text-yellow-600"
             >
               Terms
             </Link>
-            <span className="hidden md:inline text-slate-400">•</span>
+            <span className="hidden text-slate-400 md:inline">•</span>
             <Link
               href="/legal/privacy"
-              className="hover:text-yellow-600 transition"
+              className="transition hover:text-yellow-600"
             >
               Privacy
             </Link>
@@ -145,7 +146,7 @@ function SocialIcon({ label, abbr }: { label: string; abbr: string }) {
     <button
       type="button"
       aria-label={label}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white text-[11px] font-semibold uppercase text-slate-600 hover:border-yellow-500 hover:text-yellow-600 shadow-sm transition"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white text-[11px] font-semibold uppercase text-slate-600 shadow-sm transition hover:border-yellow-500 hover:text-yellow-600"
     >
       {abbr}
     </button>
