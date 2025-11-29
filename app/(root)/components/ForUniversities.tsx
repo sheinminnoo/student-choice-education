@@ -2,54 +2,82 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import forUniversities from "../../../public/home/university-audience.png";
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 export default function ForUniversities() {
   return (
-    <section className="bg-[#020b2c] py-14 lg:py-18">
-      <div className={MAX_WIDTH}>
-        <div className="grid gap-10 lg:grid-cols-[1.1fr,1.1fr] lg:items-center">
+    <section className="relative overflow-hidden bg-[#020b2c]">
+      {/* ✅ Full-width background image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/home/university-audience.png"
+          alt="University lecture hall with students"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+
+        {/* ✅ Ultra-premium soft blur overlay (no heavy darkness) */}
+        <div className="absolute inset-0 backdrop-blur-[2.5px] bg-[#020b2c]/40 sm:bg-gradient-to-r sm:from-[#020b2c]/55 sm:via-[#020b2c]/35 sm:to-[#020b2c]/15" />
+      </div>
+
+      {/* ✅ Content */}
+      <div className="relative z-10 py-14 sm:py-16 lg:py-20">
+        <div className={MAX_WIDTH}>
           <motion.div
-            className="space-y-4 text-slate-50"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            className="max-w-2xl text-slate-50"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#facc15]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#facc15]">
               For universities & colleges
             </p>
-            <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
-              Find motivated students from local and international markets.
-            </h2>
-            <p className="text-sm text-slate-200 sm:text-base">
-              Connect with high-intent candidates who are ready to apply. We
-              work with schools, agents and communities to promote your
-              programmes and pre-qualify applicants.
-            </p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-200">
-              <li>• Visibility in multiple countries with one partner</li>
-              <li>• Applications checked for eligibility and documentation</li>
-              <li>• Transparent updates on offers, deposits and enrolments</li>
-            </ul>
-          </motion.div>
 
-          <motion.div
-            className="relative h-[260px] overflow-hidden rounded-[2rem] border-4 border-[#facc15] bg-[#020617] sm:h-[320px] lg:h-[360px]"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <Image
-              src={forUniversities} // use your real image path
-              alt="Lecture hall with students"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/75 via-transparent to-[#020617]/30" />
+            <h2 className="mt-3 text-2xl font-bold sm:text-3xl lg:text-4xl">
+              Grow your international enrolments with a trusted local partner.
+            </h2>
+
+            <p className="mt-4 text-sm leading-relaxed text-slate-200 sm:text-[15px]">
+              We connect you with motivated students who are ready to apply. Our
+              team works closely with agents, schools and communities to promote
+              your programmes and deliver well-prepared applications.
+            </p>
+
+            <div className="mt-6 space-y-4 text-sm sm:text-[15px]">
+              <div>
+                <p className="font-semibold text-slate-50">
+                  • Quality over quantity
+                </p>
+                <p className="text-xs text-slate-200 sm:text-sm">
+                  Every applicant is pre-checked for eligibility and intent
+                  before reaching your admissions team.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-slate-50">
+                  • One partner, multiple markets
+                </p>
+                <p className="text-xs text-slate-200 sm:text-sm">
+                  Reach students across different regions through one organised
+                  channel.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-slate-50">
+                  • Full visibility from enquiry to enrolment
+                </p>
+                <p className="text-xs text-slate-200 sm:text-sm">
+                  Track offers, deposits and enrolments with clear, transparent
+                  updates.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

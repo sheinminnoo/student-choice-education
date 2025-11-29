@@ -29,7 +29,10 @@ export default function HomePage() {
   return (
     <div className={PAGE_WRAPPER}>
       <HeroRecruitment />
+      <ForUniversities />
+      <Courses />
       <Testimonials />
+      <EligibilityBanner />
     </div>
   );
 }
