@@ -1,72 +1,163 @@
-"use client";
+// app/(root)/components/HeroAdmissionExpert.tsx
 
-import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import heroAdmission from "../../../public/home/hero-admission.png"; // update path if needed
+import Image from "next/image";
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 export default function HeroAdmissionExpert() {
   return (
-    <section className="relative overflow-hidden py-14 text-slate-50 lg:py-20">
+    <section className="border-b border-slate-200 bg-white">
       <div
-        className={`${MAX_WIDTH} grid gap-10 lg:grid-cols-[1.1fr,1fr] lg:items-center`}
+        className={`${MAX_WIDTH} grid gap-10 py-14 lg:grid-cols-[1.2fr,1fr] lg:py-20`}
       >
-        <motion.div
-          className="space-y-4"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
+        <div className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#facc15]">
-            For schools, colleges & universities
+            Expert admission guidance
           </p>
-          <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
-            Admission experts for growing your student numbers.
+
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl lg:text-[2rem]">
+            Speak to real admission experts who understand both students and
+            universities.
           </h2>
-          <p className="text-sm text-slate-200 sm:text-base">
-            We support your admissions team with qualified enquiries, document
-            checking and local market insights, so you can focus on selecting
-            the right students.
+
+          <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
+            Our team has supported hundreds of students from different countries
+            to secure offers from UK and international universities. We help you
+            understand your options, choose the right course and submit a strong
+            application on time.
           </p>
-          <ul className="mt-3 space-y-2 text-sm text-slate-200">
-            <li>• Targeted promotion in key countries</li>
-            <li>• Pre-screened student profiles and documents</li>
-            <li>• End-to-end support from enquiry to enrolment</li>
-          </ul>
 
-          <motion.div
-            className="pt-4"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-4">
+              <p className="text-lg font-semibold text-slate-900">
+                1:1 Support
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Get personalised guidance based on your grades, budget and
+                goals.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-4">
+              <p className="text-lg font-semibold text-slate-900">
+                Application Check
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Review of your forms, documents and statements before you
+                submit.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-4">
+              <p className="text-lg font-semibold text-slate-900">
+                Offer to Enrolment
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Support with offers, CAS, visa steps and arrival at your
+                university.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <Link
-              href="/contact"
-              className="inline-flex items-center rounded-full bg-[#facc15] px-8 py-3 text-sm font-semibold text-[#020617] shadow-lg transition hover:bg-[#eab308]"
+              href="/eligibility"
+              className="inline-flex items-center rounded-full bg-[#020b2c] px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#020417]"
             >
-              Talk to our admission team
+              Book a free consultation
             </Link>
-          </motion.div>
-        </motion.div>
 
-        <motion.div
-          className="relative h-[260px] overflow-hidden rounded-[2rem] border border-[#facc15]/40 bg-[#020617] sm:h-[320px] lg:h-[360px]"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <Image
-            src={heroAdmission}
-            alt="Students working together"
-            fill
-            className="object-cover opacity-90"
-          />
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#020617]/80 via-transparent to-[#020617]/40" />
-        </motion.div>
+            <Link
+              href="/ourservices"
+              className="text-sm font-semibold text-slate-800 underline-offset-4 hover:text-[#020b2c] hover:underline"
+            >
+              See how our service works
+            </Link>
+
+            <p className="text-xs text-slate-500 sm:text-sm">
+              No fees for most students. We are paid by partner universities.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <div className="relative w-full max-w-md rounded-3xl border border-slate-200 bg-slate-50/70 p-5 shadow-sm">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Typical student journey
+                </p>
+                <p className="text-sm font-semibold text-slate-900">
+                  From first chat to enrolment
+                </p>
+              </div>
+              <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+                Guided step by step
+              </span>
+            </div>
+
+            <div className="space-y-3 text-sm">
+              <StepItem
+                step="1"
+                label="Tell us your goals"
+                detail="Share your grades, preferred country and budget."
+              />
+              <StepItem
+                step="2"
+                label="Get course suggestions"
+                detail="We match you with suitable universities and programmes."
+              />
+              <StepItem
+                step="3"
+                label="Prepare your documents"
+                detail="We help you organise transcripts, references and statements."
+              />
+              <StepItem
+                step="4"
+                label="Submit applications"
+                detail="Applications are checked before sending to universities."
+              />
+              <StepItem
+                step="5"
+                label="Confirm your offer"
+                detail="Support with offer conditions, CAS and next steps."
+              />
+            </div>
+
+            <div className="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-xs text-slate-500">
+              <span>Average response time: under 24 hours</span>
+              <span className="font-medium text-slate-800">
+                WhatsApp &amp; email support
+              </span>
+            </div>
+
+            <div className="pointer-events-none absolute -right-6 -top-6 hidden h-16 w-16 items-center justify-center rounded-2xl bg-[#facc15] text-xs font-semibold text-[#020b2c] shadow-md sm:flex">
+              Real team,
+              <br />
+              not a chatbot
+            </div>
+          </div>
+        </div>
       </div>
     </section>
+  );
+}
+
+type StepItemProps = {
+  step: string;
+  label: string;
+  detail: string;
+};
+
+function StepItem({ step, label, detail }: StepItemProps) {
+  return (
+    <div className="flex gap-3">
+      <div className="mt-0.5 inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+        {step}
+      </div>
+      <div>
+        <p className="text-sm font-semibold text-slate-900">{label}</p>
+        <p className="text-xs text-slate-500">{detail}</p>
+      </div>
+    </div>
   );
 }
