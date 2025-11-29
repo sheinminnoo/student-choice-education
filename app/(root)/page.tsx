@@ -1,9 +1,8 @@
 import Courses from "./components/Courses";
 import EligibilityBanner from "./components/EligibilityBanner";
-import ForStudents from "./components/ForStudents";
 import ForUniversities from "./components/ForUniversities";
-import HeroAdmissionExpert from "./components/HeroAdmissionExpert";
 import HeroRecruitment from "./components/HeroRecruitment";
+import Partners from "./components/Partners";
 import Testimonials from "./components/Testimonials";
 import type { Metadata } from "next";
 
@@ -23,7 +22,8 @@ export const metadata: Metadata = {
   },
 };
 
-const PAGE_WRAPPER = "pb-16 lg:pb-24";
+// ⬇️ smaller bottom padding so no huge gap
+const PAGE_WRAPPER = "pb-4 lg:pb-6";
 
 export default function HomePage() {
   return (
@@ -31,6 +31,7 @@ export default function HomePage() {
       <HeroRecruitment />
       <ForUniversities />
       <Courses />
+      <Partners />
       <Testimonials />
       <EligibilityBanner />
     </div>

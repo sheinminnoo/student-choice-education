@@ -70,7 +70,7 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        <div className="mt-14 flex flex-wrap items-stretch justify-center gap-8">
+        <div className="mt-14 flex flex-wrap items-stretch justify-center gap-x-8 gap-y-16">
           {people.map((p, index) => (
             <motion.article
               key={p.name}

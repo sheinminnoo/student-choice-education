@@ -22,7 +22,6 @@ export default function RootGroupLayout({
   return (
     <div className="flex min-h-screen flex-col bg-[#f4f6fb] text-slate-900">
       <Navbar />
-
       <main className="flex-1 pt-14 lg:pt-[5.5rem]">{children}</main>
       <Footer />
     </div>
