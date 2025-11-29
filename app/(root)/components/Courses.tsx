@@ -1,79 +1,147 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
-const courses = [
+type CourseCard = {
+  title: string;
+  uni: string;
+  description: string;
+  logo: string;
+  href: string;
+};
+
+const courses: CourseCard[] = [
   {
-    title: "Doctor of Business Administration (DBA)",
-    uni: "University of Wales Trinity Saint David",
+    title: "MSc International Business",
+    uni: "University of Hertfordshire",
+    description:
+      "A career-focused programme for students who want to build global business and management skills.",
+    logo: "/home/hertfordshire.jpg",
+    href: "/universities/university-of-hertfordshire",
   },
   {
-    title: "MSc by Research – Built Environment",
-    uni: "University of South Wales",
+    title: "MBA Global Business",
+    uni: "University of Roehampton London",
+    description:
+      "Develop leadership, strategy and international business knowledge in the heart of London.",
+    logo: "/home/Roehampton.png",
+    href: "/universities/university-of-roehampton",
   },
   {
-    title: "MSc by Research – Environmental Sustainability",
-    uni: "Cranfield University",
+    title: "MSc Data Science",
+    uni: "Ulster University London",
+    description:
+      "Hands-on data science training with a focus on analytics, programming and real business applications.",
+    logo: "/home/Ulster.jpg",
+    href: "/universities/ulster-university-london",
+  },
+  {
+    title: "MSc Business with Analytics",
+    uni: "Northumbria University London",
+    description:
+      "Combine business knowledge with data analytics to support decision-making in modern organisations.",
+    logo: "/home/northumbria.jpg",
+    href: "/universities/northumbria-university-london",
+  },
+  {
+    title: "MSc Engineering Management",
+    uni: "Arden University Berlin",
+    description:
+      "Ideal for engineers who want to move into management roles in international technical companies.",
+    logo: "/home/arden.jpg",
+    href: "/universities/arden-university-berlin",
+  },
+  {
+    title: "International Relations & Diplomacy",
+    uni: "Schiller International University, Madrid",
+    description:
+      "Prepare for careers in diplomacy, NGOs and international organisations with a global learning environment.",
+    logo: "/home/Schiller.jpg",
+    href: "/universities/schiller-international-university-madrid",
   },
 ];
 
 export default function Courses() {
   return (
-    <section className="bg-white">
+    <section className="bg-white py-16">
       <div className={MAX_WIDTH}>
         <motion.div
           className="space-y-3 text-center"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
           <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-            Browse your best courses
+            Explore handpicked courses for you
           </h2>
           <p className="mx-auto max-w-2xl text-sm text-slate-600 sm:text-base">
-            Browse from the options to get involved with your desired course.
+            Discover popular programmes from trusted universities in the UK and
+            Europe.
           </p>
         </motion.div>
 
         <motion.div
-          className="mt-8"
-          initial={{ opacity: 0, y: 30 }}
+          className="relative mt-12"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
           <Swiper
             modules={[Navigation, Pagination]}
             navigation
             pagination={{ clickable: true }}
-            spaceBetween={24}
+            spaceBetween={20}
             slidesPerView={1}
             breakpoints={{
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
+              768: { slidesPerView: 2, spaceBetween: 24 },
+              1024: { slidesPerView: 4, spaceBetween: 28 },
             }}
+            className="courses-swiper"
           >
             {courses.map((course) => (
               <SwiperSlide key={course.title}>
-                <div className="flex h-full flex-col rounded-3xl bg-white p-5 text-slate-900 shadow-md ring-1 ring-slate-200">
-                  <div className="h-20 rounded-2xl bg-[#f5f7fb]" />
-                  <h3 className="mt-4 text-sm font-semibold sm:text-base">
-                    {course.title}
-                  </h3>
-                  <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-                    {course.uni}
-                  </p>
-                  <button className="mt-5 inline-flex items-center justify-center rounded-full bg-[#020b2c] px-5 py-2 text-xs font-semibold text-white shadow-md transition hover:bg-black">
-                    Learn more
-                  </button>
+                <div className="mx-auto flex h-[360px] w-full max-w-[320px] flex-col rounded-2xl bg-[#F9FAFB] text-slate-900 shadow-[0_20px_45px_rgba(15,23,42,0.08)] sm:max-w-none">
+                  <div className="flex items-center justify-center border-b border-slate-100 bg-[#F1F5F9] px-4 py-6">
+                    <div className="relative h-24 w-full max-w-[240px]">
+                      <Image
+                        src={course.logo}
+                        alt={course.uni}
+                        fill
+                        sizes="(min-width: 1024px) 240px, (min-width: 768px) 220px, 70vw"
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-1 flex-col px-6 pb-6 pt-4">
+                    <h3 className="text-sm font-semibold text-slate-900 sm:text-base">
+                      {course.title}
+                    </h3>
+                    <p className="mt-2 text-xs leading-relaxed text-slate-600 sm:text-sm">
+                      {course.description}
+                    </p>
+
+                    <div className="mt-auto">
+                      <Link
+                        href={course.href}
+                        className="inline-flex w-full items-center justify-center rounded-full bg-[#020B2C] px-6 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-[#041B5D]"
+                      >
+                        Learn more
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
