@@ -29,12 +29,6 @@ export default function HomePage() {
   return (
     <div className={PAGE_WRAPPER}>
       <HeroRecruitment />
-      <HeroAdmissionExpert />
-      <ForStudents />
-      <ForUniversities />
-      <Courses />
-      <Testimonials />
-      <EligibilityBanner />
     </div>
   );
 }
