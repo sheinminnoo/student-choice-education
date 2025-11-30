@@ -53,18 +53,17 @@ const GuidesSection = () => {
   ] as const;
 
   return (
-    <section className="relative bg-[#020B2C] overflow-hidden">
-      <div className="relative z-10 w-full mx-auto max-w-6xl px-5 py-16 text-center text-white">
-        <h2 className="text-[28px] sm:text-[32px] font-bold mb-3">
-          The UK Study Expert &ldquo;What to Expect&rdquo; Guides
+    <section className="relative bg-white overflow-hidden">
+      <div className="relative z-10 w-full mx-auto max-w-6xl px-5 py-20 text-center">
+        <h2 className="text-[28px] sm:text-[34px] font-bold mb-3 text-[#020B2C]">
+          The UK Study Expert “What to Expect” Guides
         </h2>
 
-        <p className="max-w-2xl mx-auto text-[15px] sm:text-[16px] opacity-90 mb-12 leading-relaxed">
+        <p className="max-w-2xl mx-auto text-[15px] sm:text-[16px] text-slate-600 mb-14 leading-relaxed">
           Feeling overwhelmed by the UK university application process? Start
           your journey with one of our carefully designed FREE study guides.
         </p>
 
-        {/* Mobile slider → Desktop 3-column grid */}
         <div
           className="
             flex gap-6 overflow-x-auto pb-5
@@ -79,15 +78,16 @@ const GuidesSection = () => {
               <div
                 key={guide.key}
                 className="
-                  bg-white/95 backdrop-blur-xl border border-white/40 text-gray-900 
-                  rounded-2xl shadow-lg shrink-0 w-[88%] max-w-[360px] p-8 
+                  bg-gradient-to-br from-[#020B2C] via-[#041B5D] to-[#020B2C]
+                  text-white rounded-2xl shadow-2xl
+                  shrink-0 w-[88%] max-w-[360px] p-8 
                   flex flex-col mx-auto
                   md:w-full md:max-w-none
                 "
               >
-                {/* Yellow accent badge */}
+                {/* Badge */}
                 <div className="mb-4 flex">
-                  <span className="inline-flex items-center rounded-full bg-[#FACC15] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#020B2C]">
+                  <span className="inline-flex items-center rounded-full bg-[#e7e7e7] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#020B2C]">
                     {guide.badge}
                   </span>
                 </div>
@@ -103,28 +103,28 @@ const GuidesSection = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="mt-6 text-[20px] font-bold text-[#00175a]">
+                <h3 className="mt-6 text-[20px] font-bold text-white">
                   {guide.title}
                 </h3>
 
-                {/* Description — FIXED SPACING */}
-                <p className="text-[14px] mt-4 mb-6 leading-relaxed text-gray-700 flex-grow">
+                {/* Description */}
+                <p className="text-[14px] mt-4 mb-6 leading-relaxed text-slate-200 flex-grow">
                   {guide.text}
                 </p>
 
-                {/* Button — FIXED SPACING + SUCCESS STATE */}
+                {/* ✅ STRONG VISIBLE YELLOW HOVER BUTTON */}
                 <button
                   onClick={() => handleDownload(guide.key)}
                   disabled={isLoading}
                   className={`
                     mt-2 inline-flex w-full items-center justify-center rounded-full 
-                    px-6 py-2 text-xs font-semibold uppercase 
-                    tracking-wide text-white transition
+                    px-6 py-3 text-xs font-semibold uppercase 
+                    tracking-wide transition-colors duration-300
                     disabled:opacity-70 disabled:cursor-not-allowed
                     ${
                       isSuccess
-                        ? "bg-emerald-600 hover:bg-emerald-700"
-                        : "bg-[#020B2C] hover:bg-[#041B5D]"
+                        ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                        : "bg-white text-[#020B2C] hover:bg-[#FACC15]"
                     }
                   `}
                 >
