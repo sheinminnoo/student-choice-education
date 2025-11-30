@@ -16,11 +16,54 @@ const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 type FilterCategory = CourseCategory | "All";
 type FilterLevel = CourseLevel | "All";
+type SortOption =
+  | "recommended"
+  | "title-asc"
+  | "title-desc"
+  | "duration-asc"
+  | "duration-desc";
+
+const sortOptions: { value: SortOption; label: string; helper: string }[] = [
+  {
+    value: "recommended",
+    label: "Recommended",
+    helper: "Default order based on course mix",
+  },
+  {
+    value: "title-asc",
+    label: "Title A–Z",
+    helper: "Alphabetical by course name",
+  },
+  {
+    value: "title-desc",
+    label: "Title Z–A",
+    helper: "Reverse alphabetical",
+  },
+  {
+    value: "duration-asc",
+    label: "Duration: Short to long",
+    helper: "Quick courses first",
+  },
+  {
+    value: "duration-desc",
+    label: "Duration: Long to short",
+    helper: "In-depth courses first",
+  },
+];
+
+function getDurationValue(duration?: string): number {
+  if (!duration) return Number.POSITIVE_INFINITY;
+  const match = duration.match(/\d+/);
+  if (!match) return Number.POSITIVE_INFINITY;
+  return parseInt(match[0], 10);
+}
 
 export default function OnlineCoursesPage() {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<FilterLevel>("All");
+  const [sortOption, setSortOption] = useState<SortOption>("recommended");
+  const [sortOpen, setSortOpen] = useState(false);
 
   const levels = useMemo<CourseLevel[]>(
     () =>
@@ -37,7 +80,7 @@ export default function OnlineCoursesPage() {
   const filteredCourses = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
-    return courses.filter((course) => {
+    const filtered = courses.filter((course) => {
       const matchCategory =
         activeCategory === "All" ? true : course.category === activeCategory;
 
@@ -52,7 +95,35 @@ export default function OnlineCoursesPage() {
 
       return matchCategory && matchLevel && matchSearch;
     });
-  }, [activeCategory, searchQuery, levelFilter]);
+
+    const sorted = [...filtered];
+
+    switch (sortOption) {
+      case "title-asc":
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "title-desc":
+        sorted.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case "duration-asc":
+        sorted.sort(
+          (a, b) => getDurationValue(a.duration) - getDurationValue(b.duration)
+        );
+        break;
+      case "duration-desc":
+        sorted.sort(
+          (a, b) => getDurationValue(b.duration) - getDurationValue(a.duration)
+        );
+        break;
+      case "recommended":
+      default:
+        break;
+    }
+
+    return sorted;
+  }, [activeCategory, searchQuery, levelFilter, sortOption]);
+
+  const currentSort = sortOptions.find((o) => o.value === sortOption)!;
 
   return (
     <div className="bg-white text-slate-900">
@@ -152,7 +223,7 @@ export default function OnlineCoursesPage() {
       >
         <div className="space-y-6">
           <motion.div
-            className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"
+            className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -173,13 +244,110 @@ export default function OnlineCoursesPage() {
               </p>
             </div>
 
-            <p className="text-xs text-slate-600">
-              Showing{" "}
-              <span className="font-semibold text-[#071a3c]">
-                {filteredCourses.length}
-              </span>{" "}
-              course{filteredCourses.length === 1 ? "" : "s"}
-            </p>
+            <div className="flex flex-col items-end gap-2 text-xs text-slate-600">
+              <p>
+                Showing{" "}
+                <span className="font-semibold text-[#071a3c]">
+                  {filteredCourses.length}
+                </span>{" "}
+                course{filteredCourses.length === 1 ? "" : "s"}
+              </p>
+
+              <div className="flex items-center gap-2">
+                <span className="hidden text-[11px] uppercase tracking-[0.16em] text-slate-500 sm:inline">
+                  Sort by
+                </span>
+
+                <div
+                  className="relative"
+                  tabIndex={-1}
+                  onBlur={(e) => {
+                    if (
+                      !e.currentTarget.contains(e.relatedTarget as Node | null)
+                    ) {
+                      setSortOpen(false);
+                    }
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setSortOpen((prev) => !prev)}
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-medium text-slate-800 shadow-sm hover:border-slate-400 focus:border-[#071a3c] focus:outline-none focus:ring-2 focus:ring-[#071a3c]/20"
+                    aria-haspopup="listbox"
+                    aria-expanded={sortOpen}
+                  >
+                    <span>{currentSort.label}</span>
+                    <span className="text-[10px] text-slate-400">
+                      • {currentSort.helper.split(".")[0]}
+                    </span>
+                    <span
+                      className={`ml-1 inline-flex transform items-center transition-transform ${
+                        sortOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 20 20"
+                        className="h-3 w-3 text-slate-500"
+                      >
+                        <path
+                          d="M5.25 7.5L10 12.25L14.75 7.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+
+                  {sortOpen && (
+                    <div className="absolute right-0 z-20 mt-2 w-64 rounded-2xl border border-slate-200 bg-white/95 p-1 text-[11px] text-slate-800 shadow-lg ring-1 ring-black/5 backdrop-blur">
+                      <p className="px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                        Sort courses
+                      </p>
+                      <div className="space-y-1">
+                        {sortOptions.map((option) => {
+                          const isActive = option.value === sortOption;
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                setSortOption(option.value);
+                                setSortOpen(false);
+                              }}
+                              className={`flex w-full items-start gap-2 rounded-xl px-3 py-2 text-left transition ${
+                                isActive
+                                  ? "bg-[#071a3c]/5 text-[#071a3c]"
+                                  : "hover:bg-slate-50"
+                              }`}
+                              role="option"
+                              aria-selected={isActive}
+                            >
+                              <span className="mt-[2px] h-2 w-2 rounded-full border border-slate-300">
+                                {isActive && (
+                                  <span className="block h-full w-full rounded-full bg-[#071a3c]" />
+                                )}
+                              </span>
+                              <span>
+                                <span className="block text-[11px] font-semibold">
+                                  {option.label}
+                                </span>
+                                <span className="mt-0.5 block text-[10px] text-slate-500">
+                                  {option.helper}
+                                </span>
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 shadow-sm sm:p-5">
@@ -206,6 +374,7 @@ export default function OnlineCoursesPage() {
                   setActiveCategory("All");
                   setSearchQuery("");
                   setLevelFilter("All");
+                  setSortOption("recommended");
                 }}
                 className="text-[11px] font-medium text-slate-500 underline underline-offset-4 hover:text-slate-700 md:self-end"
               >
