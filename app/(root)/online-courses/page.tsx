@@ -1,23 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { courses, categories, type CourseCategory } from "@/data/courses";
+import {
+  courses,
+  categories,
+  type CourseCategory,
+  type CourseLevel,
+} from "@/data/courses";
 import heroImg from "@/public/heros/oc.png";
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 type FilterCategory = CourseCategory | "All";
+type FilterLevel = CourseLevel | "All";
 
 export default function OnlineCoursesPage() {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [levelFilter, setLevelFilter] = useState<FilterLevel>("All");
 
-  const filteredCourses =
-    activeCategory === "All"
-      ? courses
-      : courses.filter((course) => course.category === activeCategory);
+  const levels = useMemo<CourseLevel[]>(
+    () =>
+      Array.from(
+        new Set(
+          courses
+            .map((c) => c.level)
+            .filter((v): v is CourseLevel => v !== undefined)
+        )
+      ),
+    []
+  );
+
+  const filteredCourses = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return courses.filter((course) => {
+      const matchCategory =
+        activeCategory === "All" ? true : course.category === activeCategory;
+
+      const matchLevel =
+        levelFilter === "All" ? true : course.level === levelFilter;
+
+      const matchSearch =
+        query.length === 0
+          ? true
+          : course.title.toLowerCase().includes(query) ||
+            course.shortDescription.toLowerCase().includes(query);
+
+      return matchCategory && matchLevel && matchSearch;
+    });
+  }, [activeCategory, searchQuery, levelFilter]);
 
   return (
     <div className="bg-white text-slate-900">
@@ -32,7 +67,7 @@ export default function OnlineCoursesPage() {
           />
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-slate-950/35" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950/90 to-transparent" />
 
         <div className={`${MAX_WIDTH} relative`}>
@@ -43,14 +78,18 @@ export default function OnlineCoursesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
+              <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#ffb800] backdrop-blur-sm">
+                Online training · CPD-friendly
+              </p>
+
               <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.7rem]">
                 Build the <span className="text-[#ffb800]">right skills</span>{" "}
-                with flexible online training.
+                with flexible online courses.
               </h1>
 
               <p className="max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
-                Short, focused online courses in Business, IT, Health & Social
-                Care, and Mental Wellbeing. Learn at your own pace with clear
+                Focused short courses in Business, IT & Cyber, Health & Social
+                Care, and Mental Wellbeing. Study 100% online with clear
                 outcomes and certificates that support applications and career
                 growth.
               </p>
@@ -58,31 +97,31 @@ export default function OnlineCoursesPage() {
               <div className="flex flex-wrap items-center gap-4">
                 <a
                   href="#courses"
-                  className="inline-flex items-center justify-center rounded-full bg-[#ffb800] px-7 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-[#ffd34a]"
+                  className="inline-flex items-center justify-center rounded-full bg-[#ffb800] px-7 py-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-[#ffd34a]"
                 >
                   Browse all courses
                 </a>
 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10 hover:text-white"
+                  className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-white"
                 >
                   Talk to our course team
                 </Link>
               </div>
 
               <motion.div
-                className="mt-4 inline-flex flex-wrap gap-8 rounded-2xl bg-black/20 px-5 py-4 text-sm text-white/85 backdrop-blur-md"
+                className="mt-4 inline-flex flex-wrap gap-6 rounded-2xl bg-black/25 px-5 py-4 text-sm text-white/85 backdrop-blur-md sm:gap-8"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.25 }}
               >
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.18em] text-white/60">
-                    Main course areas
+                    Course areas
                   </p>
                   <p className="mt-1 text-base font-semibold text-white">
-                    4 key pathways
+                    Business · IT · Health · Wellbeing
                   </p>
                 </div>
                 <div>
@@ -109,95 +148,154 @@ export default function OnlineCoursesPage() {
 
       <section
         id="courses"
-        className={`border-t border-slate-200 bg-white ${MAX_WIDTH} pb-20 pt-12`}
+        className={`${MAX_WIDTH} border-t border-slate-200 bg-white pb-20 pt-12`}
       >
-        <div className="flex flex-col gap-8 lg:flex-row">
-          <aside className="w-full lg:w-72">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Course areas
+        <div className="space-y-6">
+          <motion.div
+            className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Online courses
+              </p>
+              <h2 className="mt-2 text-xl font-semibold sm:text-2xl">
+                Find the right online course for your goals.
+              </h2>
+              <p className="mt-1 text-sm text-slate-600">
+                {activeCategory === "All"
+                  ? "Browse flexible online courses in Business, IT & Cyber Security, Health & Social Care, and Counselling, Mental Health & Wellbeing."
+                  : categories.find((c) => c.id === activeCategory)
+                      ?.description}
+              </p>
+            </div>
+
+            <p className="text-xs text-slate-600">
+              Showing{" "}
+              <span className="font-semibold text-[#071a3c]">
+                {filteredCourses.length}
+              </span>{" "}
+              course{filteredCourses.length === 1 ? "" : "s"}
             </p>
+          </motion.div>
 
-            <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
-              <button
-                onClick={() => setActiveCategory("All")}
-                className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                  activeCategory === "All"
-                    ? "bg-[#071a3c] text-white"
-                    : "border border-slate-300 text-slate-800 hover:bg-slate-50"
-                }`}
-              >
-                All courses
-              </button>
-
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                    activeCategory === category.id
-                      ? "bg-[#071a3c] text-white"
-                      : "border border-slate-300 text-slate-800 hover:bg-slate-50"
-                  }`}
+          <div className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 shadow-sm sm:p-5">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="flex-1 space-y-1">
+                <label
+                  htmlFor="course-search"
+                  className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500"
                 >
-                  {category.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-10 border-t border-slate-200 pt-5 text-xs text-slate-600">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Need help?
-              </p>
-              <p className="mt-2">
-                Tell us your role, country and goals and we will suggest the
-                best courses for you.
-              </p>
-              <Link
-                href="/contact"
-                className="mt-3 inline-flex rounded-full bg-[#071a3c] px-4 py-2 text-[11px] font-semibold text-white hover:bg-[#0c2a55]"
-              >
-                Get free guidance
-              </Link>
-            </div>
-          </aside>
-
-          <div className="flex-1">
-            <motion.div
-              className="flex items-end justify-between gap-3"
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Online courses
-                </p>
-                <h2 className="mt-2 text-xl font-semibold sm:text-2xl">
-                  Find the right online course for your goals.
-                </h2>
-                <p className="mt-1 text-sm text-slate-600">
-                  {activeCategory === "All"
-                    ? "Browse flexible online courses in Business Skills, IT & Cyber Security, Health & Social Care, and Counselling, Mental Health & Wellbeing."
-                    : categories.find((c) => c.id === activeCategory)
-                        ?.description}
-                </p>
+                  Search courses
+                </label>
+                <input
+                  id="course-search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Type course name or keyword"
+                  className="w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-[#071a3c] focus:outline-none focus:ring-2 focus:ring-[#071a3c]/20"
+                />
               </div>
 
-              <p className="text-xs text-slate-600">
-                Showing{" "}
-                <span className="font-semibold text-[#071a3c]">
-                  {filteredCourses.length}
-                </span>{" "}
-                course(s)
-              </p>
-            </motion.div>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategory("All");
+                  setSearchQuery("");
+                  setLevelFilter("All");
+                }}
+                className="text-[11px] font-medium text-slate-500 underline underline-offset-4 hover:text-slate-700 md:self-end"
+              >
+                Clear all filters
+              </button>
+            </div>
 
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Course area
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setActiveCategory("All")}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+                      activeCategory === "All"
+                        ? "bg-[#071a3c] text-white"
+                        : "border border-slate-300 bg-white text-slate-800 hover:bg-slate-100"
+                    }`}
+                  >
+                    All courses
+                  </button>
+
+                  {categories.map((category) => (
+                    <button
+                      type="button"
+                      key={category.id}
+                      onClick={() => setActiveCategory(category.id)}
+                      className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+                        activeCategory === category.id
+                          ? "bg-[#071a3c] text-white"
+                          : "border border-slate-300 bg-white text-slate-800 hover:bg-slate-100"
+                      }`}
+                    >
+                      {category.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {levels.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                    Level
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setLevelFilter("All")}
+                      className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition ${
+                        levelFilter === "All"
+                          ? "bg-slate-900 text-white"
+                          : "border border-slate-300 bg-white text-slate-800 hover:bg-slate-100"
+                      }`}
+                    >
+                      Any level
+                    </button>
+                    {levels.map((level) => (
+                      <button
+                        key={level}
+                        type="button"
+                        onClick={() => setLevelFilter(level)}
+                        className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition ${
+                          levelFilter === level
+                            ? "bg-slate-900 text-white"
+                            : "border border-slate-300 bg-white text-slate-800 hover:bg-slate-100"
+                        }`}
+                      >
+                        {level}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {filteredCourses.length === 0 ? (
+            <p className="mt-6 text-sm text-slate-500">
+              No courses match your filters yet. Try removing one of the filters
+              or search terms, or contact our team for recommendations.
+            </p>
+          ) : (
+            <div className="mt-2 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {filteredCourses.map((course, index) => (
                 <motion.article
                   key={course.id}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-md"
+                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
@@ -218,11 +316,11 @@ export default function OnlineCoursesPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/10" />
 
                     <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-[11px] text-white">
-                      <span className="rounded-full bg-black/40 px-3 py-1">
+                      <span className="rounded-full bg-black/45 px-3 py-1">
                         {course.category}
                       </span>
                       {course.level && (
-                        <span className="rounded-full bg-black/40 px-3 py-1">
+                        <span className="rounded-full bg-black/45 px-3 py-1">
                           {course.level} level
                         </span>
                       )}
@@ -231,10 +329,10 @@ export default function OnlineCoursesPage() {
 
                   <div className="flex flex-1 flex-col justify-between p-5">
                     <div>
-                      <h3 className="text-base font-semibold sm:text-lg">
+                      <h3 className="text-base font-semibold tracking-tight sm:text-lg">
                         {course.title}
                       </h3>
-                      <p className="mt-2 text-sm text-slate-600">
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">
                         {course.shortDescription}
                       </p>
                     </div>
@@ -242,6 +340,7 @@ export default function OnlineCoursesPage() {
                     <div className="mt-4 flex items-center justify-between">
                       <Link
                         href={`/online-courses/${course.id}`}
+                        aria-label={`View details for ${course.title}`}
                         className="rounded-full bg-[#071a3c] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0c2a55]"
                       >
                         View course details
@@ -266,7 +365,7 @@ export default function OnlineCoursesPage() {
                 </motion.article>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </section>
     </div>
