@@ -1,359 +1,224 @@
-export const universityCountries = [
-  "UK",
-  "Germany",
-  "France",
-  "Spain",
-  "Malta",
-] as const;
-export type UniversityCountry = (typeof universityCountries)[number];
-
-export const universityCategories = ["University", "Pathway Provider"] as const;
-export type UniversityCategory = (typeof universityCategories)[number];
+// app/universities/universities.ts
 
 export type University = {
   slug: string;
   name: string;
-  country: UniversityCountry;
+  type: string;
+  country: string;
+  region: string;
   city: string;
-  campus: string;
-  category: UniversityCategory;
-  website: string;
 
-  logo: string;
-  campusImage: string;
+  ranking: {
+    label: string;
+    value: string;
+  };
 
-  established: number;
-  rankingBadge?: string;
+  overview: string;
 
-  shortDescription: string;
-  fullDescription: string;
+  stats: {
+    foundedYear: string;
+    programmes: string;
+    mentors: string;
+    employability: string;
+    campuses: string;
+  };
 
-  highlights: string[];
-  popularPrograms: string[];
-  intakes: string[];
-  studyModes: string[];
-
-  showGeduLogo?: boolean;
+  studyMode: string;
+  schedulePreferences: string;
+  support: string;
 };
 
 export const universities: University[] = [
   {
     slug: "university-of-hertfordshire",
     name: "University of Hertfordshire",
-    country: "UK",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
     city: "Hatfield",
-    campus: "Hatfield Campus",
-    category: "University",
-    website: "https://www.herts.ac.uk/",
-
-    logo: "/universities/logos/herts.png",
-    campusImage: "/universities/campuses/herts.jpg",
-
-    established: 1952,
-    rankingBadge: "Top 100 Young Universities",
-
-    shortDescription:
-      "Career-focused modern UK university just outside London.",
-    fullDescription:
-      "The University of Hertfordshire is a leading modern university located just outside London, offering industry-focused degrees with strong employer links and excellent international student support.",
-
-    highlights: [
-      "20 minutes from Central London",
-      "Strong industry links",
-      "Excellent careers support",
-      "Modern campus facilities",
-    ],
-
-    popularPrograms: [
-      "Computer Science",
-      "Business & Management",
-      "Engineering",
-      "Data Science",
-      "Cyber Security",
-    ],
-
-    intakes: ["January", "May", "September"],
-    studyModes: ["On-campus", "Blended"],
+    ranking: {
+      label: "UK Ranking 2025",
+      value: "Top modern university for graduate employment",
+    },
+    overview:
+      "The University of Hertfordshire is a career-focused UK university with modern facilities, strong links to industry and a vibrant international community.",
+    stats: {
+      foundedYear: "1952",
+      programmes: "250+ programmes",
+      mentors: "60+ student mentors",
+      employability: "95% graduate employment",
+      campuses: "2 campuses (College Lane & de Havilland)",
+    },
+    studyMode: "On campus with some online and blended options",
+    schedulePreferences: "Full-time and part-time study routes",
+    support: "Dedicated international student support and careers team",
   },
-
   {
-    slug: "university-of-roehampton",
-    name: "University of Roehampton London",
-    country: "UK",
+    slug: "university-of-birmingham",
+    name: "University of Birmingham",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
+    city: "Birmingham",
+    ranking: {
+      label: "World Ranking 2025",
+      value: "Top 100 globally",
+    },
+    overview:
+      "A member of the prestigious Russell Group, the University of Birmingham combines research strength with a green campus close to a major UK city.",
+    stats: {
+      foundedYear: "1900",
+      programmes: "350+ programmes",
+      mentors: "80+ student mentors",
+      employability: "94% graduate employment",
+      campuses: "Edgbaston campus and city centre sites",
+    },
+    studyMode: "On campus",
+    schedulePreferences: "Primarily full-time programmes",
+    support: "International student hub and specialist careers support",
+  },
+  {
+    slug: "university-of-manchester",
+    name: "University of Manchester",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
+    city: "Manchester",
+    ranking: {
+      label: "World Ranking 2025",
+      value: "Top 30 globally",
+    },
+    overview:
+      "The University of Manchester is known for research excellence, innovation and a lively city-centre campus in one of the UK’s biggest student cities.",
+    stats: {
+      foundedYear: "1824",
+      programmes: "400+ programmes",
+      mentors: "100+ student mentors",
+      employability: "95% graduate employment",
+      campuses: "City campus across Oxford Road corridor",
+    },
+    studyMode: "On campus",
+    schedulePreferences: "Full-time, with some part-time and distance options",
+    support: "Dedicated international societies and careers service",
+  },
+  {
+    slug: "coventry-university",
+    name: "Coventry University",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
+    city: "Coventry",
+    ranking: {
+      label: "UK Ranking 2025",
+      value: "Top modern university for teaching quality",
+    },
+    overview:
+      "Coventry University focuses on applied learning, industry links and real-world placements, especially in business, engineering and health.",
+    stats: {
+      foundedYear: "1992",
+      programmes: "250+ programmes",
+      mentors: "50+ student mentors",
+      employability: "95% graduate employment",
+      campuses: "Coventry city campus plus London campus",
+    },
+    studyMode: "On campus with some online courses",
+    schedulePreferences: "Full-time and part-time routes available",
+    support: "International support team and embedded careers coaching",
+  },
+  {
+    slug: "university-of-leeds",
+    name: "University of Leeds",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
+    city: "Leeds",
+    ranking: {
+      label: "World Ranking 2025",
+      value: "Top 100 globally",
+    },
+    overview:
+      "The University of Leeds is a large research-intensive university with a single city-centre campus and a strong reputation for student experience.",
+    stats: {
+      foundedYear: "1904",
+      programmes: "300+ programmes",
+      mentors: "75+ student mentors",
+      employability: "93% graduate employment",
+      campuses: "Single campus close to Leeds city centre",
+    },
+    studyMode: "On campus",
+    schedulePreferences: "Mainly full-time programmes",
+    support: "Global community and award-winning student union",
+  },
+  {
+    slug: "queen-mary-university-of-london",
+    name: "Queen Mary University of London",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
     city: "London",
-    campus: "Roehampton",
-    category: "University",
-    website: "https://www.roehampton.ac.uk/",
-
-    logo: "/universities/logos/roehampton.png",
-    campusImage: "/universities/campuses/roehampton.jpg",
-
-    established: 1841,
-    rankingBadge: "Top London Modern University",
-
-    shortDescription: "Green campus university in southwest London.",
-    fullDescription:
-      "The University of Roehampton offers high-quality UK degrees in a beautiful parkland campus environment, combining academic excellence with a supportive learning experience.",
-
-    highlights: [
-      "Parkland London campus",
-      "Strong student support",
-      "Small class sizes",
-      "High graduate employment rate",
-    ],
-
-    popularPrograms: [
-      "Psychology",
-      "Business Management",
-      "Education",
-      "Computer Science",
-    ],
-
-    intakes: ["January", "September"],
-    studyModes: ["On-campus"],
+    ranking: {
+      label: "World Ranking 2025",
+      value: "Top 150 globally",
+    },
+    overview:
+      "Queen Mary is a Russell Group university in east London, known for its diverse community and strong health, law and business schools.",
+    stats: {
+      foundedYear: "1887",
+      programmes: "200+ programmes",
+      mentors: "70+ student mentors",
+      employability: "92% graduate employment",
+      campuses: "Mile End campus plus specialist London sites",
+    },
+    studyMode: "On campus",
+    schedulePreferences: "Full-time with some flexible options",
+    support: "Specialist international welcome and wellbeing teams",
   },
-
   {
-    slug: "ulster-university-london",
-    name: "Ulster University London",
-    country: "UK",
+    slug: "kingston-university-london",
+    name: "Kingston University London",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "England",
     city: "London",
-    campus: "London Campus",
-    category: "University",
-    website: "https://qa.ulster.ac.uk/campuses/london/",
-
-    logo: "/universities/logos/ulster-london.png",
-    campusImage: "/universities/campuses/ulster-london.jpg",
-
-    established: 1968,
-    rankingBadge: "Top UK for Business & Tech",
-
-    shortDescription: "Career-focused university in partnership with QA.",
-    fullDescription:
-      "Ulster University London delivers business, computing and finance programmes in the heart of London through its partnership with QA Higher Education.",
-
-    highlights: [
-      "Located in Central London",
-      "Industry-driven curriculum",
-      "Strong employability focus",
-    ],
-
-    popularPrograms: [
-      "MBA",
-      "Finance",
-      "Marketing",
-      "Data Analytics",
-      "Cyber Security",
-    ],
-
-    intakes: ["January", "September"],
-    studyModes: ["On-campus"],
+    ranking: {
+      label: "UK Ranking 2025",
+      value: "Strong for creative subjects and design",
+    },
+    overview:
+      "Kingston University specialises in creative industries, business and engineering, with riverside campuses in south-west London.",
+    stats: {
+      foundedYear: "1899",
+      programmes: "200+ programmes",
+      mentors: "45+ student mentors",
+      employability: "90% graduate employment",
+      campuses: "Multiple campuses around Kingston upon Thames",
+    },
+    studyMode: "On campus",
+    schedulePreferences: "Full-time, some foundation and top-up routes",
+    support: "International student support and creative careers service",
   },
-
   {
-    slug: "arden-university-berlin",
-    name: "Arden University Berlin",
-    country: "Germany",
-    city: "Berlin",
-    campus: "Berlin Campus",
-    category: "University",
-    website: "https://arden.ac.uk/where-to-study/locations/berlin",
-
-    logo: "/universities/logos/arden-berlin.png",
-    campusImage: "/universities/campuses/arden-berlin.jpg",
-
-    established: 1991,
-    rankingBadge: "Top Private UK University Abroad",
-
-    shortDescription: "UK degrees taught fully in English in Berlin.",
-    fullDescription:
-      "Arden University Berlin offers British degrees in Germany with flexible learning options and strong global career pathways.",
-
-    highlights: [
-      "English-taught degrees",
-      "Berlin tech ecosystem",
-      "Affordable EU tuition",
-      "Flexible schedules",
-    ],
-
-    popularPrograms: [
-      "Business Management",
-      "Computer Science",
-      "Digital Marketing",
-      "Data Analytics",
-    ],
-
-    intakes: ["January", "April", "October"],
-    studyModes: ["On-campus", "Blended"],
-  },
-
-  {
-    slug: "schiller-heidelberg",
-    name: "Schiller International University – Heidelberg Campus",
-    country: "Germany",
-    city: "Heidelberg",
-    campus: "Heidelberg Campus",
-    category: "University",
-    website: "https://www.schiller.edu/campuses/heidelberg/",
-
-    logo: "/universities/logos/schiller-heidelberg.png",
-    campusImage: "/universities/campuses/schiller-heidelberg.jpg",
-
-    established: 1964,
-    rankingBadge: "American Education in Europe",
-
-    shortDescription: "US-style education in historic Heidelberg.",
-    fullDescription:
-      "Schiller Heidelberg offers American degree programs in an international environment, designed for global careers.",
-
-    highlights: [
-      "American degree system",
-      "Strong global network",
-      "Small class sizes",
-      "International student community",
-    ],
-
-    popularPrograms: [
-      "International Business",
-      "Diplomacy",
-      "Hospitality Management",
-    ],
-
-    intakes: ["February", "September"],
-    studyModes: ["On-campus"],
-
-    showGeduLogo: true,
-  },
-
-  {
-    slug: "schiller-paris",
-    name: "Schiller International University – Paris Campus",
-    country: "France",
-    city: "Paris",
-    campus: "Paris Campus",
-    category: "University",
-    website: "https://www.schiller.edu/campuses/paris/",
-
-    logo: "/universities/logos/schiller-paris.png",
-    campusImage: "/universities/campuses/schiller-paris.jpg",
-
-    established: 1964,
-    rankingBadge: "American Education in Paris",
-
-    shortDescription: "US degrees in the heart of Paris.",
-    fullDescription:
-      "Schiller Paris provides international business and diplomacy degrees taught in English in one of the world’s most iconic cities.",
-
-    highlights: [
-      "Central Paris location",
-      "Global employability",
-      "Multicultural students",
-    ],
-
-    popularPrograms: [
-      "Business Administration",
-      "International Relations",
-      "Hospitality Management",
-    ],
-
-    intakes: ["February", "September"],
-    studyModes: ["On-campus"],
-
-    showGeduLogo: true,
-  },
-
-  {
-    slug: "schiller-madrid",
-    name: "Schiller International University – Madrid Campus",
-    country: "Spain",
-    city: "Madrid",
-    campus: "Madrid Campus",
-    category: "University",
-    website: "https://www.schiller.edu/campuses/madrid/",
-
-    logo: "/universities/logos/schiller-madrid.png",
-    campusImage: "/universities/campuses/schiller-madrid.jpg",
-
-    established: 1964,
-    rankingBadge: "Top International Business School",
-
-    shortDescription: "Modern international campus in Madrid.",
-    fullDescription:
-      "Schiller Madrid prepares students for leadership in global business, hospitality and diplomacy.",
-
-    highlights: [
-      "International internships",
-      "English-taught degrees",
-      "Strong business partnerships",
-    ],
-
-    popularPrograms: [
-      "International Business",
-      "Hospitality",
-      "International Relations",
-    ],
-
-    intakes: ["February", "September"],
-    studyModes: ["On-campus"],
-
-    showGeduLogo: true,
-  },
-
-  {
-    slug: "lsc-malta",
-    name: "London School of Commerce Malta",
-    country: "Malta",
-    city: "Floriana",
-    campus: "Malta Campus",
-    category: "University",
-    website: "https://lscmalta.edu.mt/",
-
-    logo: "/universities/logos/lsc-malta.png",
-    campusImage: "/universities/campuses/lsc-malta.jpg",
-
-    established: 2003,
-    rankingBadge: "Affordable British Degrees in EU",
-
-    shortDescription: "British education in Malta.",
-    fullDescription:
-      "LSC Malta provides high-quality business and management degrees validated by UK awarding bodies.",
-
-    highlights: ["Low tuition fees", "EU opportunities", "UK qualifications"],
-
-    popularPrograms: ["Business", "Finance", "Management"],
-
-    intakes: ["January", "May", "September"],
-    studyModes: ["On-campus"],
-  },
-
-  {
-    slug: "gbs-malta",
-    name: "GBS Malta",
-    country: "Malta",
-    city: "St. Julian’s",
-    campus: "Malta Campus",
-    category: "University",
-    website: "https://gbs.edu.mt/",
-
-    logo: "/universities/logos/gbs-malta.png",
-    campusImage: "/universities/campuses/gbs-malta.jpg",
-
-    established: 2010,
-    rankingBadge: "Fast-Growing Global Education Provider",
-
-    shortDescription: "Career-driven global education provider.",
-    fullDescription:
-      "GBS Malta delivers internationally recognised business and healthcare qualifications in a modern study destination.",
-
-    highlights: [
-      "Career-focused programmes",
-      "International faculty",
-      "Modern campus",
-    ],
-
-    popularPrograms: ["Business", "Healthcare", "Digital Marketing"],
-
-    intakes: ["January", "September"],
-    studyModes: ["On-campus"],
+    slug: "university-of-glasgow",
+    name: "University of Glasgow",
+    type: "Public University",
+    country: "United Kingdom",
+    region: "Scotland",
+    city: "Glasgow",
+    ranking: {
+      label: "World Ranking 2025",
+      value: "Top 100 globally",
+    },
+    overview:
+      "One of Scotland’s oldest universities, the University of Glasgow offers a historic campus, strong research and a friendly student city.",
+    stats: {
+      foundedYear: "1451",
+      programmes: "300+ programmes",
+      mentors: "90+ student mentors",
+      employability: "95% graduate employment",
+      campuses: "Main Gilmorehill campus plus other Scottish sites",
+    },
+    studyMode: "On campus",
+    schedulePreferences: "Mainly full-time programmes",
+    support: "International support and global alumni network",
   },
 ];
