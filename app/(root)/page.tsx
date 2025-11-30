@@ -1,6 +1,7 @@
 import Courses from "./components/Courses";
 import EligibilityBanner from "./components/EligibilityBanner";
 import ForUniversities from "./components/ForUniversities";
+import GuidesSection from "./components/GuidesSection";
 import HeroRecruitment from "./components/HeroRecruitment";
 import Partners from "./components/Partners";
 import Testimonials from "./components/Testimonials";
@@ -29,6 +30,7 @@ export default function HomePage() {
   return (
     <div className={PAGE_WRAPPER}>
       <HeroRecruitment />
+      <GuidesSection />
       <ForUniversities />
       <Courses />
       <Partners />

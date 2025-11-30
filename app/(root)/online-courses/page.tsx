@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { courses, categories, type CourseCategory } from "@/data/courses";
-import heroImg from "@/public/heros/online-courses-hero.png";
+import heroImg from "@/public/heros/oc.png";
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
@@ -20,98 +21,97 @@ export default function OnlineCoursesPage() {
 
   return (
     <div className="bg-white text-slate-900">
-      {/* ================ HERO ================ */}
-      <section className={`${MAX_WIDTH} pt-10 pb-14 lg:pt-14`}>
-        <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
-          {/* LEFT CONTENT */}
-          <div className="animate-hero-left">
-            <div className="inline-flex items-center text-[11px] font-medium text-slate-600">
-              <span className="mr-2 h-2 w-2 rounded-full bg-[#ffb800]" />
-              Online training designed for real students and staff
-            </div>
+      <section className="relative isolate overflow-hidden bg-slate-950">
+        <div className="absolute inset-0">
+          <Image
+            src={heroImg}
+            alt="Students learning online"
+            fill
+            priority
+            className="h-full w-full object-cover"
+          />
+        </div>
 
-            <h1 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl xl:text-[2.6rem]">
-              Online courses to build the{" "}
-              <span className="text-[#ffb800]">right skills</span> at the right
-              time.
-            </h1>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/30" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950/90 to-transparent" />
 
-            <p className="mt-4 max-w-2xl text-sm sm:text-base text-slate-600">
-              Explore short online courses in Business, IT, Health & Social
-              Care, and Mental Wellbeing. Learn at your own pace with clear
-              outcomes and certificates that support applications and career
-              growth.
-            </p>
+        <div className={`${MAX_WIDTH} relative`}>
+          <div className="flex min-h-[520px] flex-col justify-center py-16 sm:min-h-[560px] lg:min-h-[640px]">
+            <motion.div
+              className="max-w-2xl space-y-6"
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+            >
+              <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.7rem]">
+                Build the <span className="text-[#ffb800]">right skills</span>{" "}
+                with flexible online training.
+              </h1>
 
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              <a
-                href="#courses"
-                className="rounded-full bg-[#ffb800] px-6 py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffd34a]"
-              >
-                Browse all courses
-              </a>
-              <Link
-                href="/contact"
-                className="rounded-full border border-slate-300 px-6 py-2.5 text-sm font-semibold text-slate-800 hover:border-slate-400 hover:bg-slate-50"
-              >
-                Book a free consultation
-              </Link>
-            </div>
+              <p className="max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
+                Short, focused online courses in Business, IT, Health & Social
+                Care, and Mental Wellbeing. Learn at your own pace with clear
+                outcomes and certificates that support applications and career
+                growth.
+              </p>
 
-            <dl className="mt-8 flex flex-wrap gap-10 text-sm">
-              <div>
-                <dt className="text-slate-500">Main course areas</dt>
-                <dd className="mt-1 text-lg font-semibold">4 key pathways</dd>
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href="#courses"
+                  className="inline-flex items-center justify-center rounded-full bg-[#ffb800] px-7 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-[#ffd34a]"
+                >
+                  Browse all courses
+                </a>
+
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10 hover:text-white"
+                >
+                  Talk to our course team
+                </Link>
               </div>
-              <div>
-                <dt className="text-slate-500">Study style</dt>
-                <dd className="mt-1 text-lg font-semibold">
-                  100% online · self-paced
-                </dd>
-              </div>
-            </dl>
-          </div>
 
-          {/* RIGHT HERO IMAGE */}
-          <div className="animate-hero-right">
-            <div className="relative h-[260px] w-full overflow-hidden rounded-2xl sm:h-[320px] lg:h-[360px]">
-              <Image
-                src={heroImg}
-                alt="Online courses"
-                fill
-                className="object-cover"
-                priority
-              />
-
-              {/* soft transparent overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-black/15 to-transparent" />
-
-              <div className="absolute inset-0 flex items-end p-6">
-                <div className="max-w-md">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-yellow-300">
-                    Online learning
+              <motion.div
+                className="mt-4 inline-flex flex-wrap gap-8 rounded-2xl bg-black/20 px-5 py-4 text-sm text-white/85 backdrop-blur-md"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.25 }}
+              >
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-white/60">
+                    Main course areas
                   </p>
-                  <h2 className="mt-2 text-xl font-semibold text-white">
-                    Learn anytime, anywhere.
-                  </h2>
-                  <p className="mt-1 text-sm text-white/90">
-                    Flexible online courses with real-world skills and
-                    certificates to support your next step.
+                  <p className="mt-1 text-base font-semibold text-white">
+                    4 key pathways
                   </p>
                 </div>
-              </div>
-            </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-white/60">
+                    Study style
+                  </p>
+                  <p className="mt-1 text-base font-semibold text-white">
+                    100% online · self-paced
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-white/60">
+                    Ideal for
+                  </p>
+                  <p className="mt-1 text-base font-semibold text-white">
+                    Students, staff & professionals
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ================ COURSE LIST ================ */}
       <section
         id="courses"
         className={`border-t border-slate-200 bg-white ${MAX_WIDTH} pb-20 pt-12`}
       >
         <div className="flex flex-col gap-8 lg:flex-row">
-          {/* FILTER SIDEBAR */}
           <aside className="w-full lg:w-72">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Course areas
@@ -161,19 +161,24 @@ export default function OnlineCoursesPage() {
             </div>
           </aside>
 
-          {/* COURSES GRID (no animation) */}
           <div className="flex-1">
-            <div className="flex items-end justify-between gap-3">
+            <motion.div
+              className="flex items-end justify-between gap-3"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   Online courses
                 </p>
                 <h2 className="mt-2 text-xl font-semibold sm:text-2xl">
-                  Learn in a way that fits your life.
+                  Find the right online course for your goals.
                 </h2>
                 <p className="mt-1 text-sm text-slate-600">
                   {activeCategory === "All"
-                    ? "All available online courses across Business, IT, Health & Social Care, and Mental Wellbeing."
+                    ? "Browse flexible online courses in Business Skills, IT & Cyber Security, Health & Social Care, and Counselling, Mental Health & Wellbeing."
                     : categories.find((c) => c.id === activeCategory)
                         ?.description}
                 </p>
@@ -186,13 +191,21 @@ export default function OnlineCoursesPage() {
                 </span>{" "}
                 course(s)
               </p>
-            </div>
+            </motion.div>
 
             <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {filteredCourses.map((course) => (
-                <article
+              {filteredCourses.map((course, index) => (
+                <motion.article
                   key={course.id}
-                  className="group flex flex-col overflow-hidden border border-slate-200 hover:border-slate-300 transition"
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-md"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.45,
+                    ease: "easeOut",
+                    delay: index * 0.03,
+                  }}
                 >
                   <div className="relative h-40 w-full sm:h-44">
                     <Image
@@ -202,9 +215,9 @@ export default function OnlineCoursesPage() {
                       className="object-cover"
                       sizes="(min-width: 1280px) 320px, (min-width: 640px) 50vw, 100vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/10" />
 
-                    <div className="absolute bottom-3 left-3 flex gap-2 text-[11px] text-white">
+                    <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-[11px] text-white">
                       <span className="rounded-full bg-black/40 px-3 py-1">
                         {course.category}
                       </span>
@@ -250,7 +263,7 @@ export default function OnlineCoursesPage() {
                       )}
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
             </div>
           </div>

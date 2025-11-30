@@ -25,15 +25,6 @@ const partners: Partner[] = [
     certificateSummary:
       "This area will be updated with our confirmed partnership details and reference number once finalised.",
   },
-  {
-    name: "Official Test Providers",
-    logo: "/partners/pte.png",
-    alt: "Official English test providers logo",
-    certificateImage: "/partners/pte_certificate.png",
-    certificateTitle: "Test provider collaboration",
-    certificateSummary:
-      "Information about our collaboration with recognised English test providers will appear here.",
-  },
 ];
 
 export default function Partners() {
