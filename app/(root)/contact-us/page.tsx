@@ -4,30 +4,30 @@ const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 export default function ContactUsSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* Background image + lighter premium overlay */}
+    <section className="relative min-h-screen overflow-hidden bg-[#020b2c]">
+      {/* Background image + overlay */}
       <div className="absolute inset-0">
         <Image
-          src="/home/contactbuilding.png" // make sure file exists in /public/home/
+          src="/home/contactbuilding.png"
           alt="Modern education and office building"
           fill
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-[#020b2c]/40 lg:bg-gradient-to-r lg:from-[#020b2c]/55 lg:via-[#020b2c]/40 lg:to-[#020b2c]/15 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-[#020b2c]/60 lg:bg-gradient-to-r lg:from-[#020b2c]/85 lg:via-[#020b2c]/55 lg:to-[#020b2c]/25" />
       </div>
 
-      {/* Optional soft glows */}
-      <div className="pointer-events-none absolute inset-0 opacity-70">
-        <div className="absolute -top-40 -left-32 h-64 w-64 rounded-full bg-[#facc15]/15 blur-3xl" />
-        <div className="absolute -bottom-40 right-[-10%] h-72 w-72 rounded-full bg-sky-400/15 blur-3xl" />
+      {/* Soft glows – desktop only for performance */}
+      <div className="pointer-events-none absolute inset-0 opacity-70 hidden md:block">
+        <div className="absolute -top-40 -left-32 h-64 w-64 rounded-full bg-[#facc15]/18 blur-3xl" />
+        <div className="absolute -bottom-40 right-[-10%] h-72 w-72 rounded-full bg-sky-400/18 blur-3xl" />
       </div>
 
-      {/* Content */}
+      {/* Content (with page animation) */}
       <div
-        className={`${MAX_WIDTH} relative z-10 flex min-h-screen flex-col items-center gap-12 py-16 lg:flex-row lg:items-center lg:justify-between`}
+        className={`${MAX_WIDTH} animate-section relative z-10 flex min-h-screen flex-col items-center gap-10 py-14 lg:flex-row lg:items-center lg:justify-between lg:gap-14 lg:py-20`}
       >
-        {/* LEFT TEXT */}
+        {/* LEFT: text */}
         <div className="w-full text-white lg:w-[45%]">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#facc15]">
             Contact us
@@ -43,14 +43,14 @@ export default function ContactUsSection() {
             visas. No pressure, just honest guidance.
           </p>
 
-          <div className="mt-6 grid gap-4 text-sm text-slate-100/90 sm:grid-cols-2 sm:max-w-lg">
-            <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
+          <div className="mt-6 grid gap-4 text-sm text-slate-100/90 sm:max-w-lg sm:grid-cols-2">
+            <div className="rounded-xl border border-white/12 bg-white/5 px-4 py-3">
               <p className="text-[0.8rem] font-semibold uppercase tracking-wide text-[#facc15]">
                 Response time
               </p>
               <p className="mt-1 text-sm">Within 1–2 business days</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
+            <div className="rounded-xl border border-white/12 bg-white/5 px-4 py-3">
               <p className="text-[0.8rem] font-semibold uppercase tracking-wide text-[#facc15]">
                 Preferred channels
               </p>
@@ -63,8 +63,8 @@ export default function ContactUsSection() {
           </p>
         </div>
 
-        {/* RIGHT FORM BOX – slightly wider */}
-        <div className="w-full rounded-3xl border border-white/20 bg-white/95 p-7 shadow-[0_24px_70px_rgba(15,23,42,0.6)] backdrop-blur-xl lg:w-[52%] lg:p-8">
+        {/* RIGHT: form card */}
+        <div className="w-full rounded-2xl border border-white/15 bg-white/98 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.45)] sm:rounded-3xl sm:p-7 lg:w-[52%] lg:p-8">
           <h1 className="mb-2 text-center text-2xl font-semibold text-slate-900">
             Talk to our admissions team
           </h1>
@@ -109,7 +109,6 @@ export default function ContactUsSection() {
               className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-[#020b2c] focus:outline-none focus:ring-2 focus:ring-[#facc15]/60"
             />
 
-            {/* Start Year */}
             <select
               name="00N2400000EtJeo"
               defaultValue=""
@@ -125,7 +124,6 @@ export default function ContactUsSection() {
               <option>2030</option>
             </select>
 
-            {/* Study Level */}
             <select
               name="00N2400000Istrh"
               defaultValue=""
@@ -139,7 +137,6 @@ export default function ContactUsSection() {
               <option>Postgraduate</option>
             </select>
 
-            {/* Target Country */}
             <select
               name="00N2400000Istrm"
               defaultValue=""
