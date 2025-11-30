@@ -7,7 +7,7 @@ const navLinks = [
   { label: "Scholarships", href: "/scholarships" },
   { label: "Online Courses", href: "/onlinecourses" },
   { label: "Ambassadors", href: "/ambassadors" },
-  { label: "Contact", href: "/contactus" },
+  { label: "Contact", href: "/contact-us" },
 ];
 
 export default function Footer() {

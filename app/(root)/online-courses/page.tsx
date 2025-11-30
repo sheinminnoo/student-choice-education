@@ -174,7 +174,7 @@ export default function OnlineCoursesPage() {
                 </a>
 
                 <Link
-                  href="/contact"
+                  href="/contact-us"
                   className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-white"
                 >
                   Talk to our course team

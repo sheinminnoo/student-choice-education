@@ -339,14 +339,14 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   </a>
                 ) : (
                   <Link
-                    href="/contact"
+                    href="/contact-us"
                     className="inline-flex items-center justify-center rounded-full bg-[#ffb800] px-4 py-2.5 text-sm font-semibold text-slate-900 hover:bg-[#ffd34a]"
                   >
                     Enquire about this course
                   </Link>
                 )}
                 <Link
-                  href="/contact"
+                  href="/contact-us"
                   className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-2.5 text-xs font-semibold text-slate-800 hover:border-slate-400 hover:bg-slate-50"
                 >
                   Talk to an advisor first
@@ -364,7 +364,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <Link
-                  href="/contact"
+                  href="/contact-us"
                   className="rounded-full bg-[#071a3c] px-5 py-2 text-xs font-semibold text-slate-50 hover:bg-[#0c2954]"
                 >
                   Talk to an advisor

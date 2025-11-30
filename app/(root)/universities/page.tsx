@@ -1,44 +1,96 @@
-import { universities } from "@/data/universities";
-import UniversityCard from "./components/UniversityCard";
-import UniversityFilters from "./components/UniversityFilters";
+"use client";
 
-const MAX_WIDTH_CLASS = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
+import { useMemo, useState } from "react";
+import { universities } from "@/data/universities";
+
+import type { CountryFilter, CategoryFilter } from "./types";
+import UniversitiesHero from "./components/UniversityHero";
+import UniversitiesFilterBar from "./components/UniversitiesFilterBar";
+import UniversityRow from "./components/UniversityRow";
+
+const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 export default function UniversitiesPage() {
+  const [countryFilter, setCountryFilter] = useState<CountryFilter>("All");
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("All");
+  const [search, setSearch] = useState("");
+
+  const stats = useMemo(() => {
+    const total = universities.length;
+    return { total };
+  }, []);
+
+  const filteredUniversities = useMemo(() => {
+    return universities.filter((u) => {
+      if (countryFilter !== "All" && u.country !== countryFilter) return false;
+      if (categoryFilter !== "All" && u.category !== categoryFilter)
+        return false;
+
+      if (search.trim()) {
+        const term = search.toLowerCase();
+        const haystack = [
+          u.name,
+          u.city,
+          u.campus,
+          u.country,
+          u.shortDescription,
+          ...(u.popularPrograms || []),
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        if (!haystack.includes(term)) return false;
+      }
+
+      return true;
+    });
+  }, [countryFilter, categoryFilter, search]);
+
   return (
-    <div className="relative min-h-screen">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.16),transparent_55%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.16),transparent_55%),linear-gradient(to_bottom,#020617,#020617)]" />
+    <div className="bg-slate-50 pb-16">
+      <UniversitiesHero />
 
-      <div className={`${MAX_WIDTH_CLASS} pt-10 pb-20 space-y-6 sm:space-y-8`}>
-        <header className="space-y-3">
-          <p className="text-[0.7rem] sm:text-xs uppercase tracking-[0.22em] text-emerald-300/80 font-semibold">
-            United Kingdom • Partner universities
-          </p>
-
-          <div className="flex flex-wrap items-end justify-between gap-2">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-50">
-              {universities.length} Universities in the UK
-            </h1>
-            <span className="text-xs sm:text-sm text-slate-400">
-              Curated by Student Choice Education
-            </span>
-          </div>
-
-          <p className="max-w-2xl text-sm sm:text-base text-slate-300">
-            Explore a curated selection of UK universities partnered with
-            Student Choice Education. Compare locations, rankings and key facts,
-            then open each profile for more details.
-          </p>
-        </header>
-
-        <UniversityFilters />
-
-        <div className="grid gap-4 lg:gap-6 xl:grid-cols-2">
-          {universities.map((uni) => (
-            <UniversityCard key={uni.slug} uni={uni} />
-          ))}
+      <section className="bg-white pb-6 pt-4">
+        <div className={MAX_WIDTH}>
+          <UniversitiesFilterBar
+            stats={stats}
+            countryFilter={countryFilter}
+            categoryFilter={categoryFilter}
+            search={search}
+            onCountryChange={setCountryFilter}
+            onCategoryChange={setCategoryFilter}
+            onSearchChange={setSearch}
+            onClearAll={() => {
+              setCountryFilter("All");
+              setCategoryFilter("All");
+              setSearch("");
+            }}
+            resultCount={filteredUniversities.length}
+          />
         </div>
-      </div>
+      </section>
+
+      <section id="universities-list" className="pt-6">
+        <div className={MAX_WIDTH}>
+          {filteredUniversities.length === 0 ? (
+            <div className="flex min-h-[200px] flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white py-10 text-center">
+              <p className="text-sm font-semibold text-slate-700">
+                No institutions match your filters.
+              </p>
+              <p className="mt-1 max-w-md text-xs text-slate-500">
+                Try removing one of the filters or using a broader keyword such
+                as &quot;Business&quot; or &quot;Computer Science&quot;.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredUniversities.map((u) => (
+                <UniversityRow key={u.slug} uni={u} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
