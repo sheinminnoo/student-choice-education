@@ -3,23 +3,41 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const STORAGE_KEY = "sce_cookie_consent";
+const COOKIE_NAME = "sce_cookie_consent";
 
 type ConsentValue = "accepted" | "essential";
 
+function readConsent(): ConsentValue | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(
+    new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`)
+  );
+  if (!match) return null;
+  const value = decodeURIComponent(match[1]);
+  if (value === "accepted" || value === "essential") return value;
+  return null;
+}
+
+function setConsent(value: ConsentValue) {
+  if (typeof document === "undefined") return;
+  const maxAge = 60 * 60 * 24 * 180;
+  document.cookie = `${COOKIE_NAME}=${encodeURIComponent(
+    value
+  )}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+}
+
 export default function CookieConsentBanner() {
   const [isVisible, setIsVisible] = useState(() => {
-    if (typeof window === "undefined") return false;
-    const existing = window.localStorage.getItem(STORAGE_KEY);
-    return !existing;
+    const consent = readConsent();
+    return !consent;
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // Effect cleanup or other side effects can go here
+  }, []);
 
   const handleConsent = (value: ConsentValue) => {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY, value);
-    }
+    setConsent(value);
     setIsVisible(false);
   };
 
@@ -38,8 +56,7 @@ export default function CookieConsentBanner() {
             </p>
             <p className="text-xs text-slate-300">
               Essential cookies are always on. Optional analytics cookies help
-              us understand how students use our site. You can change your
-              choice at any time in our{" "}
+              us understand how students use our site. You can learn more in our{" "}
               <Link
                 href="/privacy"
                 className="font-semibold text-yellow-300 underline-offset-2 hover:underline"
