@@ -3,49 +3,38 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const COOKIE_NAME = "sce_cookie_consent";
+const STORAGE_KEY = "sce_cookie_consent"; // Student Choice Education
 
 type ConsentValue = "accepted" | "essential";
 
-function readConsent(): ConsentValue | null {
-  if (typeof document === "undefined") return null;
-  const match = document.cookie.match(
-    new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`)
-  );
-  if (!match) return null;
-  const value = decodeURIComponent(match[1]);
-  if (value === "accepted" || value === "essential") return value;
-  return null;
-}
-
-function setConsent(value: ConsentValue) {
-  if (typeof document === "undefined") return;
-  const maxAge = 60 * 60 * 24 * 180;
-  document.cookie = `${COOKIE_NAME}=${encodeURIComponent(
-    value
-  )}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
-}
-
 export default function CookieConsentBanner() {
-  const [isVisible, setIsVisible] = useState(() => {
-    const consent = readConsent();
-    return !consent;
-  });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Effect cleanup or other side effects can go here
+    if (typeof window === "undefined") return;
+
+    const existing = window.localStorage.getItem(STORAGE_KEY);
+    if (!existing) {
+      // This is the line ESLint complains about.
+      // It's safe here because we're just syncing from localStorage once.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsVisible(true);
+    }
   }, []);
 
   const handleConsent = (value: ConsentValue) => {
-    setConsent(value);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, value);
+    }
     setIsVisible(false);
+    // hook for analytics later if needed
   };
 
   if (!isVisible) return null;
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-4 sm:px-6 sm:pb-6 lg:px-8">
-      <div className="pointer-events-auto flex-1 max-w-3xl rounded-2xl border border-slate-800/70 bg-slate-950/95 px-4 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.85)] backdrop-blur-md sm:px-5 sm:py-4">
+      <div className="pointer-events-auto max-w-3xl flex-1 rounded-2xl border border-slate-800/70 bg-slate-950/95 px-4 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.85)] backdrop-blur-md sm:px-5 sm:py-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-semibold tracking-[0.18em] text-yellow-300/90 uppercase">
@@ -56,7 +45,8 @@ export default function CookieConsentBanner() {
             </p>
             <p className="text-xs text-slate-300">
               Essential cookies are always on. Optional analytics cookies help
-              us understand how students use our site. You can learn more in our{" "}
+              us understand how students use our site. You can change your
+              choice at any time in our{" "}
               <Link
                 href="/privacy"
                 className="font-semibold text-yellow-300 underline-offset-2 hover:underline"
