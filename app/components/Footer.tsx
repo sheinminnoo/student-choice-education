@@ -121,17 +121,11 @@ export default function Footer() {
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="/legal/terms"
-              className="transition hover:text-yellow-600"
-            >
+            <Link href="/terms" className="transition hover:text-yellow-600">
               Terms
             </Link>
             <span className="hidden text-slate-400 md:inline">•</span>
-            <Link
-              href="/legal/privacy"
-              className="transition hover:text-yellow-600"
-            >
+            <Link href="/privacy" className="transition hover:text-yellow-600">
               Privacy
             </Link>
           </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import CookieConsentBanner from "./components/CookieConsentBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="font-inter antialiased bg-[#020b1b]">{children}</body>
+      <body className="font-inter antialiased bg-[#020b1b]">
+        {children}
+        <CookieConsentBanner />
+      </body>
     </html>
   );
 }
