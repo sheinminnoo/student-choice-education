@@ -64,6 +64,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
       />
 
       <div className="min-h-screen bg-white text-slate-900">
+        {/* ========== HERO ========== */}
         <section className="relative overflow-hidden bg-slate-950">
           <div className="absolute inset-0">
             <Image
@@ -88,18 +89,18 @@ export default function UniversityDetailsClient({ uni }: Props) {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
-              className="flex flex-col gap-4 text-xs text-slate-100"
+              className="flex flex-col gap-4 text-sm text-slate-100 md:text-base"
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-col gap-2">
                   <Link
                     href="/universities"
-                    className="inline-flex w-max items-center gap-1 rounded-full bg-slate-950/90 px-3 py-1 text-[11px] font-medium text-slate-100/90 backdrop-blur"
+                    className="inline-flex w-max items-center gap-1 rounded-full bg-slate-950/90 px-3 py-1 text-xs font-medium text-slate-100/90 sm:text-sm backdrop-blur"
                   >
                     <span>←</span>
                     <span>Back to all universities</span>
                   </Link>
-                  <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-300/90">
+                  <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-300/90 sm:text-[0.8rem]">
                     Universities <span className="mx-1 text-slate-500">/</span>
                     <span className="text-slate-100/95">{uni.name}</span>
                   </p>
@@ -107,12 +108,12 @@ export default function UniversityDetailsClient({ uni }: Props) {
 
                 <div className="flex flex-wrap items-center gap-2">
                   {uni.rankingBadge && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-400/20 px-3 py-1 text-[11px] font-semibold text-emerald-100 shadow-[0_0_40px_rgba(16,185,129,0.45)]">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-semibold text-emerald-100 shadow-[0_0_40px_rgba(16,185,129,0.45)] sm:text-[0.8rem]">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
                       {uni.rankingBadge}
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-950/80 px-3 py-1 text-[11px] font-medium text-slate-100/90">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-950/80 px-3 py-1 text-xs font-medium text-slate-100/90 sm:text-[0.8rem]">
                     {uni.country} • {uni.city}
                   </span>
                 </div>
@@ -128,7 +129,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                       duration: 0.55,
                       ease: "easeOut",
                     }}
-                    className="inline-flex items-center gap-2 rounded-full bg-slate-950/90 px-3 py-1 text-[11px] font-medium text-slate-100/90 backdrop-blur"
+                    className="inline-flex items-center gap-2 rounded-full bg-slate-950/90 px-3 py-1 text-xs font-medium text-slate-100/90 sm:text-sm backdrop-blur"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                     Featured international study destination
@@ -138,7 +139,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
-                    className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.6rem]"
+                    className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.7rem]"
                   >
                     {uni.name}
                   </motion.h1>
@@ -151,7 +152,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                       duration: 0.55,
                       ease: "easeOut",
                     }}
-                    className="text-sm leading-relaxed text-slate-100/90 sm:max-w-xl sm:text-[0.94rem]"
+                    className="text-base leading-relaxed text-slate-100/90 sm:max-w-xl sm:text-lg md:text-[1.1rem]"
                   >
                     {uni.shortDescription}
                   </motion.p>
@@ -160,7 +161,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.16, duration: 0.5, ease: "easeOut" }}
-                    className="text-[11px] text-slate-300/90"
+                    className="text-xs text-slate-300/90 sm:text-sm md:text-[0.95rem]"
                   >
                     Public institution • Est. {uni.established} •{" "}
                     {uni.intakes.join(" / ")} intakes
@@ -180,12 +181,12 @@ export default function UniversityDetailsClient({ uni }: Props) {
                       href={uni.website}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-4 py-1 text-xs font-semibold text-slate-950 shadow-[0_16px_40px_rgba(251,191,36,0.55)] transition hover:bg-amber-300"
+                      className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-4 py-1.5 text-sm font-semibold text-slate-950 shadow-[0_16px_40px_rgba(251,191,36,0.55)] transition hover:bg-amber-300 sm:text-base"
                     >
                       Visit official website
-                      <span className="text-[10px]">↗</span>
+                      <span className="text-[0.7rem]">↗</span>
                     </Link>
-                    <span className="text-[11px] text-slate-200/80">
+                    <span className="text-xs text-slate-200/80 sm:text-sm md:text-[0.95rem]">
                       Application support available via Student Choice Education
                     </span>
                   </motion.div>
@@ -199,7 +200,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                         duration: 0.5,
                         ease: "easeOut",
                       }}
-                      className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-slate-950/80 px-3 py-2 text-[11px] text-slate-100/90 backdrop-blur"
+                      className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-slate-950/80 px-3 py-2 text-xs text-slate-100/90 sm:text-sm md:text-[0.95rem] backdrop-blur"
                     >
                       <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-400/20 text-[13px] text-emerald-300">
                         G
@@ -229,30 +230,34 @@ export default function UniversityDetailsClient({ uni }: Props) {
                     </div>
 
                     <div className="space-y-0.5">
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                      <p className="text-[0.7rem] uppercase tracking-[0.16em] text-slate-400 sm:text-xs">
                         Institution profile
                       </p>
-                      <p className="line-clamp-2 text-xs font-semibold text-slate-50">
+                      <p className="line-clamp-2 text-sm font-semibold text-slate-50 sm:text-base">
                         {uni.name}
                       </p>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-[0.7rem] text-slate-400 sm:text-xs">
                         {uni.city}, {uni.country}
                       </p>
                     </div>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-700 pt-3 text-[11px] text-slate-100">
+                  <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-700 pt-3 text-xs text-slate-100 sm:text-sm">
                     <div className="space-y-0.5">
-                      <p className="text-[10px] uppercase tracking-[0.16em] text-slate-500">
+                      <p className="text-[0.7rem] uppercase tracking-[0.16em] text-slate-500 sm:text-xs">
                         Intakes
                       </p>
-                      <p className="text-xs">{uni.intakes.join(" • ")}</p>
+                      <p className="text-sm sm:text-base">
+                        {uni.intakes.join(" • ")}
+                      </p>
                     </div>
                     <div className="space-y-0.5">
-                      <p className="text-[10px] uppercase tracking-[0.16em] text-slate-500">
+                      <p className="text-[0.7rem] uppercase tracking-[0.16em] text-slate-500 sm:text-xs">
                         Study modes
                       </p>
-                      <p className="text-xs">{uni.studyModes.join(" • ")}</p>
+                      <p className="text-sm sm:text-base">
+                        {uni.studyModes.join(" • ")}
+                      </p>
                     </div>
                   </div>
                 </motion.div>
@@ -261,32 +266,34 @@ export default function UniversityDetailsClient({ uni }: Props) {
           </div>
         </section>
 
+        {/* ========== MAIN CONTENT ========== */}
         <section className="bg-white pb-16 pt-8 sm:pt-10">
           <div className={MAX_WIDTH}>
             <motion.div
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
-              className="space-y-10"
+              className="space-y-10 text-[0.97rem] md:text-[1.05rem]"
             >
+              {/* Overview */}
               <div className="space-y-3 border-b border-slate-200 pb-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-700">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700 sm:text-sm">
                   Overview
                 </p>
-                <h2 className="text-lg font-semibold tracking-tight text-slate-950 sm:text-xl">
+                <h2 className="text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl md:text-[1.6rem]">
                   Study at {uni.name}
                 </h2>
-                <p className="max-w-2xl text-sm leading-relaxed text-slate-700">
+                <p className="max-w-2xl text-base leading-relaxed text-slate-700 md:text-[1.08rem]">
                   {uni.fullDescription}
                 </p>
 
-                <div className="mt-5 flex flex-wrap gap-y-3 gap-x-10 text-xs">
+                <div className="mt-5 flex flex-wrap gap-y-3 gap-x-10 text-sm md:text-[1.02rem]">
                   {quickFacts.map((fact) => (
                     <div key={fact.label} className="space-y-0.5">
-                      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
+                      <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-500 sm:text-[0.8rem]">
                         {fact.label}
                       </p>
-                      <p className="text-sm font-semibold text-slate-900">
+                      <p className="text-base font-semibold text-slate-900 md:text-[1.08rem]">
                         {fact.value}
                       </p>
                     </div>
@@ -294,12 +301,13 @@ export default function UniversityDetailsClient({ uni }: Props) {
                 </div>
               </div>
 
+              {/* Why + Popular programmes */}
               <div className="grid gap-10 lg:grid-cols-2">
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-slate-950">
+                  <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                     Why this university?
                   </h3>
-                  <ul className="space-y-2.5 text-sm text-slate-700">
+                  <ul className="space-y-2.5 text-base text-slate-700 md:text-[1.08rem]">
                     {reasons.map((item) => (
                       <li key={item} className="flex items-start gap-2.5">
                         <span className="mt-1 inline-flex h-1.5 w-1.5 flex-none rounded-full bg-emerald-500" />
@@ -310,10 +318,10 @@ export default function UniversityDetailsClient({ uni }: Props) {
                 </div>
 
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-slate-950">
+                  <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                     Popular programmes for international students
                   </h3>
-                  <div className="space-y-1.5 text-sm text-slate-800">
+                  <div className="space-y-1.5 text-base text-slate-800 md:text-[1.05rem]">
                     {uni.popularPrograms.map((program) => (
                       <div
                         key={program}
@@ -322,7 +330,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                         <span className="line-clamp-1 font-medium">
                           {program}
                         </span>
-                        <span className="text-[10px] uppercase tracking-[0.16em] text-emerald-600">
+                        <span className="text-[0.7rem] uppercase tracking-[0.16em] text-emerald-600 sm:text-xs">
                           In demand
                         </span>
                       </div>
@@ -331,39 +339,41 @@ export default function UniversityDetailsClient({ uni }: Props) {
                 </div>
               </div>
 
+              {/* Requirements + English */}
               <div className="space-y-8 border-t border-slate-200 pt-8">
                 <div className="grid gap-8 lg:grid-cols-2">
+                  {/* Academic */}
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold text-slate-950">
+                    <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                       Academic entry requirements
                     </h3>
-                    <div className="space-y-4 text-xs text-slate-700">
+                    <div className="space-y-4 text-sm text-slate-700 md:text-[1.02rem]">
                       {academicRequirements.foundation && (
                         <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[0.8rem]">
                             Foundation / pathway
                           </p>
-                          <p className="mt-1 leading-relaxed text-sm">
+                          <p className="mt-1 leading-relaxed text-base md:text-[1.08rem]">
                             {academicRequirements.foundation}
                           </p>
                         </div>
                       )}
                       {academicRequirements.undergraduate && (
                         <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[0.8rem]">
                             Undergraduate (BSc/BA)
                           </p>
-                          <p className="mt-1 leading-relaxed text-sm">
+                          <p className="mt-1 leading-relaxed text-base md:text-[1.08rem]">
                             {academicRequirements.undergraduate}
                           </p>
                         </div>
                       )}
                       {academicRequirements.postgraduate && (
                         <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[0.8rem]">
                             Postgraduate (Masters)
                           </p>
-                          <p className="mt-1 leading-relaxed text-sm">
+                          <p className="mt-1 leading-relaxed text-base md:text-[1.08rem]">
                             {academicRequirements.postgraduate}
                           </p>
                         </div>
@@ -371,30 +381,32 @@ export default function UniversityDetailsClient({ uni }: Props) {
                     </div>
                   </div>
 
+                  {/* English */}
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold text-slate-950">
+                    <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                       English language requirements
                     </h3>
-                    <div className="space-y-3 text-xs text-slate-700">
+                    <div className="space-y-3 text-sm text-slate-700 md:text-[1.02rem]">
                       <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[0.8rem]">
                           Standard requirement
                         </p>
-                        <p className="mt-1 leading-relaxed text-sm">
+                        <p className="mt-1 leading-relaxed text-base md:text-[1.08rem]">
                           {englishRequirements.standard}
                         </p>
                       </div>
                       {englishRequirements.alternatives && (
                         <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 sm:text-[0.8rem]">
                             Alternatives
                           </p>
-                          <p className="mt-1 leading-relaxed text-sm">
+                          <p className="mt-1 leading-relaxed text-base md:text-[1.08rem]">
                             {englishRequirements.alternatives}
                           </p>
                         </div>
                       )}
-                      <p className="text-[10px] text-slate-500">
+                      {/* IMPORTANT line – amber */}
+                      <p className="text-sm font-semibold text-amber-700 md:text-[0.98rem]">
                         Exact scores can change by course and intake. Your
                         counsellor will confirm what you personally need.
                       </p>
@@ -402,17 +414,19 @@ export default function UniversityDetailsClient({ uni }: Props) {
                   </div>
                 </div>
 
+                {/* Tuition + Scholarships */}
                 <div className="grid gap-10 lg:grid-cols-[minmax(0,1.7fr),minmax(0,1.3fr)]">
+                  {/* Tuition */}
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold text-slate-950">
+                    <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                       Tuition fee guide
                     </h3>
-                    <p className="text-xs text-slate-600">
+                    <p className="text-sm text-slate-600 md:text-[0.98rem]">
                       Fees below are typical bands. Exact amounts change by
                       course and year.
                     </p>
                     <div className="mt-3 overflow-x-auto">
-                      <table className="w-full border-collapse text-xs">
+                      <table className="w-full border-collapse text-sm md:text-base">
                         <thead className="border-b border-slate-200 bg-slate-50">
                           <tr>
                             <th className="px-3 py-2 text-left font-medium text-slate-700">
@@ -454,18 +468,20 @@ export default function UniversityDetailsClient({ uni }: Props) {
                         </tbody>
                       </table>
                     </div>
-                    <p className="text-[10px] text-slate-500">
+                    {/* IMPORTANT line – amber */}
+                    <p className="text-sm font-semibold text-amber-700 md:text-[0.98rem]">
                       Currency, instalment plans and deposit amounts will be
                       checked for you when you apply.
                     </p>
                   </div>
 
+                  {/* Scholarships */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-slate-950">
+                    <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                       Scholarships and discounts
                     </h3>
                     {uni.scholarships && uni.scholarships.length > 0 ? (
-                      <ul className="space-y-2.5 text-xs text-slate-700">
+                      <ul className="space-y-2.5 text-sm text-slate-700 md:text-[1.02rem]">
                         {uni.scholarships.map((s) => (
                           <li key={s.name} className="space-y-0.5">
                             <p className="font-semibold text-slate-900">
@@ -476,24 +492,26 @@ export default function UniversityDetailsClient({ uni }: Props) {
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-xs text-slate-700">
+                      <p className="text-sm text-slate-700 md:text-[1.02rem]">
                         This institution often provides bursaries or
                         scholarships for international students. Your counsellor
                         will confirm what is open for your intake.
                       </p>
                     )}
-                    <p className="text-[10px] text-slate-500">
+                    {/* IMPORTANT line – amber and stronger */}
+                    <p className="text-sm font-semibold text-amber-700 md:text-[0.98rem]">
                       Scholarships are competitive and may require strong
                       grades, a separate application or an offer letter.
                     </p>
                   </div>
                 </div>
 
+                {/* Living & accommodation */}
                 <div className="space-y-6 border-t border-slate-200 pt-8">
-                  <h3 className="text-sm font-semibold text-slate-950">
+                  <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                     Living costs & accommodation
                   </h3>
-                  <div className="grid gap-8 text-xs text-slate-700 lg:grid-cols-2">
+                  <div className="grid gap-8 text-sm text-slate-700 md:grid-cols-2 md:text-[1.02rem]">
                     <div className="space-y-2">
                       <p className="font-semibold text-slate-900">
                         Living costs in {uni.city}, {uni.country}
@@ -502,7 +520,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                         {livingCosts?.summary ??
                           "Living costs depend on your lifestyle and the part of the city where you stay, but you should plan a clear monthly budget for rent, food, travel and personal expenses."}
                       </p>
-                      <p className="pt-2 text-xs font-medium text-slate-900">
+                      <p className="pt-2 text-sm font-semibold text-slate-900 md:text-[1.02rem]">
                         Typical monthly total
                       </p>
                       <p>
@@ -543,7 +561,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
                               <p className="font-medium text-slate-900">
                                 {opt.name}
                               </p>
-                              <p className="text-xs text-slate-700">
+                              <p className="text-sm text-slate-700 md:text-[1.02rem]">
                                 {opt.description}
                               </p>
                             </li>
@@ -556,7 +574,8 @@ export default function UniversityDetailsClient({ uni }: Props) {
                           as shared flats, homestays or student residences.
                         </p>
                       )}
-                      <p className="pt-1 text-[10px] text-slate-500">
+                      {/* IMPORTANT line – amber */}
+                      <p className="pt-1 text-sm font-semibold text-amber-700 md:text-[0.98rem]">
                         Exact prices change every year. We will give you an
                         updated budget and housing advice when you apply.
                       </p>
@@ -564,12 +583,13 @@ export default function UniversityDetailsClient({ uni }: Props) {
                   </div>
                 </div>
 
+                {/* Next steps */}
                 <div className="grid gap-6 border-t border-slate-200 pt-8 lg:grid-cols-2">
-                  <div className="space-y-2 text-xs text-slate-700">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600">
+                  <div className="space-y-2 text-sm text-slate-700 md:text-[1.02rem]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 sm:text-sm">
                       Next steps
                     </p>
-                    <h3 className="text-sm font-semibold text-slate-950">
+                    <h3 className="text-base font-semibold text-slate-950 sm:text-lg md:text-xl">
                       Get tailored advice for {uni.name}
                     </h3>
                     <p>
@@ -581,14 +601,14 @@ export default function UniversityDetailsClient({ uni }: Props) {
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href="/contact-us"
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-3.5 py-1.5 text-xs font-semibold text-slate-50 transition hover:bg-slate-900"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-3.5 py-1.5 text-sm font-semibold text-slate-50 transition hover:bg-slate-900 md:text-base"
                     >
                       Talk to a counsellor
-                      <span className="text-[10px]">→</span>
+                      <span className="text-[0.7rem]">→</span>
                     </Link>
                     <Link
                       href="/ambassadors"
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-950"
+                      className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-950 md:text-base"
                     >
                       Connect with student ambassadors
                     </Link>
