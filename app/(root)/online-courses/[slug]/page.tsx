@@ -125,8 +125,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 src={course.image}
                 alt={course.title}
                 fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"
               />
+
               <div className="absolute inset-0 bg-gradient-to-tr from-black/45 via-black/15 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 text-[11px] text-white">
                 <span className="rounded-full bg-black/40 px-3 py-1">

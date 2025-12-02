@@ -1,11 +1,41 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Contact Us | Student Choice Education",
+  description:
+    "Contact Student Choice Education for free advice on courses, universities, scholarships and student visas. Our admissions team replies within 1–2 business days.",
+  alternates: {
+    canonical: "/contact-us",
+  },
+  openGraph: {
+    title: "Contact Student Choice Education",
+    description:
+      "Share your study plans and our admissions team will help you choose the right course, university and country.",
+    url: "https://student-choice-education.com/contact-us",
+    type: "website",
+    siteName: "Student Choice Education",
+    images: [
+      {
+        url: "https://student-choice-education.com/og/contact-us-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Contact Student Choice Education",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Student Choice Education",
+    description: "Talk to our admissions team about your study abroad options.",
+  },
+};
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
-export default function ContactUsSection() {
+export default function ContactUsPage() {
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#020b2c]">
-      {/* Background image + overlay */}
       <div className="absolute inset-0">
         <Image
           src="/home/contactbuilding.png"
@@ -17,17 +47,14 @@ export default function ContactUsSection() {
         <div className="absolute inset-0 bg-[#020b2c]/60 lg:bg-gradient-to-r lg:from-[#020b2c]/85 lg:via-[#020b2c]/55 lg:to-[#020b2c]/25" />
       </div>
 
-      {/* Soft glows – desktop only for performance */}
       <div className="pointer-events-none absolute inset-0 opacity-70 hidden md:block">
         <div className="absolute -top-40 -left-32 h-64 w-64 rounded-full bg-[#facc15]/18 blur-3xl" />
         <div className="absolute -bottom-40 right-[-10%] h-72 w-72 rounded-full bg-sky-400/18 blur-3xl" />
       </div>
 
-      {/* Content (with page animation) */}
       <div
         className={`${MAX_WIDTH} animate-section relative z-10 flex min-h-screen flex-col items-center gap-10 py-14 lg:flex-row lg:items-center lg:justify-between lg:gap-14 lg:py-20`}
       >
-        {/* LEFT: text */}
         <div className="w-full text-white lg:w-[45%]">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#facc15]">
             Contact us
@@ -63,7 +90,6 @@ export default function ContactUsSection() {
           </p>
         </div>
 
-        {/* RIGHT: form card */}
         <div className="w-full rounded-2xl border border-white/15 bg-white/98 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.45)] sm:rounded-3xl sm:p-7 lg:w-[52%] lg:p-8">
           <h1 className="mb-2 text-center text-2xl font-semibold text-slate-900">
             Talk to our admissions team
