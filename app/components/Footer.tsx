@@ -66,9 +66,9 @@ export default function Footer() {
 
             <div className="space-y-2 text-slate-600">
               <p className="text-[13px] leading-relaxed">
-                Flat 1, 8A Nightingales Corner,
+                124 City Road, London City Road,
                 <br />
-                Little Chalfont, London, UK
+                London, England, EC1V 2NX
               </p>
 
               <div className="space-y-1 text-[13px]">

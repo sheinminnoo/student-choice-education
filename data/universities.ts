@@ -949,4 +949,210 @@ export const universities: University[] = [
       },
     ],
   },
+  {
+    slug: "northumbria-university-newcastle",
+    name: "Northumbria University Newcastle",
+    country: "UK",
+    city: "Newcastle upon Tyne",
+    campus: "City Campus & Coach Lane Campus",
+    category: "University",
+    website: "https://www.northumbria.ac.uk/",
+
+    logo: "/home/northumbria-newcastle.png",
+    campusImage: "/campus/northumbria-newcastle.jpg",
+
+    established: 1969,
+    rankingBadge: "Top UK Modern University",
+
+    shortDescription:
+      "Top northern UK university with strong research and industry links.",
+    fullDescription:
+      "Northumbria University Newcastle is a leading modern UK university known for strong teaching quality, research impact, and graduate employment across business, engineering, health and computing.",
+
+    highlights: [
+      "Large modern city campus",
+      "Top UK graduate employability",
+      "Strong research reputation",
+      "Lower living costs than London",
+    ],
+
+    popularPrograms: [
+      "Mechanical Engineering",
+      "Computer Science",
+      "Architecture",
+      "Business Management",
+      "Nursing & Health Sciences",
+    ],
+
+    intakes: ["January", "September"],
+    studyModes: ["On-campus"],
+
+    academicRequirements: {
+      foundation:
+        "Completion of high school with strong grades in relevant subjects or equivalent pathway qualification.",
+      undergraduate:
+        "A-levels, IB, HDIN or equivalent international qualification meeting course-specific requirements.",
+      postgraduate:
+        "Bachelor’s degree with minimum second-class level or equivalent international GPA.",
+    },
+
+    englishRequirements: {
+      standard:
+        "IELTS 6.0–6.5 overall depending on course, with no band below 5.5.",
+      alternatives:
+        "PTE, TOEFL and pre-sessional English routes are available for eligible students.",
+    },
+
+    tuitionFees: {
+      undergraduate: {
+        home: "From ~£9,250 per year",
+        international: "From ~£15,500–£18,000 per year",
+      },
+      postgraduate: {
+        home: "From ~£10,500 per year",
+        international: "From ~£16,500–£20,000 per year",
+      },
+    },
+
+    scholarships: [
+      {
+        name: "Northumbria Global Scholarships",
+        description:
+          "Automatic tuition discounts for international students based on academic performance.",
+      },
+    ],
+
+    whyThisUniversity: [
+      "Much lower living costs compared to London.",
+      "Very high student satisfaction and employability.",
+      "Strong engineering, tech, business and health faculties.",
+    ],
+
+    livingCosts: {
+      summary:
+        "Newcastle offers one of the most affordable student lifestyles in the UK.",
+      typicalMonthlyTotal:
+        "Around £800–£1,050 per month including rent, food and transport.",
+      onCampusFrom: "University accommodation from around £450–£650 per month.",
+      privateRentFrom:
+        "Shared private housing from around £350–£550 per month.",
+    },
+
+    accommodationOptions: [
+      {
+        name: "University halls",
+        description:
+          "Modern on-campus and nearby halls with en-suite and shared room options.",
+      },
+      {
+        name: "Private student housing",
+        description:
+          "Affordable shared houses and flats across Newcastle neighbourhoods.",
+      },
+    ],
+  },
+
+  {
+    slug: "northumbria-university-london",
+    name: "Northumbria University London",
+    country: "UK",
+    city: "London",
+    campus: "London Campus",
+    category: "University",
+    website:
+      "https://www.northumbria.ac.uk/study-at-northumbria/coming-to-northumbria/london/",
+
+    logo: "/home/northumbria-london.png",
+    campusImage: "/campus/northumbria-london.jpg",
+
+    established: 1969,
+    rankingBadge: "Top UK Modern University",
+
+    shortDescription: "Business and tech degrees in Central London.",
+    fullDescription:
+      "Northumbria University London offers highly career-focused degrees in business, computing and project management, based in the heart of Central London with strong industry connections.",
+
+    highlights: [
+      "Central London location",
+      "Strong business & tech focus",
+      "Excellent employability support",
+      "Industry-linked teaching",
+    ],
+
+    popularPrograms: [
+      "MBA",
+      "Cyber Security",
+      "Business Management",
+      "Project Management",
+      "Data Science",
+    ],
+
+    intakes: ["January", "May", "September"],
+    studyModes: ["On-campus"],
+
+    academicRequirements: {
+      foundation:
+        "Completion of high school with passes in key subjects or equivalent international qualification.",
+      undergraduate:
+        "Recognised secondary school qualification equivalent to UK A-levels or suitable foundation/HDIN.",
+      postgraduate:
+        "UK Bachelor’s degree or equivalent international qualification. Some courses accept work experience.",
+    },
+
+    englishRequirements: {
+      standard:
+        "IELTS 6.0 overall with no band below 5.5. Some postgraduate courses may require 6.5.",
+      alternatives:
+        "PTE, TOEFL iBT and internal English tests are accepted for many programmes.",
+    },
+
+    tuitionFees: {
+      undergraduate: {
+        home: "From ~£9,250 per year",
+        international: "From ~£15,000–£17,000 per year",
+      },
+      postgraduate: {
+        home: "From ~£10,000 per year",
+        international: "From ~£16,000–£18,500 per year",
+      },
+    },
+
+    scholarships: [
+      {
+        name: "International Student Scholarship",
+        description:
+          "Automatic tuition fee reduction for eligible international applicants.",
+      },
+    ],
+
+    whyThisUniversity: [
+      "Study in Central London with excellent transport links.",
+      "Courses designed with industry input and real-world projects.",
+      "Strong graduate employability and careers support.",
+    ],
+
+    livingCosts: {
+      summary:
+        "Living in Central London is exciting but costly, so budgeting is important.",
+      typicalMonthlyTotal:
+        "Around £1,300–£1,700 per month including rent, food, transport and personal costs.",
+      onCampusFrom:
+        "Partner student residences from around £800–£1,000 per month.",
+      privateRentFrom:
+        "Shared private housing from around £750–£950 per month depending on location.",
+    },
+
+    accommodationOptions: [
+      {
+        name: "Student residences",
+        description:
+          "Private student accommodation near the campus with full facilities.",
+      },
+      {
+        name: "Private shared housing",
+        description:
+          "Shared flats and houses across London via agents or student groups.",
+      },
+    ],
+  },
 ];
