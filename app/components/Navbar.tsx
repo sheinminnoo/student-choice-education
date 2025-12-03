@@ -35,6 +35,10 @@ const mainLinks: MainLink[] = [
     label: "Scholarships",
   },
   {
+    href: "/ielts-training",
+    label: "IELTS Training",
+  },
+  {
     href: "/online-courses",
     label: "Online Courses",
   },
