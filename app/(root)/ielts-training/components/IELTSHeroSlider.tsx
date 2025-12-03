@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-const SLIDE_DURATION = 5; // seconds
+const SLIDE_DURATION = 5;
 
 const slides = [
   {
@@ -55,7 +55,6 @@ export default function IELTSHeroSlider() {
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);
 
-  // swipe (mobile / low devices)
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX.current = e.touches[0]?.clientX ?? null;
   };
@@ -72,41 +71,34 @@ export default function IELTSHeroSlider() {
     touchStartX.current = null;
   };
 
-  // auto-slide every 5 seconds (single timer, no progress state)
   useEffect(() => {
-    const timer = setTimeout(next, SLIDE_DURATION * 1000);
+    const timer = setTimeout(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, SLIDE_DURATION * 1000);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
   const slide = slides[index];
 
   return (
     <section
-      className="relative min-h-[80vh] overflow-hidden bg-slate-950 text-white"
+      className="relative min-h-[80vh] overflow-hidden bg-slate-900 text-slate-900"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* right-side image (no animation for performance) */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-1/2">
-        <div className="relative h-full w-full">
-          <Image
-            src={slide.image}
-            alt={slide.title}
-            fill
-            priority={index === 0}
-            sizes="100vw"
-            className="object-cover brightness-110"
-          />
-          {/* softer gradient so image is clear but text side still strong */}
-          <div className="absolute inset-0 bg-gradient-to-l from-slate-950/45 via-slate-950/20 to-transparent" />
-        </div>
+      <div className="absolute inset-0">
+        <Image
+          src={slide.image}
+          alt={slide.title}
+          fill
+          priority={index === 0}
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-900/20 to-slate-900/5" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.22)_0,_transparent_55%)]" />
       </div>
 
-      {/* base gradient behind text */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
-
-      {/* content */}
       <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
           <motion.div
@@ -116,21 +108,21 @@ export default function IELTSHeroSlider() {
             animate="center"
             exit="exit"
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="max-w-2xl space-y-6"
+            className="w-full max-w-2xl rounded-3xl border border-white/50 bg-white/65 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.35)] backdrop-blur-lg sm:p-8 lg:p-10"
           >
-            <span className="inline-flex items-center rounded-full bg-amber-400/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+            <span className="inline-flex items-center rounded-full bg-amber-400/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">
               {slide.badge}
             </span>
 
-            <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+            <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl lg:text-5xl">
               {slide.title}
             </h1>
 
-            <p className="max-w-xl text-base leading-relaxed text-slate-100/85 sm:text-lg">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-700 sm:text-lg">
               {slide.subtitle}
             </p>
 
-            <ul className="space-y-2 text-sm text-slate-100/90 sm:text-base">
+            <ul className="mt-5 space-y-2 text-sm text-slate-800 sm:text-base">
               {slide.points.map((point) => (
                 <li key={point} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-amber-400" />
@@ -139,7 +131,7 @@ export default function IELTSHeroSlider() {
               ))}
             </ul>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="mt-6 flex flex-wrap items-center gap-4">
               <a
                 href="#ielts-form"
                 className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-amber-300 hover:shadow-md"
@@ -148,7 +140,7 @@ export default function IELTSHeroSlider() {
               </a>
               <Link
                 href="/universities"
-                className="text-sm font-medium text-slate-100/85 underline-offset-4 hover:text-white hover:underline"
+                className="text-sm font-medium text-slate-800 underline-offset-4 hover:text-slate-950 hover:underline"
               >
                 Explore UK Universities
               </Link>
@@ -157,12 +149,11 @@ export default function IELTSHeroSlider() {
         </AnimatePresence>
       </div>
 
-      {/* arrows only on desktop (md+) */}
       <button
         type="button"
         onClick={prev}
         aria-label="Previous slide"
-        className="absolute left-5 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-slate-900 shadow-lg transition hover:bg-amber-300 md:flex lg:left-8"
+        className="absolute left-5 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-amber-300 md:flex lg:left-8"
       >
         <span className="-translate-x-[1px] text-lg">‹</span>
       </button>
@@ -171,27 +162,26 @@ export default function IELTSHeroSlider() {
         type="button"
         onClick={next}
         aria-label="Next slide"
-        className="absolute right-5 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-slate-900 shadow-lg transition hover:bg-amber-300 md:flex lg:right-8"
+        className="absolute right-5 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-amber-300 md:flex lg:right-8"
       >
         <span className="translate-x-[1px] text-lg">›</span>
       </button>
 
-      {/* dots + animated progress bar (no extra state) */}
       <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2">
         <div className="flex gap-2">
           {slides.map((s, i) => (
             <div
               key={s.id}
               className={`h-2 w-2 rounded-full transition ${
-                i === index ? "bg-amber-400" : "bg-white/40"
+                i === index ? "bg-amber-400" : "bg-white/60"
               }`}
             />
           ))}
         </div>
 
-        <div className="h-1 w-40 overflow-hidden rounded-full bg-white/25 sm:w-56">
+        <div className="h-1 w-40 overflow-hidden rounded-full bg-white/40 sm:w-56">
           <motion.div
-            key={index} // reset animation when slide changes
+            key={index}
             className="h-full rounded-full bg-amber-400"
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
