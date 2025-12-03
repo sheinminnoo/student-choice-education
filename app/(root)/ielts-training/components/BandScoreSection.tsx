@@ -18,26 +18,24 @@ export default function BandScoreSection() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-500">
-              Band score planning
+              Online band planning
             </p>
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              See how our training lifts your IELTS score
+              How our online training moves your band score
             </h2>
             <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
-              At the start of your course we complete a short level check in all
-              four skills and map this against the{" "}
+              At the start of your{" "}
               <span className="font-semibold text-slate-900">
-                required band
+                online course
               </span>{" "}
-              for your chosen university. Together we agree a realistic timeline
-              to reach your goal.
+              we check your level in all four skills and compare it with the
+              band required for your offer or visa.
             </p>
             <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
-              With consistent study, most students improve by{" "}
+              With regular practice and feedback, many students improve by{" "}
               <span className="font-semibold text-amber-600">0.5–1.0 band</span>{" "}
-              in their weaker skills. Your tutor gives regular progress updates
-              and sample band predictions so you know exactly where you stand
-              before booking the test.
+              in weaker areas. You will see simple progress updates after mock
+              tests so you know when you are ready to book the real exam.
             </p>
           </div>
 
@@ -76,7 +74,7 @@ export default function BandScoreSection() {
             })}
             <p className="pt-1 text-[11px] text-slate-500">
               Example scores for illustration only. Your plan is based on your
-              own level check and confirmed university requirements.
+              own online level check and target course.
             </p>
           </div>
         </div>

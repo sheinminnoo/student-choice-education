@@ -6,7 +6,7 @@ const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 const PRIMARY_BTN =
   "inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg transition-all hover:bg-amber-400 hover:text-slate-900 hover:shadow-amber-400/40 hover:shadow-xl focus:ring-2 focus:ring-amber-400";
 
-const RATE_LIMIT_MS = 60_000; // 1 minute
+const RATE_LIMIT_MS = 60_000;
 
 export default function IeltsEnquiryForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,10 +29,9 @@ export default function IeltsEnquiryForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // Honeypot check
     const honey = formData.get("website");
     if (honey) {
-      setStatus("success"); // silently ignore bot
+      setStatus("success");
       form.reset();
       return;
     }
@@ -66,19 +65,21 @@ export default function IeltsEnquiryForm() {
     <section id="ielts-form" className="bg-slate-900 py-10 text-white sm:py-12">
       <div className={`${MAX_WIDTH} max-w-3xl`}>
         <p className="text-xs uppercase tracking-[0.18em] text-amber-400">
-          IELTS enquiry
+          Online IELTS enquiry
         </p>
 
         <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-          Request IELTS Training
+          Request Online IELTS Training
         </h2>
 
         <p className="mt-2 text-sm text-slate-200 sm:text-base">
-          Share a few details and our UK education advisers will contact you
-          with the most suitable IELTS Academic or UKVI option.
+          Tell us your plans and target band. We will send{" "}
+          <span className="font-semibold text-amber-300">
+            online course options
+          </span>{" "}
+          that match your level and schedule.
         </p>
 
-        {/* status messages */}
         {status === "success" && (
           <p className="mt-3 rounded-xl bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
             Thank you. Your enquiry has been received – we will contact you
@@ -102,7 +103,6 @@ export default function IeltsEnquiryForm() {
           className="mt-6 space-y-4"
           autoComplete="off"
         >
-          {/* Honeypot (hidden from humans) */}
           <div className="hidden">
             <label>
               Website
@@ -143,10 +143,10 @@ export default function IeltsEnquiryForm() {
             <select
               name="entry.ieltsType"
               className="w-full rounded-xl bg-slate-800 px-4 py-3 text-sm text-white outline-none focus:ring-2 focus:ring-amber-400"
-              defaultValue="Academic IELTS"
+              defaultValue="Academic IELTS (Online)"
             >
-              <option>Academic IELTS</option>
-              <option>UKVI IELTS</option>
+              <option>Academic IELTS (Online)</option>
+              <option>UKVI IELTS (Online)</option>
               <option>Not sure yet</option>
             </select>
 
@@ -168,7 +168,7 @@ export default function IeltsEnquiryForm() {
             name="entry.message"
             rows={4}
             maxLength={1000}
-            placeholder="Tell us about your study plans, target intake and any deadlines (for example visa or offer conditions)."
+            placeholder="Share your current English level, target intake and preferred online schedule."
             className="w-full rounded-xl bg-slate-800 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-amber-400"
           />
 
@@ -182,9 +182,11 @@ export default function IeltsEnquiryForm() {
             </button>
 
             <p className="text-[11px] text-slate-400">
-              By submitting this form you agree that we may contact you about
-              IELTS training and UK study options. Your details will not be
-              shared with third parties for marketing.
+              We will only contact you about{" "}
+              <span className="font-semibold text-amber-300">
+                online IELTS training and UK study options
+              </span>
+              .
             </p>
           </div>
         </form>

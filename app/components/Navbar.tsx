@@ -36,7 +36,7 @@ const mainLinks: MainLink[] = [
   },
   {
     href: "/ielts-training",
-    label: "IELTS Training",
+    label: "Online IELTS Training",
   },
   {
     href: "/online-courses",

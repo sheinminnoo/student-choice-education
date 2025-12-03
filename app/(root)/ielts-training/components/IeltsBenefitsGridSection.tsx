@@ -16,43 +16,43 @@ const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 const benefits = [
   {
-    title: "Mock tests",
-    body: "Practise with online mock tests that closely mirror the official IELTS exam.",
+    title: "Online mock tests",
+    body: "Practise full IELTS papers online with realistic timing.",
     Icon: FileText,
   },
   {
-    title: "Online classes",
-    body: "Join live lessons from wherever you are, with UK time zone friendly schedules.",
+    title: "Live online classes",
+    body: "Join interactive lessons from home on your phone or laptop.",
     Icon: Monitor,
   },
   {
-    title: "Small group tutorials",
-    body: "Work in small groups so you have time to ask questions and practise speaking.",
+    title: "Small online groups",
+    body: "Plenty of time to speak, ask questions and get help.",
     Icon: Users,
   },
   {
-    title: "Flexible and self-paced",
-    body: "Study steadily or intensively depending on your visa timeline and target intake.",
+    title: "Flexible schedules",
+    body: "Evening, weekend and intensive online options are available.",
     Icon: Timer,
   },
   {
-    title: "Immediate feedback",
-    body: "Receive clear, practical comments on each writing and speaking task you submit.",
+    title: "Quick feedback",
+    body: "Receive clear comments on Writing and Speaking tasks.",
     Icon: MessageCircle,
   },
   {
-    title: "Video and audio resources",
-    body: "Access recorded explanations, model answers and pronunciation practice anytime.",
+    title: "Recorded lessons",
+    body: "Rewatch lessons if you miss a class or need revision.",
     Icon: PlayCircle,
   },
   {
-    title: "Track your progress",
-    body: "Band predictions and regular check-ins show how close you are to your target.",
+    title: "Progress tracking",
+    body: "See how close you are to your target band with online checks.",
     Icon: BarChart2,
   },
   {
-    title: "Upgrade options",
-    body: "Move from group classes to one-to-one support if you need extra help before the test.",
+    title: "Upgrade to 1–1",
+    body: "Add private online lessons if you need extra support.",
     Icon: ArrowUpRight,
   },
 ];
@@ -68,13 +68,14 @@ export default function IeltsBenefitsGridSection() {
       <div className={MAX_WIDTH}>
         <div className="text-center">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl text-slate-900">
-            Benefits of studying IELTS with us
+            Benefits of Online IELTS Training
           </h2>
           <p className="mt-2 text-sm text-slate-600 sm:text-base">
-            A flexible programme built around your{" "}
+            Study fully online while working towards your{" "}
             <span className="font-semibold text-yellow-500">
               UK study goals
             </span>
+            .
           </p>
         </div>
 

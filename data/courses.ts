@@ -102,7 +102,6 @@ export const courses: Course[] = [
     level: "Beginner",
     duration: "4–5 hours",
     certificate: true,
-    url: "https://educateme.global/en-gb/products/cyber-security",
     shortDescription:
       "Explore common cyber threats, safe online behaviour and simple controls that help reduce risk.",
   },

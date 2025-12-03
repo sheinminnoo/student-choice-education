@@ -10,7 +10,7 @@ export default function IeltsIntroSection() {
       <div className={MAX_WIDTH}>
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            IELTS Training Centre for UK Study
+            Online IELTS Training for UK Study
           </h2>
           <div className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-medium text-slate-700">
             <span className="relative flex h-5 w-8 overflow-hidden rounded-full bg-white ring-1 ring-slate-200">
@@ -23,45 +23,35 @@ export default function IeltsIntroSection() {
               />
             </span>
             <span>
-              Focused on{" "}
-              <span className="font-semibold text-slate-900">
-                UK universities
-              </span>
+              Fully <span className="font-semibold text-slate-900">online</span>
             </span>
           </div>
         </div>
 
         <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
           <p>
-            The International English Language Testing System (
-            <span className="font-semibold text-slate-900">IELTS</span>) is the
-            most widely recognised English test for UK universities and
-            colleges. A strong result does more than meet entry requirements –
-            it can also support your{" "}
-            <span className="font-semibold text-amber-600">visa</span> and{" "}
-            <span className="font-semibold text-amber-600">scholarship</span>{" "}
-            applications.
+            Our{" "}
+            <span className="font-semibold text-slate-900">
+              online IELTS courses
+            </span>{" "}
+            are designed for students who want to prepare for UK study from
+            home. All lessons, feedback and mock tests are delivered online.
           </p>
           <p>
-            For academic study you usually take{" "}
-            <span className="font-semibold text-slate-900">IELTS Academic</span>
-            . The test covers four skills: Listening, Reading, Writing and
-            Speaking. You receive an individual band score for each skill plus
-            an overall band from{" "}
-            <span className="font-semibold text-amber-600">1.0 to 9.0</span>.
+            We focus on{" "}
+            <span className="font-semibold text-slate-900">
+              IELTS Academic and UKVI
+            </span>{" "}
+            with clear practice in Listening, Reading, Writing and Speaking, so
+            you can work steadily towards your target band.
           </p>
           <p>
-            Our IELTS and academic English tutors specialise in exam preparation
-            for{" "}
+            You can join from any country, fit classes around your current
+            studies and receive support from tutors experienced with{" "}
             <span className="font-semibold text-slate-900">
               international students
             </span>
-            . With a mix of one-to-one and small-group options, you can study at
-            your own pace and work towards the{" "}
-            <span className="font-semibold text-slate-900">
-              exact band score
-            </span>{" "}
-            needed for your UK course.
+            .
           </p>
         </div>
       </div>
