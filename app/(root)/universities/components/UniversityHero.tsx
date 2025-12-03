@@ -13,21 +13,22 @@ export default function UniversitiesHero() {
           alt="International students at university campus"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/35 sm:bg-black/45 lg:bg-gradient-to-r lg:from-[#020B2C]/85 lg:via-[#020B2C]/60 lg:to-transparent" />
       </div>
 
-      {/* Content */}
+      {/* ✅ REDUCED HERO HEIGHT */}
       <div
-        className={`${MAX_WIDTH} relative z-10 pt-16 pb-18 sm:pt-18 sm:pb-20 lg:py-24`}
+        className={`${MAX_WIDTH} relative z-10 pt-10 pb-12 sm:pt-12 sm:pb-14 lg:pt-16 lg:pb-18`}
       >
         <div className="max-w-3xl space-y-4 sm:space-y-5 animate-hero-left">
           <p className="inline-flex items-center rounded-full bg-black/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#FACC15]">
             Universities · Pathway providers · UK & Europe
           </p>
 
-          <h1 className="text-[26px] font-bold tracking-tight text-white sm:text-[32px] lg:text-[2.6rem] lg:leading-tight">
+          <h1 className="text-[24px] font-bold tracking-tight text-white sm:text-[30px] lg:text-[2.2rem] lg:leading-tight">
             Discover trusted universities and pathway partners for your
             international study journey.
           </h1>
