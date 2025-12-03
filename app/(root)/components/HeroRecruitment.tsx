@@ -88,22 +88,22 @@ export default function HeroRecruitment() {
         </Swiper>
       </div>
 
-      {/* Content on top – fixed hero height across all slides */}
+      {/* ✅ REDUCED HERO HEIGHT */}
       <div
-        className={`${MAX_WIDTH} relative z-10 flex h-[520px] items-center py-10 sm:h-[560px] lg:h-[620px] lg:py-16 pointer-events-none`}
+        className={`${MAX_WIDTH} relative z-10 flex h-[380px] items-center py-8 sm:h-[420px] lg:h-[480px] lg:py-12 pointer-events-none`}
       >
         <motion.div
-          className="max-w-xl space-y-6 pointer-events-none"
+          className="max-w-xl space-y-5 pointer-events-none"
           key={activeSlide.title}
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: -25 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
         >
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#facc15]">
             {activeSlide.eyebrow}
           </p>
 
-          <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+          <h1 className="text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
             {activeSlide.title}
           </h1>
 
@@ -115,7 +115,7 @@ export default function HeroRecruitment() {
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href={activeSlide.primaryCta.href}
-                className="inline-flex items-center rounded-full bg-[#facc15] px-7 py-3 text-sm font-semibold text-[#020b2c] shadow-md transition hover:bg-[#eab308]"
+                className="inline-flex items-center rounded-full bg-[#facc15] px-6 py-3 text-sm font-semibold text-[#020b2c] shadow-md transition hover:bg-[#eab308]"
               >
                 {activeSlide.primaryCta.label}
               </Link>
@@ -123,13 +123,13 @@ export default function HeroRecruitment() {
 
             <Link
               href={activeSlide.secondaryCta.href}
-              className="inline-flex items-center rounded-full border border-white/60 px-7 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+              className="inline-flex items-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
             >
               {activeSlide.secondaryCta.label}
             </Link>
           </div>
 
-          <div className="mt-4 flex gap-8 text-xs text-slate-100/80 sm:text-sm">
+          <div className="mt-3 flex gap-8 text-xs text-slate-100/80 sm:text-sm">
             <div>
               <p className="font-semibold text-white">
                 20+ partner institutions

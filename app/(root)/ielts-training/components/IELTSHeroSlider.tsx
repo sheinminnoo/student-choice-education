@@ -82,7 +82,7 @@ export default function IELTSHeroSlider() {
 
   return (
     <section
-      className="relative min-h-[80vh] overflow-hidden bg-slate-900 text-slate-900"
+      className="relative overflow-hidden bg-slate-900 text-slate-900"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -99,7 +99,8 @@ export default function IELTSHeroSlider() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.22)_0,_transparent_55%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
+      {/* Shorter hero height here */}
+      <div className="relative z-10 mx-auto flex min-h-[240px] max-w-7xl items-center px-4 py-8 sm:min-h-[260px] sm:px-6 sm:py-9 lg:min-h-[300px] lg:px-8 lg:py-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}

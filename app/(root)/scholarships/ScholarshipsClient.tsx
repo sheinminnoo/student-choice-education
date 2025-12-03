@@ -125,7 +125,7 @@ export default function ScholarshipsPage() {
         </div>
 
         <div
-          className={`${MAX_WIDTH} relative pt-20 pb-16 sm:pt-24 sm:pb-20 lg:pt-28 lg:pb-24`}
+          className={`${MAX_WIDTH} relative pt-14 pb-12 sm:pt-18 sm:pb-14 lg:pt-20 lg:pb-16`}
         >
           <div className="max-w-3xl space-y-6">
             <motion.p
