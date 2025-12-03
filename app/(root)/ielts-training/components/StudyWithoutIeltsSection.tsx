@@ -12,53 +12,45 @@ export default function StudyWithoutIeltsSection() {
 
         <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
           <p>
-            In some cases the answer is{" "}
-            <span className="font-semibold text-slate-900">yes</span>. A number
-            of UK universities can accept alternative English language evidence
-            or offer a{" "}
+            Sometimes <span className="font-semibold text-slate-900">yes</span>.
+            Certain UK universities accept other English tests or offer{" "}
             <span className="font-semibold text-slate-900">
-              pre-sessional English course
+              pre-sessional English
             </span>{" "}
-            before your main programme.
+            courses.
           </p>
           <p>
-            We review your academic background, any previous test scores and
-            your study plans, then suggest UK universities where IELTS may not
-            be essential or where you can join a pathway route.
+            We review your background and plans, then suggest universities where
+            IELTS may not be essential or where a pathway route is possible.
           </p>
         </div>
 
         <h3 className="mt-5 text-base font-semibold text-slate-900 sm:text-lg">
-          Common alternatives to IELTS include:
+          Common alternatives to IELTS:
         </h3>
         <ul className="mt-2 space-y-1.5 text-sm text-slate-700 sm:text-base">
           <li>
-            Taking an in-house{" "}
-            <span className="font-semibold text-slate-900">English test</span>{" "}
-            run by a UK university
+            In-house{" "}
+            <span className="font-semibold text-slate-900">English tests</span>{" "}
+            run by UK universities
           </li>
           <li>
-            Providing another recognised test such as{" "}
+            Other tests such as{" "}
             <span className="font-semibold text-slate-900">TOEFL iBT</span>,{" "}
-            <span className="font-semibold text-slate-900">PTE Academic</span>{" "}
-            or{" "}
-            <span className="font-semibold text-slate-900">
-              Duolingo English Test
-            </span>
+            <span className="font-semibold text-slate-900">PTE</span> or{" "}
+            <span className="font-semibold text-slate-900">Duolingo</span>
           </li>
           <li>
-            Joining a{" "}
             <span className="font-semibold text-slate-900">
-              pre-sessional English
+              Pre-sessional English
             </span>{" "}
-            course on campus before your degree
+            before your degree
           </li>
           <li>
-            Studying a{" "}
             <span className="font-semibold text-slate-900">
-              foundation or pathway
+              Foundation / pathway
             </span>{" "}
-            programme that includes intensive English preparation
+            programmes with built-in English support
           </li>
         </ul>
       </div>

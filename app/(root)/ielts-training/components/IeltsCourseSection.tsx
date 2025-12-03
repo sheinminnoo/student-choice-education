@@ -31,7 +31,6 @@ export default function IeltsCourseSection({
           reverse ? "lg:flex-row-reverse" : ""
         }`}
       >
-        {/* FULL WIDTH IMAGE SIDE */}
         <div className="relative h-[260px] w-full overflow-hidden rounded-3xl bg-slate-100 shadow-sm ring-1 ring-slate-200 sm:h-[360px] lg:h-[420px]">
           <Image
             src={image}
@@ -45,7 +44,6 @@ export default function IeltsCourseSection({
           </div>
         </div>
 
-        {/* CONTENT SIDE */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             {title}
@@ -65,7 +63,7 @@ export default function IeltsCourseSection({
           </ul>
 
           <a href="#ielts-form" className={PRIMARY_BTN}>
-            Enquire Now
+            Enquire about this online course
           </a>
         </div>
       </div>

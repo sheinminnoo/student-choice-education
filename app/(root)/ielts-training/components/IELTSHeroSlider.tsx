@@ -10,27 +10,25 @@ const SLIDE_DURATION = 5;
 const slides = [
   {
     id: "academic",
-    badge: "IELTS Training",
-    title: "Academic IELTS Preparation",
+    badge: "Online IELTS Training",
+    title: "Academic IELTS – 100% Online",
     subtitle:
-      "Prepare for UK universities with expert IELTS Academic training led by British Council–certified advisers.",
+      "Join live online IELTS Academic classes, practise with mock tests and get clear feedback from home.",
     points: [
-      "For Foundation, Undergraduate & Postgraduate study",
-      "Strong focus on Writing & Speaking",
-      "Real exam practice with structured feedback",
+      "Live interactive online lessons",
+      "Extra focus on Writing & Speaking",
     ],
     image: "/heros/ielts-1.png",
   },
   {
     id: "ukvi",
-    badge: "IELTS for visa",
-    title: "UKVI IELTS for Study Visa",
+    badge: "Online UKVI IELTS",
+    title: "UKVI IELTS for Study Visa – Online",
     subtitle:
-      "Specialist UKVI IELTS preparation designed around UK student visa and immigration requirements.",
+      "Online UKVI IELTS preparation designed around UK student visa and CAS conditions.",
     points: [
-      "Approved UKVI preparation format",
-      "Intensive options for urgent test dates",
-      "Visa-focused exam strategies and score planning",
+      "Lessons matched to UKVI exam format",
+      "Band guidance for visa and offers",
     ],
     image: "/heros/ielts-2.png",
   },
@@ -99,7 +97,6 @@ export default function IELTSHeroSlider() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.22)_0,_transparent_55%)]" />
       </div>
 
-      {/* Shorter hero height here */}
       <div className="relative z-10 mx-auto flex min-h-[240px] max-w-7xl items-center px-4 py-8 sm:min-h-[260px] sm:px-6 sm:py-9 lg:min-h-[300px] lg:px-8 lg:py-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -111,7 +108,15 @@ export default function IELTSHeroSlider() {
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="w-full max-w-2xl rounded-3xl border border-white/50 bg-white/65 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.35)] backdrop-blur-lg sm:p-8 lg:p-10"
           >
-            <span className="inline-flex items-center rounded-full bg-amber-400/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">
+            {/* BADGE – now dark navy with yellow text */}
+            <span
+              className="
+                inline-flex items-center rounded-full
+                bg-slate-900/90 px-4 py-1
+                text-xs font-semibold uppercase tracking-[0.2em]
+                text-amber-300 shadow-sm ring-1 ring-slate-900/80
+              "
+            >
               {slide.badge}
             </span>
 
@@ -123,7 +128,7 @@ export default function IELTSHeroSlider() {
               {slide.subtitle}
             </p>
 
-            <ul className="mt-5 space-y-2 text-sm text-slate-800 sm:text-base">
+            <ul className="mt-4 space-y-2 text-sm text-slate-800 sm:text-base">
               {slide.points.map((point) => (
                 <li key={point} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-amber-400" />
@@ -137,7 +142,7 @@ export default function IELTSHeroSlider() {
                 href="#ielts-form"
                 className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-amber-300 hover:shadow-md"
               >
-                Request Training
+                Request Online Training
               </a>
               <Link
                 href="/universities"

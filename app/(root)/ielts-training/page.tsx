@@ -7,6 +7,8 @@ import IeltsWritingCourseSection from "./components/IeltsWritingCourseSection";
 import StudyWithoutIeltsSection from "./components/StudyWithoutIeltsSection";
 import IeltsBenefitsGridSection from "./components/IeltsBenefitsGridSection";
 import IeltsEnquiryForm from "./components/IeltsEnquiryForm";
+import IeltsFoundationCourseSection from "./components/IeltsFoundationCourseSection";
+import IeltsSpeakingCourseSection from "./components/IeltsSpeakingCourseSection";
 
 export const metadata: Metadata = {
   title:
@@ -21,8 +23,9 @@ export default function IeltsTrainingPage() {
       <IELTSHeroSlider />
       <IeltsIntroSection />
       <IeltsCoursesOverviewSection />
-      <BandScoreSection />
+      <IeltsFoundationCourseSection />
       <IeltsWritingCourseSection />
+      <IeltsSpeakingCourseSection />
       <StudyWithoutIeltsSection />
       <IeltsBenefitsGridSection />
       <IeltsEnquiryForm />

@@ -54,20 +54,20 @@ const GuidesSection = () => {
 
   return (
     <section className="relative bg-white overflow-hidden">
-      <div className="relative z-10 w-full mx-auto max-w-6xl px-5 py-20 text-center">
-        <h2 className="text-[28px] sm:text-[34px] font-bold mb-3 text-[#020B2C]">
+      <div className="relative z-10 w-full mx-auto max-w-6xl px-5 py-16 text-center">
+        <h2 className="text-[24px] sm:text-[30px] font-bold mb-3 text-[#020B2C]">
           The UK Study Expert “What to Expect” Guides
         </h2>
 
-        <p className="max-w-2xl mx-auto text-[15px] sm:text-[16px] text-slate-600 mb-14 leading-relaxed">
+        <p className="max-w-2xl mx-auto text-[14px] sm:text-[15px] text-slate-600 mb-12 leading-relaxed">
           Feeling overwhelmed by the UK university application process? Start
           your journey with one of our carefully designed FREE study guides.
         </p>
 
         <div
           className="
-            flex gap-6 overflow-x-auto pb-5
-            md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0
+            flex gap-5 overflow-x-auto pb-4
+            md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0
           "
         >
           {guides.map((guide) => {
@@ -79,21 +79,21 @@ const GuidesSection = () => {
                 key={guide.key}
                 className="
                   bg-gradient-to-br from-[#020B2C] via-[#041B5D] to-[#020B2C]
-                  text-white rounded-2xl shadow-2xl
-                  shrink-0 w-[88%] max-w-[360px] p-8 
+                  text-white rounded-xl shadow-xl
+                  shrink-0 w-[82%] max-w-[300px] p-5 
                   flex flex-col mx-auto
                   md:w-full md:max-w-none
                 "
               >
                 {/* Badge */}
-                <div className="mb-4 flex">
-                  <span className="inline-flex items-center rounded-full bg-[#e7e7e7] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#020B2C]">
+                <div className="mb-3 flex">
+                  <span className="inline-flex items-center rounded-full bg-[#e7e7e7] px-3 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-[#020B2C]">
                     {guide.badge}
                   </span>
                 </div>
 
                 {/* Image */}
-                <div className="relative w-full h-[220px] rounded-xl overflow-hidden">
+                <div className="relative w-full h-[160px] rounded-lg overflow-hidden">
                   <Image
                     src={guide.img}
                     alt={guide.title}
@@ -103,33 +103,34 @@ const GuidesSection = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="mt-6 text-[20px] font-bold text-white">
+                <h3 className="mt-4 text-[17px] font-bold text-white">
                   {guide.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-[14px] mt-4 mb-6 leading-relaxed text-slate-200 flex-grow">
+                <p className="text-[13px] mt-3 mb-5 leading-relaxed text-slate-200 flex-grow">
                   {guide.text}
                 </p>
 
-                {/* ✅ STRONG VISIBLE YELLOW HOVER BUTTON */}
+                {/* Button */}
                 <button
                   onClick={() => handleDownload(guide.key)}
                   disabled={isLoading}
                   className={`
-                    mt-2 inline-flex w-full items-center justify-center rounded-full 
-                    px-6 py-3 text-xs font-semibold uppercase 
-                    tracking-wide transition-colors duration-300
-                    disabled:opacity-70 disabled:cursor-not-allowed
-                    ${
-                      isSuccess
-                        ? "bg-emerald-500 hover:bg-emerald-600 text-white"
-                        : "bg-white text-[#020B2C] hover:bg-[#FACC15]"
-                    }
-                  `}
+    mt-1 inline-flex w-full items-center justify-center rounded-full
+    px-5 py-2.5 text-[11px] font-semibold uppercase tracking-wide
+    transition-all duration-200 ease-out
+    shadow-[0_8px_20px_rgba(15,23,42,0.25)]
+    disabled:opacity-70 disabled:cursor-not-allowed
+    ${
+      isSuccess
+        ? "bg-emerald-500 text-white hover:bg-emerald-600"
+        : "bg-white text-[#020B2C] hover:bg-[#FACC15] hover:shadow-[0_14px_35px_rgba(15,23,42,0.55)]"
+    }
+  `}
                 >
                   {isLoading && (
-                    <span className="mr-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                    <span className="mr-2 h-4 w-4 rounded-full border-2 border-[#020B2C] border-t-transparent animate-spin" />
                   )}
                   {isSuccess && !isLoading && (
                     <span className="mr-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-white text-emerald-600 text-[10px]">
