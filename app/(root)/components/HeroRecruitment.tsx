@@ -90,7 +90,7 @@ export default function HeroRecruitment() {
 
       {/* ✅ REDUCED HERO HEIGHT */}
       <div
-        className={`${MAX_WIDTH} relative z-10 flex items-center py-14 sm:py-16 lg:py-20 pointer-events-none`}
+        className={`${MAX_WIDTH} relative z-10 flex h-[380px] items-center py-8 sm:h-[420px] lg:h-[480px] lg:py-12 pointer-events-none`}
       >
         <motion.div
           className="max-w-xl space-y-5 pointer-events-none"
