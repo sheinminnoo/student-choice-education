@@ -10,7 +10,8 @@ import {
   BarChart2,
   ArrowUpRight,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
@@ -63,6 +64,25 @@ const cardVariants = {
 };
 
 export default function IeltsBenefitsGridSection() {
+  const prefersReducedMotion = useReducedMotion();
+  const [enableAnimation, setEnableAnimation] = useState(false);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    // Only enable motion on tablet/desktop (md+)
+    const mq = window.matchMedia("(min-width: 768px)");
+
+    const update = (event?: MediaQueryListEvent) => {
+      const matches = event ? event.matches : mq.matches;
+      setEnableAnimation(matches);
+    };
+
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [prefersReducedMotion]);
+
   return (
     <section className="py-10 sm:py-12 bg-white">
       <div className={MAX_WIDTH}>
@@ -83,27 +103,33 @@ export default function IeltsBenefitsGridSection() {
           {benefits.map(({ title, body, Icon }, index) => (
             <motion.div
               key={title}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.4,
-                ease: "easeOut",
-                delay: index * 0.05,
-              }}
+              variants={enableAnimation ? cardVariants : undefined}
+              initial={enableAnimation ? "hidden" : false}
+              whileInView={enableAnimation ? "visible" : undefined}
+              viewport={
+                enableAnimation ? { once: true, amount: 0.2 } : undefined
+              }
+              transition={
+                enableAnimation
+                  ? {
+                      duration: 0.35,
+                      ease: "easeOut",
+                      delay: index * 0.04,
+                    }
+                  : undefined
+              }
               className="
                 relative rounded-2xl bg-slate-900 p-5
                 border border-slate-800
-                shadow-[0_10px_30px_rgba(15,23,42,0.25)]
-                transition-all duration-300 ease-out
-                hover:-translate-y-1
-                hover:shadow-[0_22px_55px_rgba(15,23,42,0.45)]
+                shadow-[0_8px_22px_rgba(15,23,42,0.28)]
+                transition-all duration-200 ease-out
+                md:hover:-translate-y-1
+                md:hover:shadow-[0_22px_55px_rgba(15,23,42,0.45)]
               "
             >
               <div className="mb-4 flex items-center gap-2">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-yellow-400">
-                  <Icon className="h-4.5 w-4.5 text-slate-900" />
+                  <Icon className="h-4 w-4 text-slate-900" />
                 </div>
                 <h3 className="text-sm font-semibold sm:text-base text-white">
                   {title}
