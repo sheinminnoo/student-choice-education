@@ -245,7 +245,7 @@ export default function Navbar() {
               setDrawer(true);
               setMobileHomeOpen(false);
             }}
-            className={`xl:hidden flex items-center text-lime-300 flex-shrink-0 rounded-md p-1.5 ${focusRingDark}`}
+            className={`xl:hidden flex items-center text-[#F5C20B] flex-shrink-0 rounded-md p-1.5 ${focusRingDark}`}
             aria-label="Open main menu"
             aria-expanded={drawer}
             aria-controls="mobile-menu"

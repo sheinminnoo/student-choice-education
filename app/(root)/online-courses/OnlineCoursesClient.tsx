@@ -524,11 +524,7 @@ export default function OnlineCoursesClient() {
                         >
                           Partner site
                         </a>
-                      ) : (
-                        <span className="text-[11px] text-slate-500">
-                          Details on request
-                        </span>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </motion.article>

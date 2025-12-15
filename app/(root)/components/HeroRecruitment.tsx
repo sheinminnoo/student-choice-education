@@ -40,7 +40,7 @@ const heroSlides: HeroSlide[] = [
     description:
       "Get personalised shortlists, application help and visa guidance.",
     primaryCta: { label: "See partner universities", href: "/universities" },
-    secondaryCta: { label: "Talk to an advisor", href: "/contactus" },
+    secondaryCta: { label: "Talk to an advisor", href: "/contact-us" },
   },
   {
     imgSrc: "/home/hero-3.png",

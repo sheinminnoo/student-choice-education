@@ -496,9 +496,19 @@ export default function ScholarshipsPage() {
                             <span className="text-[10px] text-slate-600">
                               Intakes: {s.mainIntakes.join(" • ")}
                             </span>
-                            <span className="inline-flex items-center gap-1 rounded-md bg-[#020b2c] px-4 py-1.5 text-xs font-semibold text-white transition group-hover:bg-black">
+                            <span
+                              className="
+  inline-flex items-center gap-1.5 rounded-full 
+  bg-[#F5C20B] text-[#020b2c]
+  px-5 py-2 text-xs font-semibold 
+  shadow-[0_4px_14px_rgba(245,194,11,0.35)]
+  transition-all duration-300
+  hover:bg-[#ffcf22]
+  hover:shadow-[0_6px_20px_rgba(245,194,11,0.55)]
+"
+                            >
                               View details
-                              <span className="text-sm">↗</span>
+                              <span className="text-sm">→</span>
                             </span>
                           </div>
                         </div>
