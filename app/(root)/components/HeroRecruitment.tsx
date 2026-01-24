@@ -60,7 +60,6 @@ export default function HeroRecruitment() {
 
   return (
     <section className="relative overflow-hidden bg-slate-900 text-white">
-      {/* Background image slider */}
       <div className="absolute inset-0 z-0">
         <Swiper
           modules={[Pagination, Autoplay]}
@@ -88,7 +87,6 @@ export default function HeroRecruitment() {
         </Swiper>
       </div>
 
-      {/* ✅ REDUCED HERO HEIGHT */}
       <div
         className={`${MAX_WIDTH} relative z-10 flex h-[380px] items-center py-8 sm:h-[420px] lg:h-[480px] lg:py-12 pointer-events-none`}
       >

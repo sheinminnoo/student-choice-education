@@ -1,21 +1,25 @@
-import Courses from "./components/Courses";
-import EligibilityBanner from "./components/EligibilityBanner";
-import ForUniversities from "./components/ForUniversities";
-import GuidesSection from "./components/GuidesSection";
+import type { Metadata } from "next";
+
 import HeroRecruitment from "./components/HeroRecruitment";
+import GuidesSection from "./components/GuidesSection";
+import ForUniversities from "./components/ForUniversities";
+import Courses from "./components/Courses";
 import Partners from "./components/Partners";
 import Testimonials from "./components/Testimonials";
-import type { Metadata } from "next";
+import EligibilityBanner from "./components/EligibilityBanner";
+
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Student Choice Education | Global Admission & Recruitment",
   description:
-    "End-to-end student recruitment and admission support for local and international students. Find the best courses and universities in the UK and worldwide.",
+    "End-to-end student recruitment and admission support for local and international students. Discover the best universities, courses, and scholarships worldwide.",
   openGraph: {
     title: "Student Choice Education | Global Admission & Recruitment",
     description:
-      "We connect students, agents and universities to make admission easy for everyone.",
+      "We connect students, agents, and universities to make admissions simple, transparent, and reliable.",
     url: "https://student-choice-education.vercel.app",
+    siteName: "Student Choice Education",
     type: "website",
   },
   alternates: {
@@ -23,12 +27,11 @@ export const metadata: Metadata = {
   },
 };
 
-// ⬇️ smaller bottom padding so no huge gap
 const PAGE_WRAPPER = "pb-4 lg:pb-6";
 
 export default function HomePage() {
   return (
-    <div className={PAGE_WRAPPER}>
+    <main className={PAGE_WRAPPER}>
       <HeroRecruitment />
       <GuidesSection />
       <ForUniversities />
@@ -36,6 +39,6 @@ export default function HomePage() {
       <Partners />
       <Testimonials />
       <EligibilityBanner />
-    </div>
+    </main>
   );
 }
