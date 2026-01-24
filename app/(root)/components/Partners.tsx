@@ -1,37 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function PartnershipSection() {
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className={`
-        w-full py-12 md:py-16 bg-[#f4f7fc]
-        transition-all duration-700 ease-out
-        ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
-      `}
-    >
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10 px-4">
+    <section className="w-full py-12 md:py-16 bg-[#f4f7fc]">
+      <motion.div
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10 px-4"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
         {/* LEFT CONTENT */}
         <div className="space-y-4">
           <div className="flex items-center gap-4">
@@ -43,7 +24,7 @@ export default function PartnershipSection() {
               className="object-contain"
             />
             <h3 className="text-2xl md:text-3xl font-semibold text-slate-900">
-              Official Partnership
+              Accreditations
             </h3>
           </div>
 
@@ -54,18 +35,17 @@ export default function PartnershipSection() {
           </p>
         </div>
 
-        {/* RIGHT IMAGE - FIXED FULL SIZE & CLEAR */}
+        {/* RIGHT IMAGE */}
         <div className="relative w-full h-64 md:h-80 lg:h-96">
           <Image
             src="/home/badge.png"
-            alt="British Council Partnership Badge"
+            alt="British Council Accreditation Badge"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-contain rounded-2xl"
-            priority
           />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

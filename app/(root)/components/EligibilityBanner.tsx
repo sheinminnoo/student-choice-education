@@ -33,9 +33,7 @@ export default function EligibilityBanner() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        {/* ✅ ICON + TEXT NOW PERFECTLY CENTERED */}
         <div className="flex items-center gap-6">
-          {/* ✅ Bigger Enhanced Eligibility Icon */}
           <motion.div
             className="relative flex h-20 w-20 items-center justify-center"
             initial={{ scale: 0.9, opacity: 0 }}
@@ -53,7 +51,6 @@ export default function EligibilityBanner() {
             </div>
           </motion.div>
 
-          {/* ✅ TEXT BLOCK */}
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-cyan-100/90">
               Fast & Free Assessment

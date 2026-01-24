@@ -8,7 +8,6 @@ const MAX_WIDTH = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 export default function ForUniversities() {
   return (
     <section className="relative overflow-hidden bg-[#020b2c]">
-      {/* ✅ Full-width background image */}
       <div className="absolute inset-0">
         <Image
           src="/home/university-audience.png"
@@ -19,11 +18,9 @@ export default function ForUniversities() {
           className="object-cover"
         />
 
-        {/* ✅ Ultra-premium soft blur overlay (no heavy darkness) */}
         <div className="absolute inset-0 backdrop-blur-[2.5px] bg-[#020b2c]/40 sm:bg-gradient-to-r sm:from-[#020b2c]/55 sm:via-[#020b2c]/35 sm:to-[#020b2c]/15" />
       </div>
 
-      {/* ✅ Content */}
       <div className="relative z-10 py-14 sm:py-16 lg:py-20">
         <div className={MAX_WIDTH}>
           <motion.div
