@@ -55,8 +55,8 @@ export default function UniversitiesHero() {
               Talk to our admissions team
             </Link>
           </div>
-
-          <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-slate-100/90">
+          {/* Stats
+                    <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-slate-100/90">
             <span className="animate-hero-stat inline-flex items-center gap-1 rounded-full bg-black/30 px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-[#FACC15]" />
               UK & European destinations
@@ -75,7 +75,7 @@ export default function UniversitiesHero() {
               <span className="h-1.5 w-1.5 rounded-full bg-sky-300" />
               Application support with no extra fee
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

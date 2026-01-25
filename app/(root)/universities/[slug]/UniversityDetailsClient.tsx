@@ -598,17 +598,33 @@ export default function UniversityDetailsClient({ uni }: Props) {
                       route for you.
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="mt-8 flex flex-wrap items-center gap-3">
+                    {/* Primary Button: Talk to a counsellor */}
                     <Link
                       href="/contact-us"
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-3.5 py-1.5 text-sm font-semibold text-slate-50 transition hover:bg-slate-900 md:text-base"
+                      className="
+      group inline-flex items-center justify-center gap-2 rounded-full 
+      bg-[#020b2c] px-6 py-3 text-sm font-semibold text-white 
+      shadow-sm transition-all duration-300 
+      hover:bg-[#020b2c]/90 hover:shadow-md hover:-translate-y-0.5
+    "
                     >
                       Talk to a counsellor
-                      <span className="text-[0.7rem]">→</span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
                     </Link>
+
+                    {/* Secondary Button: Connect with ambassadors */}
                     <Link
                       href="/ambassadors"
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-950 md:text-base"
+                      className="
+      group inline-flex items-center justify-center gap-2 rounded-full 
+      border border-slate-200 bg-white px-6 py-3 
+      text-sm font-medium text-slate-600 
+      transition-all duration-300 
+      hover:border-[#020b2c]/30 hover:bg-slate-50 hover:text-[#020b2c] hover:-translate-y-0.5
+    "
                     >
                       Connect with student ambassadors
                     </Link>
