@@ -29,14 +29,15 @@ export default function UniversitiesHero() {
           </p>
 
           <h1 className="text-[24px] font-bold tracking-tight text-white sm:text-[30px] lg:text-[2.2rem] lg:leading-tight">
-            Discover trusted universities and pathway partners for your
-            international study journey.
+            Discover our trusted partner universities for Your Global Study
+            Journey
           </h1>
 
           <p className="max-w-2xl text-[13px] leading-relaxed text-slate-100 sm:text-[14px]">
-            Explore campuses, pathway routes, intakes and study modes in one
-            place. Every institution listed is a verified partner that welcomes
-            international students and works with Student Choice Education.
+            Explore our universities and pathway partner institutions across the
+            UK, Germany, France, Spain, and Malta. Compare campuses, courses,
+            intakes, and study modes — all in one place to help you find the
+            perfect fit for your education and future.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-1.5 sm:pt-2">
