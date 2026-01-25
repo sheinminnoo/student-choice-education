@@ -21,7 +21,7 @@ const mainLinks: MainLink[] = [
     href: "/",
     label: "Home",
     children: [
-      { href: "/ourservices", label: "Our Service" },
+      { href: "/our-services", label: "Our Service" },
       { href: "/about-us", label: "About Us" },
       { href: "/contact-us", label: "Contact Us" },
     ],
@@ -236,7 +236,7 @@ export default function Navbar() {
                     }
                   />
                 </li>
-              )
+              ),
             )}
           </ul>
 
