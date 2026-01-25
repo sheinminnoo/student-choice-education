@@ -38,9 +38,10 @@ export default function UniversityRow({ uni, featured = false }: Props) {
       <div className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
         {/* LOGO + NAME */}
         <div className="flex flex-1 items-start gap-3 sm:gap-4 lg:max-w-[40%] lg:gap-5">
-          {/* LOGO WRAPPER */}
-          <div className="relative h-16 w-16 sm:h-[72px] sm:w-[72px] lg:h-[88px] lg:w-[88px]">
-            {/* Glow Behind Logo (static, no animation) */}
+          {/* --- UPDATED LOGO WRAPPER --- */}
+          {/* Increased sizes: h-20 (80px) -> sm:h-24 (96px) -> lg:h-28 (112px) */}
+          <div className="relative h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28 shrink-0">
+            {/* Glow Behind Logo */}
             <div
               className="
                 absolute -inset-1 rounded-3xl
@@ -61,14 +62,14 @@ export default function UniversityRow({ uni, featured = false }: Props) {
                   alt={`${uni.name} logo`}
                   fill
                   className="
-                    object-contain p-2.5
+                    object-contain p-2 
                     transition-transform duration-200 ease-out
                     md:group-hover:scale-[1.05]
                   "
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-slate-900">
-                  <span className="text-[22px] font-semibold tracking-tight text-white/90">
+                  <span className="text-[26px] font-semibold tracking-tight text-white/90">
                     {uni.name.charAt(0)}
                   </span>
                 </div>
@@ -77,9 +78,9 @@ export default function UniversityRow({ uni, featured = false }: Props) {
           </div>
 
           {/* NAME + BADGES */}
-          <div className="space-y-1.5 lg:space-y-2">
+          <div className="space-y-1.5 lg:space-y-2 pt-1">
             <div className="flex flex-wrap items-center gap-1.5">
-              <h2 className="text-sm font-semibold text-slate-900 sm:text-[15px] lg:text-[16px]">
+              <h2 className="text-sm font-semibold text-slate-900 sm:text-[16px] lg:text-[18px]">
                 {uni.name}
               </h2>
 
