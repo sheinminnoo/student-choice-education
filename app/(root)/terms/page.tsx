@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function TermsAndConditionsPage() {
   return (
     <main className="bg-white text-slate-900">
@@ -19,175 +21,144 @@ export default function TermsAndConditionsPage() {
             <p className="mt-3">
               These Terms and Conditions govern your use of the Student Choice
               Education website and services. By accessing or using our website,
-              you agree to be legally bound by these terms.
-            </p>
-            <p className="mt-2">
-              If you do not agree with any part of these terms, you must not use
-              our services.
+              you agree to be legally bound by these terms. If you do not agree
+              with any part of these terms, you must not use our services.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-slate-900">
-              2. Our Services
+              2. Nature of Services
+            </h2>
+            <p className="mt-3">
+              Student Choice Education provides advisory and support services
+              for international students looking to study abroad. Our services
+              include:
+            </p>
+            <ul className="mt-2 list-disc pl-5 space-y-2">
+              <li>University and course selection guidance.</li>
+              <li>Application document review and submission.</li>
+              <li>Scholarship eligibility assessment.</li>
+              <li>Student visa guidance and pre-departure support.</li>
+            </ul>
+            <p className="mt-3 font-medium text-slate-900">
+              Important Disclaimer:
+            </p>
+            <p className="mt-1">
+              While we use our expertise to maximise your chances of success,{" "}
+              <strong>we cannot guarantee admission</strong> to any specific
+              institution or the issuance of a visa. Final decisions regarding
+              admissions and visas lie solely with the respective universities
+              and government immigration authorities.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-slate-900">
+              3. User Obligations
             </h2>
             <ul className="mt-3 list-disc pl-5 space-y-2">
-              <li>Education consultation and guidance</li>
-              <li>University and course information</li>
-              <li>Ambassador programme applications</li>
-              <li>Student advisory and support services</li>
-              <li>Document collection and review for applications</li>
-            </ul>
-            <p className="mt-3">
-              We act as an advisory and support service only and do not
-              guarantee admission to any institution or outcome of any visa or
-              application process.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              3. User Responsibilities
-            </h2>
-            <ul className="mt-3 list-disc pl-5 space-y-2">
-              <li>You must provide accurate and truthful information</li>
-              <li>You must not upload false, misleading, or harmful content</li>
               <li>
-                You must not attempt to access restricted or unauthorised areas
+                You confirm that all documents and information provided to us
+                are authentic, accurate, and up to date.
               </li>
               <li>
-                You must not misuse our services for illegal or abusive purposes
+                You agree not to use our services for any fraudulent or illegal
+                purpose.
               </li>
+              <li>
+                You are responsible for meeting all deadlines set by
+                universities or immigration authorities.
+              </li>
+            </ul>
+            <p className="mt-2">
+              Student Choice Education reserves the right to terminate services
+              immediately if misleading or forged documents are submitted.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-slate-900">
+              4. Intellectual Property
+            </h2>
+            <p className="mt-3">
+              All content on this website, including text, graphics, logos, and
+              software, is the property of Student Choice Education or its
+              licensors and is protected by copyright laws. You may not
+              reproduce, distribute, or exploit any content without our prior
+              written permission.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-slate-900">
+              5. Third-Party Links
+            </h2>
+            <p className="mt-3">
+              Our website may contain links to third-party websites (e.g.,
+              university portals, IELTS providers). We have no control over
+              these sites and accept no responsibility for their content or
+              privacy practices. Accessing third-party sites is done at your own
+              risk.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-slate-900">
+              6. Limitation of Liability
+            </h2>
+            <p className="mt-3">
+              To the fullest extent permitted by law, Student Choice Education
+              shall not be liable for any indirect, incidental, or consequential
+              damages arising from:
+            </p>
+            <ul className="mt-2 list-disc pl-5 space-y-2">
+              <li>The refusal of a university offer or student visa.</li>
+              <li>
+                Delays caused by third parties (e.g., embassies or exam boards).
+              </li>
+              <li>Errors or interruptions in the operation of this website.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-slate-900">
-              4. Submissions and Applications
+              7. Amendments
             </h2>
             <p className="mt-3">
-              When submitting an application or enquiry, you confirm that all
-              information you provide is correct to the best of your knowledge.
-            </p>
-            <p className="mt-2">
-              You are responsible for ensuring that any documents you submit are
-              accurate, up to date, and legally owned by you.
+              We reserve the right to modify these Terms and Conditions at any
+              time. Changes will be effective immediately upon posting to the
+              website. Your continued use of the site constitutes acceptance of
+              the modified terms.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-slate-900">
-              5. Document and CV Uploads
+              8. Governing Law
             </h2>
             <p className="mt-3">
-              By uploading documents such as CVs, you grant Student Choice
-              Education permission to securely store and review these files for
-              application and advisory purposes.
-            </p>
-            <p className="mt-2">
-              You confirm that you have the right to use and share any documents
-              you upload and that they do not infringe the rights of any third
-              party.
+              These Terms and Conditions shall be governed by and construed in
+              accordance with the laws of <strong>England and Wales</strong>.
+              Any disputes arising under these terms shall be subject to the
+              exclusive jurisdiction of the courts of England and Wales.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-slate-900">
-              6. Intellectual Property
+              9. Contact Us
             </h2>
             <p className="mt-3">
-              All content on this website, including text, graphics, logos,
-              layout, and software, is the property of Student Choice Education
-              unless otherwise stated.
-            </p>
-            <p className="mt-2">
-              You may not copy, reproduce, distribute, or exploit any content
-              without our prior written permission.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              7. Third-Party Links and Partners
-            </h2>
-            <p className="mt-3">
-              Our website may contain links to third-party websites and
-              education partners. We do not control these websites and are not
-              responsible for their content, terms, or privacy practices. You
-              access third-party sites at your own risk.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              8. Limitation of Liability
-            </h2>
-            <p className="mt-3">
-              Student Choice Education shall not be liable for any direct,
-              indirect, incidental, or consequential losses arising from the use
-              or inability to use our website or services.
-            </p>
-            <p className="mt-2">
-              We do not guarantee uninterrupted access to our website or that
-              the website will always be free from errors or security issues,
-              although we take reasonable steps to protect it.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              9. Data Protection and Privacy
-            </h2>
-            <p className="mt-3">
-              Your personal data is handled in accordance with our Privacy
-              Policy, which explains how we collect, store, and protect your
-              information. By using our services, you also agree to our Privacy
-              Policy.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              10. Termination of Access
-            </h2>
-            <p className="mt-3">
-              We reserve the right to suspend or terminate access to our
-              services at any time if you breach these Terms and Conditions or
-              misuse the platform.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              11. Changes to These Terms
-            </h2>
-            <p className="mt-3">
-              We may update these Terms and Conditions from time to time. Any
-              changes will be posted on this page with a new &quot;Last
-              updated&quot; date. Continued use of the website after changes
-              means you accept the updated terms.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              12. Governing Law
-            </h2>
-            <p className="mt-3">
-              These Terms and Conditions are governed by and interpreted in
-              accordance with the laws of the United Kingdom. Any disputes
-              arising in connection with these terms shall be subject to the
-              exclusive jurisdiction of the courts of the United Kingdom.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-slate-900">
-              13. Contact Information
-            </h2>
-            <p className="mt-3">
-              If you have any questions about these Terms and Conditions, please
-              contact us through the contact details provided on our website.
+              If you have any questions about these Terms, please contact us via
+              our{" "}
+              <Link
+                href="/contact-us"
+                className="font-semibold text-slate-900 underline underline-offset-2 hover:text-blue-600"
+              >
+                contact page
+              </Link>
+              .
             </p>
           </section>
         </div>
