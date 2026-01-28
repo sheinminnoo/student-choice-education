@@ -28,7 +28,8 @@ export default function IeltsTrainingPage() {
       <IeltsSpeakingCourseSection />
       <StudyWithoutIeltsSection />
       <IeltsBenefitsGridSection />
-      <IeltsEnquiryForm />
+      {/*       <IeltsEnquiryForm />
+       */}
     </main>
   );
 }
