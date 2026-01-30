@@ -3,6 +3,8 @@
 import { google } from "googleapis";
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import ejs from "ejs"; // <--- New Import
+import path from "path"; // <--- New Import
 
 // --- 1. STRICT TYPES & SCHEMA ---
 export type FormState = {
@@ -22,25 +24,18 @@ const formSchema = z.object({
     .string()
     .regex(/^\+\d{7,15}$/, "Phone must include country code (e.g. +44...)"),
   interest: z.string().min(1, "Please select a help topic"),
-
-  // Mandatory Dropdowns
   startYear: z.string().min(1, "Please select a start year"),
   studyLevel: z.string().min(1, "Please select a study level"),
   destination: z.string().min(1, "Please select a destination"),
-
-  // Mandatory Message (min 10 chars)
   message: z
     .string()
     .min(10, "Please provide more details (at least 10 characters)")
     .max(2000, "Message is too long")
     .trim(),
-
-  // NEW: Validate that the checkbox was ticked
   terms: z.string().refine((val) => val === "on", {
     message: "You must agree to the terms and privacy policy.",
   }),
-
-  honeyPot: z.string().max(0), // Anti-spam
+  honeyPot: z.string().max(0),
 });
 
 export async function submitToGoogleSheet(
@@ -59,7 +54,7 @@ export async function submitToGoogleSheet(
       studyLevel: (formData.get("study_level") as string) || "",
       destination: (formData.get("destination") as string) || "",
       message: (formData.get("message") as string) || "",
-      terms: (formData.get("terms") as string) || "", // Capture the checkbox
+      terms: (formData.get("terms") as string) || "",
       honeyPot: (formData.get("job_role_hidden") as string) || "",
     };
 
@@ -92,14 +87,13 @@ export async function submitToGoogleSheet(
 
     const sheets = google.sheets({ version: "v4", auth });
 
-    // --- 6. SHEET SETUP (Auto-creates columns A-J) ---
+    // --- 6. SHEET SETUP ---
     const checkHeader = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range: "Sheet1!A1",
     });
 
     if (!checkHeader.data.values || checkHeader.data.values.length === 0) {
-      // Create Headers
       await sheets.spreadsheets.values.update({
         spreadsheetId,
         range: "Sheet1!A1:J1",
@@ -122,7 +116,6 @@ export async function submitToGoogleSheet(
         },
       });
 
-      // Apply Design
       await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
         requestBody: {
@@ -216,7 +209,7 @@ export async function submitToGoogleSheet(
       },
     });
 
-    // --- 8. SEND EMAILS (Admin Notification + Student Auto-Reply) ---
+    // --- 8. SEND EMAILS (Now using EJS!) ---
     if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
       try {
         const transporter = nodemailer.createTransport({
@@ -227,47 +220,40 @@ export async function submitToGoogleSheet(
           },
         });
 
-        // Email 1: To Admin (You)
+        // A. Render Admin Email (For You)
+        const adminTemplatePath = path.join(
+          process.cwd(),
+          "email-templates",
+          "contact-admin-notification.ejs",
+        );
+        const adminHtml = await ejs.renderFile(adminTemplatePath, {
+          ...validatedData, // Passes all fields (firstName, interest, message, etc.) to the template
+        });
+
         await transporter.sendMail({
           from: process.env.GMAIL_USER,
           to: process.env.GMAIL_USER,
           subject: `🔔 New Enquiry: ${validatedData.firstName} (${validatedData.interest})`,
-          text: `
-            New enquiry received from website.
-
-            Name: ${validatedData.firstName} ${validatedData.lastName}
-            Email: ${validatedData.email}
-            Phone: ${validatedData.phone}
-            Topic: ${validatedData.interest}
-            
-            Destination: ${validatedData.destination}
-            Level: ${validatedData.studyLevel}
-            Start Year: ${validatedData.startYear}
-            
-            Message:
-            ${validatedData.message}
-          `,
+          html: adminHtml, // <--- Sent as HTML
         });
 
-        // Email 2: Auto-Reply to Student
+        // B. Render Student Email (Confirmation)
+        const studentTemplatePath = path.join(
+          process.cwd(),
+          "email-templates",
+          "contact-confirmation.ejs",
+        );
+        const studentHtml = await ejs.renderFile(studentTemplatePath, {
+          firstName: validatedData.firstName,
+          interest: validatedData.interest,
+          year: new Date().getFullYear(),
+        });
+
         await transporter.sendMail({
           from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
           to: validatedData.email,
           subject: `We received your enquiry, ${validatedData.firstName}!`,
-          html: `
-            <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px;">
-              <h2 style="color: #020b2c;">Thanks for getting in touch!</h2>
-              <p>Hi ${validatedData.firstName},</p>
-              <p>We have successfully received your enquiry regarding <strong>${validatedData.interest}</strong>.</p>
-              <p>One of our admissions counsellors will review your details and contact you shortly (usually within 1-2 business days).</p>
-              <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-              <p style="font-size: 12px; color: #666;">
-                Best regards,<br>
-                <strong>Student Choice Education Team</strong><br>
-                <a href="https://student-choice-education.vercel.app/" style="color: #020b2c;">Visit our website</a>
-              </p>
-            </div>
-          `,
+          html: studentHtml, // <--- Sent as HTML
         });
 
         console.log("Emails sent successfully!");

@@ -206,7 +206,11 @@ export default function AmbassadorPage() {
       </section>
 
       {/* ========== FORM ========== */}
-      <section className="border-t border-slate-200 bg-slate-50 py-12 lg:py-16">
+      <section
+        id="ambassador-form"
+        className="border-t border-slate-200 bg-slate-50 py-12 lg:py-16"
+      >
+        {" "}
         <div
           className={`${MAX_WIDTH} grid gap-10 lg:grid-cols-[1.1fr,1fr] lg:items-start`}
         >

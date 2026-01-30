@@ -2,6 +2,8 @@
 
 import { FormEvent, useRef, useState, ChangeEvent } from "react";
 import Link from "next/link";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const universities = [
   "University of Hertfordshire",
@@ -15,37 +17,6 @@ const universities = [
   "University of Greenwich",
 ];
 
-type PhoneCountry = {
-  code: string;
-  name: string;
-  flag: string;
-};
-
-const phoneCountries: PhoneCountry[] = [
-  { code: "+44", name: "United Kingdom", flag: "🇬🇧" },
-  { code: "+66", name: "Thailand", flag: "🇹🇭" },
-  { code: "+95", name: "Myanmar", flag: "🇲🇲" },
-  { code: "+61", name: "Australia", flag: "🇦🇺" },
-  { code: "+1", name: "United States / Canada", flag: "🇺🇸" },
-  { code: "+49", name: "Germany", flag: "🇩🇪" },
-  { code: "+33", name: "France", flag: "🇫🇷" },
-  { code: "+34", name: "Spain", flag: "🇪🇸" },
-];
-
-function detectPhoneCountry(value: string): PhoneCountry | null {
-  const trimmed = value.replace(/\s+/g, "");
-  if (!trimmed.startsWith("+")) return null;
-
-  const sorted = [...phoneCountries].sort(
-    (a, b) => b.code.length - a.code.length
-  );
-
-  for (const c of sorted) {
-    if (trimmed.startsWith(c.code)) return c;
-  }
-  return null;
-}
-
 const postalCodeRegex = /^[A-Za-z0-9\s-]{3,10}$/;
 
 export default function AmbassadorForm() {
@@ -53,18 +24,20 @@ export default function AmbassadorForm() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
-
+  // Form State
   const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [phoneCountry, setPhoneCountry] = useState<PhoneCountry | null>(null);
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState<string | undefined>();
+  const [languages, setLanguages] = useState("");
+  const [socialLink, setSocialLink] = useState("");
   const [motivation, setMotivation] = useState("");
   const [motivationWordCount, setMotivationWordCount] = useState(0);
-
   const [postalCode, setPostalCode] = useState("");
   const [postalCodeError, setPostalCodeError] = useState<string | null>(null);
 
+  // File State
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -74,35 +47,32 @@ export default function AmbassadorForm() {
     setFileError(null);
     setPostalCodeError(null);
 
-    // Extra client-side validation
-
+    // Validation
     if (fullName.trim().length < 2) {
       setError("Please enter your full name.");
       return;
     }
-
-    if (motivationWordCount === 0) {
-      setError("Please tell us why you would like to be an ambassador.");
+    if (!phone || phone.length < 8) {
+      setError("Please enter a valid phone number.");
       return;
     }
-
-    if (motivationWordCount > 200) {
-      setError("Your answer must be 200 words or fewer.");
-      return;
-    }
-
-    if (phone && !/^\+?[0-9\s]{7,18}$/.test(phone)) {
-      setError(
-        "Please enter a valid phone / WhatsApp number (digits and + only)."
-      );
+    if (languages.trim().length < 2) {
+      setError("Please list languages you speak.");
       return;
     }
 
     const cleanedPostal = postalCode.trim();
     if (!cleanedPostal || !postalCodeRegex.test(cleanedPostal)) {
-      setPostalCodeError(
-        "Please enter a valid postal code (3–10 letters/numbers)."
-      );
+      setPostalCodeError("Please enter a valid postal code.");
+      return;
+    }
+
+    if (motivationWordCount < 5) {
+      setError("Please write more about your motivation.");
+      return;
+    }
+    if (motivationWordCount > 200) {
+      setError("Your answer must be 200 words or fewer.");
       return;
     }
 
@@ -113,15 +83,12 @@ export default function AmbassadorForm() {
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ];
-
       if (!allowedTypes.includes(file.type)) {
-        setFileError("Please upload a PDF or Word document only.");
+        setFileError("PDF or Word documents only.");
         return;
       }
-
-      const maxSize = 5 * 1024 * 1024;
-      if (file.size > maxSize) {
-        setFileError("File must be 5MB or smaller.");
+      if (file.size > 4 * 1024 * 1024) {
+        setFileError("File must be 4MB or smaller.");
         return;
       }
     }
@@ -131,35 +98,43 @@ export default function AmbassadorForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // Normalise postal code before send
     formData.set("postalCode", cleanedPostal.toUpperCase());
+    formData.set("phone", phone || "");
 
     try {
       const res = await fetch("/api/ambassador", {
         method: "POST",
         body: formData,
       });
+      const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error("Request failed");
-      }
+      if (!res.ok || !data.success)
+        throw new Error(data.error || "Request failed");
 
       setSubmitted(true);
       form.reset();
-      setSelectedFileName(null);
+
+      // Reset All States
       setFullName("");
-      setPhone("");
-      setPhoneCountry(null);
+      setEmail("");
+      setPhone(undefined);
+      setLanguages("");
+      setSocialLink("");
       setMotivation("");
       setMotivationWordCount(0);
       setPostalCode("");
-    } catch {
+      setSelectedFileName(null);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      console.error(err);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Handlers
   const handleFileChange = () => {
     setFileError(null);
     const file = fileInputRef.current?.files?.[0];
@@ -167,382 +142,343 @@ export default function AmbassadorForm() {
       setSelectedFileName(null);
       return;
     }
-
-    const allowedTypes = [
+    const allowed = [
       "application/pdf",
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ];
-
-    if (!allowedTypes.includes(file.type)) {
-      setFileError("Please upload a PDF or Word document only.");
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      setSelectedFileName(null);
+    if (!allowed.includes(file.type)) {
+      setFileError("PDF/Word only.");
+      fileInputRef.current!.value = "";
       return;
     }
-
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-      setFileError("File must be 5MB or smaller.");
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      setSelectedFileName(null);
+    if (file.size > 4 * 1024 * 1024) {
+      setFileError("Max 4MB.");
+      fileInputRef.current!.value = "";
       return;
     }
-
     setSelectedFileName(file.name);
   };
 
   const handleRemoveFile = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    fileInputRef.current!.value = "";
     setSelectedFileName(null);
     setFileError(null);
   };
-
-  const handleFullNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
-    const cleaned = raw.replace(/[^a-zA-Z\s'-]/g, "");
-    setFullName(cleaned.slice(0, 60));
-  };
-
-  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let raw = e.target.value;
-
-    raw = raw.replace(/[^\d+]/g, "");
-    if (raw.includes("+")) {
-      const firstPlusIndex = raw.indexOf("+");
-      raw =
-        "+" +
-        raw.slice(0, firstPlusIndex).replace(/\+/g, "") +
-        raw.slice(firstPlusIndex + 1).replace(/\+/g, "");
-    }
-
-    const limited = raw.slice(0, 18);
-    setPhone(limited);
-
-    const detected = detectPhoneCountry(limited);
-    setPhoneCountry(detected);
-  };
-
-  const handleMotivationChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    const limited = value.slice(0, 2000);
-    setMotivation(limited);
-
-    const words = limited.trim().split(/\s+/).filter(Boolean);
-    setMotivationWordCount(words.length);
-  };
-
-  const handlePostalCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setFullName(e.target.value.replace(/[^a-zA-Z\s'-]/g, "").slice(0, 60));
+  const handlePostalChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPostalCodeError(null);
-    const raw = e.target.value;
-    const cleaned = raw.replace(/[^A-Za-z0-9\s-]/g, "");
-    setPostalCode(cleaned.slice(0, 10).toUpperCase());
+    setPostalCode(
+      e.target.value
+        .replace(/[^A-Za-z0-9\s-]/g, "")
+        .slice(0, 10)
+        .toUpperCase(),
+    );
+  };
+  const handleMotivationChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value.slice(0, 2000);
+    setMotivation(val);
+    setMotivationWordCount(val.trim().split(/\s+/).filter(Boolean).length);
   };
 
   return (
-    <form
-      id="ambassador-form"
-      onSubmit={handleSubmit}
-      encType="multipart/form-data"
-      className="mt-4 space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-md"
-      autoComplete="on"
-    >
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label
-            htmlFor="fullName"
-            className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-          >
-            Full name
-          </label>
-          <input
-            id="fullName"
-            name="fullName"
-            type="text"
-            required
-            value={fullName}
-            onChange={handleFullNameChange}
-            maxLength={60}
-            autoComplete="name"
-            className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none ring-0 transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-            placeholder="Your full name"
-          />
-          <p className="text-[0.7rem] text-slate-400">
-            Letters only, up to 60 characters.
-          </p>
-        </div>
+    <div className="relative w-full min-h-screen bg-slate-50 py-12 px-4 flex justify-center items-center overflow-hidden">
+      {/* Background Pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.15] pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#020b2c 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+        }}
+      ></div>
 
-        <div className="space-y-1.5">
-          <label
-            htmlFor="email"
-            className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-          >
-            Email address
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            maxLength={100}
-            autoComplete="email"
-            className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-            placeholder="you@example.com"
-          />
-        </div>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label
-            htmlFor="phone"
-            className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-          >
-            Phone / WhatsApp
-          </label>
-          <div className="flex items-center gap-2">
-            {phoneCountry ? (
-              <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[0.75rem] text-slate-700">
-                <span>{phoneCountry.flag}</span>
-                <span>{phoneCountry.code}</span>
-                <span className="hidden sm:inline">{phoneCountry.name}</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[0.75rem] text-slate-400">
-                <span>🌍</span>
-                <span>Country code</span>
-              </div>
-            )}
-
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              value={phone}
-              onChange={handlePhoneChange}
-              inputMode="tel"
-              pattern="\+?[0-9\s]{7,18}"
-              maxLength={18}
-              className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-              placeholder="+44 7..."
-            />
+      {/* Container - Widened to max-w-4xl for better spacing */}
+      <div className="relative z-10 w-full max-w-4xl">
+        {submitted ? (
+          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500 bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-100 mb-6 shadow-sm">
+              <svg
+                className="h-10 w-10 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900">
+              Application Received!
+            </h3>
+            <p className="text-slate-600 mt-3 max-w-md leading-relaxed">
+              Thank you for applying. We have received your details and CV. Our
+              team will review your application and contact you shortly.
+            </p>
           </div>
-          <p className="text-[0.7rem] text-slate-400">
-            Include country code (e.g. +44). Digits and + only.
-          </p>
-        </div>
-
-        <div className="space-y-1.5">
-          <label
-            htmlFor="currentCityCountry"
-            className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-8 rounded-3xl border border-slate-200 bg-white p-8 md:p-10 shadow-xl"
+            autoComplete="on"
           >
-            Current city &amp; country
-          </label>
-          <input
-            id="currentCityCountry"
-            name="currentCityCountry"
-            type="text"
-            required
-            maxLength={80}
-            className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-            placeholder="For example: Hatfield, United Kingdom"
-          />
-        </div>
-      </div>
+            {/* Header */}
+            <div className="text-center border-b border-slate-100 pb-6 mb-6">
+              <h2 className="text-2xl font-bold text-slate-900">
+                Student Ambassador Application
+              </h2>
+              <p className="text-sm text-slate-500 mt-1">
+                Join our team and inspire the next generation of students.
+              </p>
+            </div>
 
-      {/* Postal code */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="postalCode"
-          className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-        >
-          Postal code (ZIP)
-        </label>
-        <input
-          id="postalCode"
-          name="postalCode"
-          type="text"
-          required
-          value={postalCode}
-          onChange={handlePostalCodeChange}
-          maxLength={10}
-          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-          placeholder="For example: AL10 9AB"
-        />
-        <p className="text-[0.7rem] text-slate-400">
-          3–10 characters. Letters, numbers, spaces, and dashes only.
-        </p>
-        {postalCodeError && (
-          <p className="text-[0.7rem] text-red-600">{postalCodeError}</p>
+            {/* --- FORM GRID --- */}
+            <div className="grid gap-6 md:grid-cols-2">
+              {/* Row 1 */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Full Name
+                </label>
+                <input
+                  name="fullName"
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={handleNameChange}
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="Your full name"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Email Address
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              {/* Row 2 */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Phone / WhatsApp
+                </label>
+                <div className="flex items-center w-full h-11 px-4 bg-white border border-slate-200 rounded-xl transition-all duration-200 focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-200 [&_.PhoneInputCountry]:mr-2 [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:h-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:text-slate-900 [&_.PhoneInputInput]:placeholder-slate-400">
+                  <PhoneInput
+                    international
+                    defaultCountry="GB"
+                    value={phone}
+                    onChange={setPhone}
+                  />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Languages Spoken
+                </label>
+                <input
+                  name="languages"
+                  type="text"
+                  required
+                  value={languages}
+                  onChange={(e) => setLanguages(e.target.value)}
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="e.g. English, Thai, Mandarin"
+                />
+              </div>
+
+              {/* Row 3 */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Current City & Country
+                </label>
+                <input
+                  name="currentCityCountry"
+                  type="text"
+                  required
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="e.g. Hatfield, UK"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Postal Code (ZIP)
+                </label>
+                <input
+                  name="postalCode"
+                  type="text"
+                  required
+                  value={postalCode}
+                  onChange={handlePostalChange}
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="e.g. AL10 9AB"
+                />
+                {postalCodeError && (
+                  <p className="text-[10px] text-red-600">{postalCodeError}</p>
+                )}
+              </div>
+
+              {/* Row 4 */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Current University
+                </label>
+                <select
+                  name="currentStudy"
+                  required
+                  defaultValue=""
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                >
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  {universities.map((u) => (
+                    <option key={u} value={u}>
+                      {u}
+                    </option>
+                  ))}
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Preferred Destination
+                </label>
+                <select
+                  name="destination"
+                  required
+                  defaultValue=""
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                >
+                  <option value="" disabled>
+                    Select a country
+                  </option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="Europe">Europe</option>
+                  <option value="Asia">Asia</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Row 5 - Full Width */}
+              <div className="md:col-span-2 space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  LinkedIn / Social Profile (Optional)
+                </label>
+                <input
+                  name="socialLink"
+                  type="text"
+                  value={socialLink}
+                  onChange={(e) => setSocialLink(e.target.value)}
+                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="e.g. linkedin.com/in/name"
+                />
+              </div>
+
+              {/* Motivation - Full Width */}
+              <div className="md:col-span-2 space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Why do you want to be an ambassador?
+                </label>
+                <textarea
+                  name="motivation"
+                  required
+                  rows={4}
+                  value={motivation}
+                  onChange={handleMotivationChange}
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  placeholder="Tell us how you would support other students..."
+                />
+                <div className="flex justify-between text-[10px] text-slate-400">
+                  <span>Max 200 words.</span>
+                  <span
+                    className={motivationWordCount > 200 ? "text-red-500" : ""}
+                  >
+                    {motivationWordCount}/200 words
+                  </span>
+                </div>
+              </div>
+
+              {/* File Upload - Full Width */}
+              <div className="md:col-span-2 space-y-1.5">
+                <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  CV / Resume (Optional)
+                </label>
+                <div className="flex items-center gap-2 p-2 border border-dashed border-slate-200 rounded-xl bg-slate-50">
+                  <input
+                    name="cv"
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="w-full h-10 px-3 py-1.5 text-sm text-slate-700 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-yellow-400 file:text-slate-900 hover:file:bg-yellow-300 transition-all duration-200 cursor-pointer"
+                  />
+                  {selectedFileName && (
+                    <button
+                      type="button"
+                      onClick={handleRemoveFile}
+                      className="text-xs text-slate-500 hover:text-slate-800 pr-2"
+                    >
+                      × Remove
+                    </button>
+                  )}
+                </div>
+                {fileError && (
+                  <p className="text-[10px] text-red-600">{fileError}</p>
+                )}
+              </div>
+            </div>
+            {/* --- END FORM GRID --- */}
+
+            {/* --- FOOTER: CONSENT & SUBMIT (Side-by-Side) --- */}
+            <div className="pt-6 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              {/* Consent Checkbox */}
+              <div className="flex items-start gap-3 px-1 max-w-sm">
+                <input
+                  type="checkbox"
+                  required
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-yellow-400 focus:ring-yellow-400 cursor-pointer"
+                />
+                <label className="text-xs text-slate-500 leading-relaxed">
+                  I agree to the{" "}
+                  <Link
+                    href="/privacy"
+                    target="_blank"
+                    className="underline hover:text-slate-900 font-medium"
+                  >
+                    Privacy Policy
+                  </Link>{" "}
+                  and to be contacted regarding this application.
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full md:w-auto whitespace-nowrap rounded-full bg-yellow-400 px-8 py-3 text-sm font-bold text-slate-900 shadow-lg hover:bg-yellow-300 disabled:opacity-70 transition transform hover:-translate-y-0.5"
+              >
+                {isSubmitting ? "Sending..." : "Submit Application"}
+              </button>
+            </div>
+
+            {error && (
+              <p className="text-center text-xs font-medium text-red-600 bg-red-50 py-2 rounded-lg">
+                {error}
+              </p>
+            )}
+          </form>
         )}
       </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label
-            htmlFor="currentStudy"
-            className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-          >
-            Current school / university
-          </label>
-          <select
-            id="currentStudy"
-            name="currentStudy"
-            required
-            className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select an option
-            </option>
-            {universities.map((uni) => (
-              <option key={uni} value={uni}>
-                {uni}
-              </option>
-            ))}
-            <option value="Other">Other school or college</option>
-          </select>
-        </div>
-
-        <div className="space-y-1.5">
-          <label
-            htmlFor="destination"
-            className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-          >
-            Preferred study destination
-          </label>
-          <select
-            id="destination"
-            name="destination"
-            className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-            defaultValue=""
-            required
-          >
-            <option value="" disabled>
-              Select a country
-            </option>
-            <option value="UK">United Kingdom</option>
-            <option value="Europe">Europe (other)</option>
-            <option value="Asia">Asia</option>
-            <option value="Other">Other / not sure yet</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Motivation with 200-word limit */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="motivation"
-          className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-        >
-          Why would you like to be an ambassador?
-        </label>
-        <textarea
-          id="motivation"
-          name="motivation"
-          required
-          rows={4}
-          value={motivation}
-          onChange={handleMotivationChange}
-          className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-          placeholder="Tell us how you would support other students and why this programme is a good fit for you."
-        />
-        <div className="flex items-center justify-between text-[0.7rem] text-slate-400">
-          <span>Maximum 200 words.</span>
-          <span
-            className={
-              motivationWordCount > 200 ? "font-semibold text-red-500" : ""
-            }
-          >
-            {motivationWordCount} / 200 words
-          </span>
-        </div>
-      </div>
-
-      {/* CV upload with remove button */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="cv"
-          className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500"
-        >
-          Attach your CV (optional)
-        </label>
-
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <input
-            id="cv"
-            name="cv"
-            type="file"
-            accept=".pdf,.doc,.docx"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
-          />
-
-          {selectedFileName && (
-            <button
-              type="button"
-              onClick={handleRemoveFile}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-800"
-            >
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-[0.7rem]">
-                ×
-              </span>
-              Remove file
-            </button>
-          )}
-        </div>
-
-        <p className="text-[0.7rem] text-slate-500">
-          PDF or Word file, up to 5MB.
-        </p>
-        {fileError && <p className="text-[0.7rem] text-red-600">{fileError}</p>}
-      </div>
-
-      {/* Consent checkbox */}
-      <div className="space-y-3 text-xs text-slate-600">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="consent"
-            required
-            className="h-4 w-4 rounded border-slate-300 text-yellow-400"
-          />
-          <span className="leading-snug">
-            I agree that Student Choice Education may contact me about the
-            ambassador programme and store my details in line with the{" "}
-            <Link
-              href="/privacy"
-              className="font-semibold text-slate-900 underline-offset-2 hover:underline"
-            >
-              privacy policy
-            </Link>
-            .
-          </span>
-        </label>
-      </div>
-
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="inline-flex items-center justify-center rounded-full bg-yellow-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-md transition hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {isSubmitting ? "Submitting..." : "Submit application"}
-        </button>
-
-        {submitted && !error && (
-          <p className="text-xs text-emerald-600">
-            Thank you. Your application has been received. Our team will contact
-            you by email.
-          </p>
-        )}
-
-        {error && <p className="text-xs text-red-600">{error}</p>}
-      </div>
-    </form>
+    </div>
   );
 }
