@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .header {
+        background-color: #020b2c;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .header h1 {
+        color: #ffffff;
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+      .content {
+        padding: 40px 30px;
+        color: #333333;
+        line-height: 1.6;
+      }
+      .greeting {
+        font-size: 18px;
+        font-weight: bold;
+        color: #020b2c;
+        margin-bottom: 20px;
+      }
+      .status-box {
+        background-color: #eef2ff;
+        border-left: 4px solid #4f46e5;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      .status-text {
+        color: #020b2c;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .footer {
+        background-color: #f9fafb;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #9ca3af;
+        border-top: 1px solid #eeeeee;
+      }
+      .button {
+        display: inline-block;
+        background-color: #facc15;
+        color: #020b2c;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+      .button:hover {
+        background-color: #eab308;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Student Choice Education</h1>
+      </div>
+
+      <div class="content">
+        <div class="greeting">Hi <%= name %>,</div>
+
+        <p>
+          Thank you for applying to join our
+          <strong>Student Ambassador Program</strong>. We are thrilled that you
+          want to represent Student Choice Education!
+        </p>
+
+        <div class="status-box">
+          <div class="status-text">✅ Application Status: Received</div>
+          <p style="margin: 5px 0 0 0; font-size: 13px; color: #555">
+            We have securely received your details and CV.
+          </p>
+        </div>
+
+        <p>
+          Our admissions team will review your application over the next
+          <strong>3-5 business days</strong>. If your profile matches our
+          current openings, we will email you to schedule a brief video
+          interview.
+        </p>
+
+        <p>
+          In the meantime, feel free to browse our latest resources for
+          students.
+        </p>
+
+        <div style="text-align: center">
+          <a href="https://student-choice-education.vercel.app/" class="button"
+            >Visit Our Website</a
+          >
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>&copy; <%= year %> Student Choice Education. All rights reserved.</p>
+        <p>Hatfield, United Kingdom</p>
+      </div>
+    </div>
+  </body>
+</html>
