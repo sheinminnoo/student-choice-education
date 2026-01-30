@@ -1,11 +1,21 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { submitToGoogleSheet } from "@/app/actions";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const initialState = { success: false, message: "" };
+
+// Standard styling for the other text inputs
+const inputClasses = `
+  w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 
+  text-base text-slate-900 outline-none transition-all duration-200 
+  focus:bg-white focus:border-[#020b2c] focus:ring-4 focus:ring-[#020b2c]/10 
+  [&:user-invalid]:border-red-500 [&:user-invalid]:bg-red-50
+`;
 
 export default function ContactFormCard() {
   const [state, formAction, isPending] = useActionState(
@@ -13,10 +23,17 @@ export default function ContactFormCard() {
     initialState,
   );
 
+  // We need state to handle the Phone Input dropdown
+  const [phone, setPhone] = useState<string | undefined>();
+
   useEffect(() => {
     if (state?.message) {
       if (state.success) {
         toast.success("Message sent successfully!");
+        // Reset phone state after component renders success state
+        const resetPhone = () => setPhone(undefined);
+        const timeoutId = setTimeout(resetPhone, 0);
+        return () => clearTimeout(timeoutId);
       } else {
         toast.error(state.message, {
           duration: 4000,
@@ -63,6 +80,7 @@ export default function ContactFormCard() {
           </p>
 
           <form action={formAction} className="flex flex-col gap-5">
+            {/* Hidden Honeypot Field */}
             <div className="absolute opacity-0 -z-10 h-0 w-0 overflow-hidden">
               <input
                 type="text"
@@ -72,14 +90,14 @@ export default function ContactFormCard() {
               />
             </div>
 
+            {/* Name Fields */}
             <div className="grid gap-5 sm:grid-cols-2">
               <input
                 type="text"
                 name="first_name"
                 placeholder="First Name"
-                className="input-field"
+                className={inputClasses}
                 required
-                // ALLOW: Letters (a-z), Spaces, Hyphens (-), Apostrophes (')
                 onInput={(e) => {
                   e.currentTarget.value = e.currentTarget.value.replace(
                     /[^a-zA-Z\s\-']/g,
@@ -91,9 +109,8 @@ export default function ContactFormCard() {
                 type="text"
                 name="last_name"
                 placeholder="Last Name"
-                className="input-field"
+                className={inputClasses}
                 required
-                // ALLOW: Letters (a-z), Spaces, Hyphens (-), Apostrophes (')
                 onInput={(e) => {
                   e.currentTarget.value = e.currentTarget.value.replace(
                     /[^a-zA-Z\s\-']/g,
@@ -103,13 +120,13 @@ export default function ContactFormCard() {
               />
             </div>
 
+            {/* Email Field */}
             <input
               type="email"
               name="email"
               placeholder="Email Address"
-              className="input-field"
+              className={inputClasses}
               required
-              // BLOCK: Spaces (Emails cannot have spaces)
               onInput={(e) => {
                 e.currentTarget.value = e.currentTarget.value.replace(
                   /\s/g,
@@ -118,27 +135,29 @@ export default function ContactFormCard() {
               }}
             />
 
-            <div className="relative">
-              <input
-                type="tel"
-                name="phone"
-                placeholder="+44 7123 456789"
-                className="input-field pl-3"
-                required
-                maxLength={20}
-                // ALLOW: Numbers, Plus (+), Space
-                onInput={(e) => {
-                  e.currentTarget.value = e.currentTarget.value.replace(
-                    /[^0-9+\s]/g,
-                    "",
-                  );
-                }}
-              />
-              <p className="text-[11px] text-slate-400 mt-1 ml-1">
-                Must include country code (e.g. +44)
-              </p>
+            {/* --- NEW PROFESSIONAL PHONE INPUT --- */}
+            {/* We use a hidden input to pass the 'phone' value to the Server Action */}
+            <input type="hidden" name="phone" value={phone || ""} />
+
+            {/* The styled wrapper exactly as requested */}
+            <div className="space-y-1.5">
+              {/* Optional: Remove this label if you want it to look like the other fields (placeholder only) */}
+              <label className="text-xs font-medium uppercase tracking-wider text-slate-500 ml-1">
+                Phone / WhatsApp
+              </label>
+
+              <div className="flex items-center w-full h-[54px] px-4 bg-slate-50 border border-slate-200 rounded-xl transition-all duration-200 focus-within:bg-white focus-within:border-[#020b2c] focus-within:ring-4 focus-within:ring-[#020b2c]/10 [&_.PhoneInputCountry]:mr-2 [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:h-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:text-base [&_.PhoneInputInput]:text-slate-900 [&_.PhoneInputInput]:placeholder-slate-400">
+                <PhoneInput
+                  international
+                  defaultCountry="GB"
+                  value={phone}
+                  onChange={setPhone}
+                  placeholder="Enter phone number"
+                />
+              </div>
             </div>
 
+            {/* Interest Dropdown */}
             <div className="space-y-1">
               <label className="text-sm font-semibold text-slate-700 ml-1">
                 What can we help you with?
@@ -146,7 +165,7 @@ export default function ContactFormCard() {
               <select
                 name="interest_category"
                 defaultValue=""
-                className="input-field"
+                className={inputClasses}
                 required
               >
                 <option value="" disabled>
@@ -162,11 +181,12 @@ export default function ContactFormCard() {
               </select>
             </div>
 
+            {/* Year & Level Dropdowns */}
             <div className="grid gap-5 sm:grid-cols-2">
               <select
                 name="start_year"
                 defaultValue=""
-                className="input-field"
+                className={inputClasses}
                 required
               >
                 <option value="" disabled>
@@ -179,7 +199,7 @@ export default function ContactFormCard() {
               <select
                 name="study_level"
                 defaultValue=""
-                className="input-field"
+                className={inputClasses}
                 required
               >
                 <option value="" disabled>
@@ -190,10 +210,11 @@ export default function ContactFormCard() {
               </select>
             </div>
 
+            {/* Destination Dropdown */}
             <select
               name="destination"
               defaultValue=""
-              className="input-field"
+              className={inputClasses}
               required
             >
               <option value="" disabled>
@@ -205,14 +226,16 @@ export default function ContactFormCard() {
               <option>Australia</option>
             </select>
 
+            {/* Message Area */}
             <textarea
               name="message"
               placeholder="Tell us about your requirements (min 10 chars)..."
-              className="input-field min-h-[120px]"
+              className={`${inputClasses} min-h-[120px]`}
               required
               minLength={10}
             />
 
+            {/* Terms Checkbox */}
             <div className="flex items-start gap-3 px-1">
               <input
                 type="checkbox"
@@ -246,6 +269,7 @@ export default function ContactFormCard() {
               </label>
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isPending}
@@ -256,29 +280,6 @@ export default function ContactFormCard() {
           </form>
         </>
       )}
-
-      <style jsx>{`
-        .input-field {
-          width: 100%;
-          border-radius: 0.75rem;
-          border: 1px solid #e2e8f0;
-          background-color: #f8fafc;
-          padding: 0.875rem 1rem;
-          font-size: 0.95rem;
-          color: #0f172a;
-          outline: none;
-          transition: all 0.2s;
-        }
-        .input-field:focus {
-          background-color: white;
-          border-color: #020b2c;
-          box-shadow: 0 0 0 4px rgba(2, 11, 44, 0.1);
-        }
-        .input-field:user-invalid {
-          border-color: #ef4444;
-          background-color: #fef2f2;
-        }
-      `}</style>
     </div>
   );
 }
