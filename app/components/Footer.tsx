@@ -73,30 +73,22 @@ export default function Footer() {
 
               <div className="space-y-1 text-[13px]">
                 <a
-                  href="mailto:info@studentchoice.com"
+                  href="mailto:info@studentchoiceeducation.co.uk"
                   className="block transition hover:text-yellow-600"
                 >
-                  info@studentchoice.com
+                  info@studentchoiceeducation.co.uk
                 </a>
 
                 <a
-                  href="mailto:hi@studentchoice.com"
+                  href="tel:+447405105673"
                   className="block transition hover:text-yellow-600"
                 >
-                  hi@studentchoice.com
-                </a>
-
-                <a
-                  href="tel:+441234567890"
-                  className="block transition hover:text-yellow-600"
-                >
-                  +44 1234 567 890
+                  +44 7405105673
                 </a>
               </div>
             </div>
 
-            {/* Social */}
-            <div className="space-y-2">
+            {/* Social            <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-600">
                 Follow us
               </p>
@@ -107,7 +99,7 @@ export default function Footer() {
                 <SocialIcon label="LinkedIn" abbr="in" />
                 <SocialIcon label="YouTube" abbr="▶" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
