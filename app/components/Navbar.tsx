@@ -99,16 +99,16 @@ export default function Navbar() {
       <div className="hidden lg:block w-full bg-[#050f22]">
         <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-end gap-3 px-4 sm:px-6 lg:px-8 h-9 text-[11px] sm:text-xs text-gray-300">
           <a
-            href="mailto:info@studentchoice.com"
+            href="mailto:info@studentchoiceeducation.co.uk"
             className={`hover:text-white ${focusRingDark}`}
           >
-            info@studentchoice.com
+            info@studentchoiceeducation.co.uk
           </a>
           <a
-            href="tel:+441234567890"
+            href="tel:+447405105673"
             className={`hover:text-white ${focusRingDark}`}
           >
-            +44 1234 567 890
+            +44 7405105673
           </a>
         </div>
       </div>

@@ -200,7 +200,7 @@ export default function ScholarshipsPage() {
 
       {/* ========== FILTER BAR + LIST ========== */}
       <section className={`${MAX_WIDTH} space-y-8 py-8 sm:py-10 lg:py-12`}>
-        {/* Premium filter bar */}
+        {/* Premium filter bar (NO card design) */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -227,7 +227,7 @@ export default function ScholarshipsPage() {
           </div>
 
           <div className="space-y-4">
-            {/* Row 1: Search */}
+            {/* Search */}
             <div className="relative">
               <input
                 value={search}
@@ -243,45 +243,45 @@ export default function ScholarshipsPage() {
               </span>
             </div>
 
-            {/* Row 2: Countries (Full Width to fix spacing) */}
-            <div>
-              <div className="flex flex-wrap gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCountry("All countries");
-                    resetToFirstPage();
-                  }}
-                  className={`rounded-full px-3 py-1.5 text-xs font-medium ${
-                    country === "All countries"
-                      ? "bg-[#020b2c] text-white"
-                      : "border border-slate-200 bg-white text-[#020b2c] hover:border-yellow-400"
-                  }`}
-                >
-                  All
-                </button>
-                {scholarshipCountries.map((c) => (
+            {/* Main filter rows */}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {/* Country filter */}
+              <div className="space-y-1.5">
+                <div className="flex flex-wrap gap-1.5">
                   <button
-                    key={c}
                     type="button"
                     onClick={() => {
-                      setCountry(c);
+                      setCountry("All countries");
                       resetToFirstPage();
                     }}
-                    className={`rounded-full px-3 py-1.5 text-xs font-medium capitalize ${
-                      country === c
-                        ? "bg-yellow-400 text-[#020b2c]"
+                    className={`rounded-full px-3 py-1.5 text-xs font-medium ${
+                      country === "All countries"
+                        ? "bg-[#020b2c] text-white"
                         : "border border-slate-200 bg-white text-[#020b2c] hover:border-yellow-400"
                     }`}
                   >
-                    {c.toLowerCase()}
+                    All
                   </button>
-                ))}
+                  {scholarshipCountries.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => {
+                        setCountry(c);
+                        resetToFirstPage();
+                      }}
+                      className={`rounded-full px-3 py-1.5 text-xs font-medium capitalize ${
+                        country === c
+                          ? "bg-yellow-400 text-[#020b2c]"
+                          : "border border-slate-200 bg-white text-[#020b2c] hover:border-yellow-400"
+                      }`}
+                    >
+                      {c.toLowerCase()}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Row 3: Dropdowns and Toggle (Unified 3-column Grid) */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {/* Study level filter */}
               <div className="space-y-1.5">
                 <select
@@ -299,7 +299,9 @@ export default function ScholarshipsPage() {
                   ))}
                 </select>
               </div>
+            </div>
 
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
               {/* Funding type filter */}
               <div className="space-y-1.5">
                 <select
@@ -318,20 +320,20 @@ export default function ScholarshipsPage() {
                 </select>
               </div>
 
-              {/* Automatic toggle - Removed 'mt-5' to fix vertical alignment */}
+              {/* Automatic toggle */}
               <button
                 type="button"
                 onClick={() => {
                   setAutoOnly((v) => !v);
                   resetToFirstPage();
                 }}
-                className={`flex w-full items-center justify-between rounded-2xl border px-3.5 py-2.5 text-xs font-medium transition ${
+                className={`mt-5 flex items-center justify-between rounded-2xl border px-3.5 py-2.5 text-xs font-medium transition ${
                   autoOnly
                     ? "border-yellow-400 text-[#020b2c] bg-yellow-50"
                     : "border-slate-200 text-slate-700 bg-white hover:border-yellow-400"
                 }`}
               >
-                <span>Automatic scholarships</span>
+                <span>Show only automatic scholarships</span>
                 <span
                   className={`inline-flex h-4 w-7 items-center rounded-full border ${
                     autoOnly
