@@ -4,6 +4,7 @@ import "./globals.css";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
           shadow="0 0 10px #facc15,0 0 5px #facc15"
         />
         {children}
+        <SpeedInsights />
         <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
         <CookieConsentBanner />
       </body>
