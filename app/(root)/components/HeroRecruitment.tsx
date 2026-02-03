@@ -29,7 +29,7 @@ const heroSlides: HeroSlide[] = [
     title: "Find the course that fits your future.",
     description:
       "Compare subjects, entry requirements and tuition fees in one place.",
-    primaryCta: { label: "Check your eligibility", href: "/eligibility" },
+    primaryCta: { label: "Check your eligibility", href: "/check-eligibility" },
     secondaryCta: { label: "Browse courses", href: "/online-courses" },
   },
   {

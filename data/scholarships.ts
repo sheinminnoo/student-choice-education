@@ -29,7 +29,9 @@ export type ScholarshipTag =
   | "automatic"
   | "early-bird"
   | "alumni"
-  | "government-linked";
+  | "government-linked"
+  | "low-cost" // <--- New
+  | "high-value"; // <--- New
 
 export type Scholarship = {
   id: string;
@@ -538,5 +540,271 @@ export const scholarships: Scholarship[] = [
     tagline: "Early-bird fee discount for paying your deposit on time.",
     audiences: ["international"],
     tags: ["early-bird", "automatic"],
+  },
+  // --- ICN BUSINESS SCHOOL (FRANCE) ---
+  {
+    id: "icn-ambition-scholarship",
+    universitySlug: "icn-business-school",
+    universityName: "ICN Business School",
+    campusLabel: "Paris / Nancy, France",
+    country: "France",
+    name: "ICN Ambition Scholarship",
+    fundingType: "fee-discount",
+    studyLevels: ["Undergraduate", "Postgraduate"],
+    maxValue: "10% - 20% tuition reduction",
+    isPercentage: true,
+    maxPercentage: 20,
+    typicalValueDescription:
+      "10% to 20% reduction on first-year fees for top applicants.",
+    overview:
+      "ICN offers the Ambition Scholarship to international students who demonstrate academic excellence and strong motivation. The award is applied to the tuition fees for the first year of the program.",
+    keyEligibility: [
+      "Accepted into an ICN Bachelor or Master program",
+      "Paid deposit before the early deadline",
+      "Strong academic record",
+    ],
+    automaticConsideration: false,
+    applicationGuidance:
+      "Submit a scholarship application form alongside your admission documents.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["September"],
+    officialUrl:
+      "https://www.icn-artem.com/en/international-candidate-admissions/tuition-fees-scholarships/",
+    universityLogo: "/home/icn-logo.png",
+    campusImage: "/campus/icn-paris.jpg",
+    tagline: "Reward for ambition and academic excellence.",
+    audiences: ["international"],
+    tags: ["merit-based", "early-bird"],
+  },
+
+  // --- BLOOMSBURY INSTITUTE ---
+  {
+    id: "bloomsbury-entry-scholarship",
+    universitySlug: "bloomsbury-institute",
+    universityName: "Bloomsbury Institute London",
+    campusLabel: "London, UK",
+    country: "UK",
+    name: "International Entry Scholarship",
+    fundingType: "fee-discount",
+    studyLevels: ["Undergraduate", "Postgraduate"],
+    maxValue: "£1,500",
+    isPercentage: false,
+    typicalValueDescription:
+      "£1,500 fee reduction for new international entrants.",
+    overview:
+      "To support international students starting their studies in London, Bloomsbury Institute offers a standard entry scholarship to eligible self-funded students.",
+    keyEligibility: [
+      "International fee status",
+      "Enrolling in a full-time degree",
+      "No separate application required",
+    ],
+    automaticConsideration: true,
+    applicationGuidance: "Applied automatically to your CAS and offer letter.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["January", "June", "October"],
+    officialUrl: "https://www.bil.ac.uk/international/scholarships/",
+    universityLogo: "/home/bloomsbury.jpg",
+    campusImage: "/campus/bloomsbury.jpg",
+    tagline: "Welcome support for London studies.",
+    audiences: ["international"],
+    tags: ["automatic"],
+  },
+
+  // --- ARU LONDON ---
+  {
+    id: "aru-london-undergraduate",
+    universitySlug: "aru-london",
+    universityName: "ARU London",
+    campusLabel: "London, UK",
+    country: "UK",
+    name: "ARU London Undergraduate Scholarship",
+    fundingType: "fee-discount",
+    studyLevels: ["Undergraduate"],
+    maxValue: "Up to £2,000",
+    isPercentage: false,
+    typicalValueDescription: "Fee discount awarded based on academic grades.",
+    overview:
+      "ARU London rewards academic success with scholarships of up to £2,000 for the first year of undergraduate study. The amount depends on your high school grades.",
+    keyEligibility: [
+      "International student",
+      "Meeting or exceeding academic entry requirements",
+      "Applying for a 3 or 4 year degree",
+    ],
+    automaticConsideration: true,
+    applicationGuidance:
+      "Eligibility is assessed by the admissions team upon application.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["January", "May", "September"],
+    officialUrl: "https://london.aru.ac.uk/admissions/scholarships",
+    universityLogo: "/home/aru-london.png",
+    campusImage: "/campus/aru-london.jpg",
+    tagline: "Merit awards for high achievers.",
+    audiences: ["international"],
+    tags: ["merit-based", "automatic"],
+  },
+
+  // --- UCLAN LONDON ---
+  {
+    id: "uclan-london-bursary",
+    universitySlug: "uclan-london",
+    universityName: "UCLan London",
+    campusLabel: "London, UK",
+    country: "UK",
+    name: "International Bursary",
+    fundingType: "living-cost-support",
+    studyLevels: ["Undergraduate", "Postgraduate"],
+    maxValue: "£1,000 per year",
+    isPercentage: false,
+    typicalValueDescription:
+      "£1,000 deducted from fees for every year of study.",
+    overview:
+      "UCLan London offers a multi-year bursary for international students, reducing the tuition fee by £1,000 for each year of your course.",
+    keyEligibility: [
+      "International fee payer",
+      "Enrolling on a full-time degree at the London campus",
+    ],
+    automaticConsideration: true,
+    applicationGuidance: "Automatically applied to your account each year.",
+    canCombineWithOtherAwards: "limited",
+    mainIntakes: ["January", "September"],
+    officialUrl: "https://london.uclan.ac.uk/fees-and-funding/",
+    universityLogo: "/home/uclan.png",
+    campusImage: "/campus/uclan-london.png",
+    tagline: "Recurring support for every year of study.",
+    audiences: ["international"],
+    tags: ["automatic"],
+  },
+
+  // --- REGENT COLLEGE LONDON ---
+  {
+    id: "regent-college-pg-scholarship",
+    universitySlug: "regent-college-london",
+    universityName: "Regent College London",
+    campusLabel: "London, UK",
+    country: "UK",
+    name: "PG Global Scholarship",
+    fundingType: "fee-discount",
+    studyLevels: ["Postgraduate"],
+    maxValue: "£3,000",
+    isPercentage: false,
+    typicalValueDescription:
+      "£3,000 discount for specific postgraduate intakes.",
+    overview:
+      "Regent College London offers a significant tuition fee waiver for international students joining their Master's programs during select intakes.",
+    keyEligibility: [
+      "Holding an unconditional offer",
+      "Applying for a full-time Master's degree",
+      "Paying deposit within 14 days of offer",
+    ],
+    automaticConsideration: true,
+    applicationGuidance:
+      "Offer letters will detail the scholarship if eligible.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["January", "September"],
+    officialUrl: "https://www.rcl.ac.uk/study/international-eu-students/",
+    universityLogo: "/home/regent-college.jpg",
+    campusImage: "/campus/regent-college.jpg",
+    tagline: "Major support for postgraduate students.",
+    audiences: ["international"],
+    tags: ["automatic", "early-bird"],
+  },
+
+  // --- UWS LONDON ---
+  {
+    id: "uws-london-excellence",
+    universitySlug: "uws-london",
+    universityName: "UWS London",
+    campusLabel: "London, UK",
+    country: "UK",
+    name: "UWS London Bursary",
+    fundingType: "fee-discount",
+    studyLevels: ["Undergraduate", "Postgraduate"],
+    maxValue: "Up to 40%",
+    isPercentage: true,
+    maxPercentage: 40,
+    typicalValueDescription: "Significant bursaries for specific intakes.",
+    overview:
+      "UWS London frequently offers high-value bursaries (up to 40% in some campaigns) to ensure diversity and support international students in the capital.",
+    keyEligibility: [
+      "International applicant",
+      "Meeting academic entry criteria",
+      "Applying for eligible intakes (e.g. May/September)",
+    ],
+    automaticConsideration: true,
+    applicationGuidance: "Confirmed automatically in your offer letter.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["January", "September"],
+    officialUrl: "https://www.uwslondon.ac.uk/scholarships/",
+    universityLogo: "/home/uws-logo.jpg",
+    campusImage: "/campus/uws-london.png",
+    tagline: "One of the most generous London bursaries.",
+    audiences: ["international"],
+    tags: ["automatic", "high-value"],
+  },
+
+  // --- ARDEN UK (London/Manchester) ---
+  {
+    id: "arden-uk-welcome",
+    universitySlug: "arden-university-uk",
+    universityName: "Arden University (UK)",
+    campusLabel: "London / Manchester / Birmingham",
+    country: "UK",
+    name: "UK Welcome Offer",
+    fundingType: "fee-discount",
+    studyLevels: ["Undergraduate", "Postgraduate"],
+    maxValue: "Up to £5,000",
+    isPercentage: false,
+    typicalValueDescription:
+      "Fee reduction for international students studying in the UK.",
+    overview:
+      "Arden University provides a 'Welcome Offer' that significantly reduces the standard international tuition fee for students joining their UK campuses.",
+    keyEligibility: [
+      "International student",
+      "Studying face-to-face at a UK campus",
+      "Valid for specific intake years",
+    ],
+    automaticConsideration: true,
+    applicationGuidance:
+      "The reduced fee is usually reflected directly in your offer letter.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["February", "May", "September", "November"],
+    officialUrl: "https://arden.ac.uk/international-students",
+    universityLogo: "/home/arden.jpg",
+    campusImage: "/campus/arden-berlin.jpg",
+    tagline: "Making UK education accessible.",
+    audiences: ["international"],
+    tags: ["automatic", "low-cost"],
+  },
+
+  // --- NORTHUMBRIA PATHWAY ---
+  {
+    id: "northumbria-pathway-merit",
+    universitySlug: "northumbria-pathway",
+    universityName: "Northumbria University (Pathways)",
+    campusLabel: "Newcastle / London",
+    country: "UK",
+    name: "Pathway Merit Scholarship",
+    fundingType: "fee-discount",
+    studyLevels: ["Foundation"],
+    maxValue: "Up to £2,000",
+    isPercentage: false,
+    typicalValueDescription: "Discount on foundation fees for strong grades.",
+    overview:
+      "QA Higher Education offers merit-based scholarships for students entering the International Foundation programme who demonstrate excellent high school results.",
+    keyEligibility: [
+      "Applying for International Foundation or Pre-Masters",
+      "Exceeding minimum entry grades",
+      "Strong personal statement",
+    ],
+    automaticConsideration: true,
+    applicationGuidance: "Assessed by the admissions team upon application.",
+    canCombineWithOtherAwards: "no",
+    mainIntakes: ["January", "May", "September"],
+    officialUrl: "https://qahighereducation.com/courses/pathways/",
+    universityLogo: "/home/northumbria-newcastle.png",
+    campusImage: "/campus/northumbria-newcastle.jpg",
+    tagline: "Start your Northumbria journey with support.",
+    audiences: ["international"],
+    tags: ["merit-based"],
   },
 ];

@@ -212,10 +212,6 @@ export default function ScholarshipsPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
                 Filter scholarships
               </p>
-              <p className="mt-1 text-xs text-slate-600">
-                Adjust the filters below, then scroll the list to explore
-                scholarships that fit your plan.
-              </p>
             </div>
             <p className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] text-slate-700">
               Showing{" "}
