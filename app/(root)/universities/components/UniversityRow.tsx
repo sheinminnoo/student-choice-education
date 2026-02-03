@@ -61,6 +61,9 @@ export default function UniversityRow({ uni, featured = false }: Props) {
                   src={uni.logo}
                   alt={`${uni.name} logo`}
                   fill
+                  // PERFORMANCE FIX: Added sizes prop
+                  // This tells the browser: "At mobile, this is 80px wide. At tablet, 96px. At desktop, 112px."
+                  sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 112px"
                   className="
                     object-contain p-2 
                     transition-transform duration-200 ease-out

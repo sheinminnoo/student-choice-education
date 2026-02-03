@@ -1,0 +1,64 @@
+import type { Metadata } from "next";
+import EligibilityWizard from "../components/EligibilityWizard";
+
+export const metadata: Metadata = {
+  title: "Check University Eligibility | Student Choice Education",
+  description:
+    "Find out if you qualify for top universities in the UK, USA, and Canada in just 2 minutes.",
+};
+
+export default function EligibilityPage() {
+  return (
+    <section className="relative min-h-screen overflow-hidden bg-white selection:bg-[#facc15] selection:text-[#020b2c]">
+      {/* --- 1. SPOTS BACKGROUND --- */}
+      <div className="absolute inset-0 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+      {/* --- 2. SOFT SPOTLIGHTS --- */}
+      <div className="absolute left-0 top-0 -ml-[10%] -mt-[10%] h-[500px] w-[500px] rounded-full bg-blue-100/50 blur-[100px]" />
+      <div className="absolute bottom-0 right-0 -mb-[10%] -mr-[10%] h-[500px] w-[500px] rounded-full bg-yellow-100/50 blur-[100px]" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="text-center mb-10">
+          {/* Heading - Reduced Size */}
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl lg:text-5xl mb-4">
+            Check Your{" "}
+            <span className="text-[#020b2c] underline decoration-[#facc15] decoration-4 underline-offset-4">
+              Eligibility
+            </span>
+          </h1>
+
+          <p className="mx-auto max-w-xl text-base text-slate-600 leading-relaxed">
+            Answer 5 quick questions to see which universities match your
+            academic profile. No paperwork required.
+          </p>
+        </div>
+
+        {/* Wizard Component */}
+        <div className="relative">
+          <EligibilityWizard />
+        </div>
+
+        {/* Trust Signals Footer */}
+        <div className="mt-16 border-t border-slate-200 pt-8">
+          <div className="grid grid-cols-2 gap-6 text-center sm:grid-cols-4">
+            {[
+              { label: "Partner Universities", val: "100+" },
+              { label: "Visa Success Rate", val: "98%" },
+              { label: "Students Placed", val: "5k+" },
+              { label: "Free Support", val: "100%" },
+            ].map((stat) => (
+              <div key={stat.label} className="group">
+                <div className="text-2xl font-black text-slate-900 tracking-tight group-hover:scale-110 transition-transform duration-300 ease-out">
+                  {stat.val}
+                </div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

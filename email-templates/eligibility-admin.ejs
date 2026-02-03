@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+      }
+      .card {
+        background: white;
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+      }
+      .head {
+        background: #020b2c;
+        padding: 15px;
+        color: white;
+      }
+      .row {
+        padding: 12px 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+      }
+      .label {
+        color: #666;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+      .val {
+        font-weight: bold;
+        color: #333;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="head">
+        <h2 style="margin: 0; font-size: 18px">🎯 New Eligibility Lead</h2>
+      </div>
+
+      <div class="row">
+        <span class="label">Name</span>
+        <span class="val"><%= fullName %></span>
+      </div>
+      <div class="row">
+        <span class="label">Phone</span>
+        <span class="val"><a href="tel:<%= phone %>"><%= phone %></a></span>
+      </div>
+      <div class="row">
+        <span class="label">Email</span>
+        <span class="val"><a href="mailto:<%= email %>"><%= email %></a></span>
+      </div>
+
+      <div
+        style="
+          background: #f8fafc;
+          padding: 10px 20px;
+          font-size: 11px;
+          font-weight: bold;
+          color: #999;
+          letter-spacing: 1px;
+          margin-top: 10px;
+        "
+      >
+        ACADEMIC PROFILE
+      </div>
+
+      <div class="row">
+        <span class="label">Level</span>
+        <span class="val"><%= educationLevel %></span>
+      </div>
+      <div class="row">
+        <span class="label">Grades</span>
+        <span class="val"><%= grades %></span>
+      </div>
+      <div class="row">
+        <span class="label">English</span>
+        <span class="val"><%= englishLevel %></span>
+      </div>
+
+      <div
+        style="
+          background: #f8fafc;
+          padding: 10px 20px;
+          font-size: 11px;
+          font-weight: bold;
+          color: #999;
+          letter-spacing: 1px;
+          margin-top: 10px;
+        "
+      >
+        INTERESTS
+      </div>
+
+      <div class="row">
+        <span class="label">Destination</span>
+        <span class="val" style="color: #020b2c"><%= destination %></span>
+      </div>
+      <div class="row" style="border-bottom: none">
+        <span class="label">Subject</span>
+        <span class="val"><%= subject %></span>
+      </div>
+    </div>
+  </body>
+</html>

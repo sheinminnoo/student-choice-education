@@ -70,7 +70,7 @@ export default function EligibilityBanner() {
 
         <div className="shrink-0">
           <Link
-            href="/eligibility"
+            href="/check-eligibility"
             className="inline-flex items-center justify-center rounded-full bg-[#facc15] px-10 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-900 shadow-lg transition hover:bg-[#eab308]"
           >
             Check your eligibility

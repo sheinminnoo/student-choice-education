@@ -73,7 +73,7 @@ export default function UniversityDetailsClient({ uni }: Props) {
               fill
               priority
               sizes="100vw"
-              onLoadingComplete={() => setHeroLoaded(true)}
+              onLoad={() => setHeroLoaded(true)} // UPDATED: Changed from onLoadingComplete
               className={`object-cover object-center md:object-[50%_40%] transition-opacity duration-500 ${
                 heroLoaded ? "opacity-100" : "opacity-0"
               }`}

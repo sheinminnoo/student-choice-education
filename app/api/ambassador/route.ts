@@ -14,8 +14,8 @@ export async function POST(req: Request) {
     const fullName = formData.get("fullName") as string;
     const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
-    const languages = formData.get("languages") as string; // <--- NEW
-    const socialLink = formData.get("socialLink") as string; // <--- NEW
+    const languages = formData.get("languages") as string;
+    const socialLink = formData.get("socialLink") as string;
     const currentCityCountry = formData.get("currentCityCountry") as string;
     const postalCode = formData.get("postalCode") as string;
     const currentStudy = formData.get("currentStudy") as string;
@@ -43,9 +43,10 @@ export async function POST(req: Request) {
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: (process.env.GOOGLE_PRIVATE_KEY ?? "")
-          .split(String.raw`\n`)
-          .join("\n"),
+        private_key: (process.env.GOOGLE_PRIVATE_KEY ?? "").replace(
+          /\\n/g,
+          "\n",
+        ),
       },
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
@@ -54,14 +55,27 @@ export async function POST(req: Request) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const tabName = "Ambassadors";
 
-    // 4. Check/Create Tab (Professional Layout)
+    // 4. SMART SHEET SETUP (The Fix)
+    let sheetId: number | null | undefined = null;
+    let needsHeaders = false;
+
     try {
-      await sheets.spreadsheets.values.get({
+      // Try to read A1 to see if tab exists
+      const check = await sheets.spreadsheets.values.get({
         spreadsheetId,
         range: `${tabName}!A1`,
       });
+
+      // If tab exists but A1 is empty (or just "undefined"), we need headers
+      if (!check.data.values || check.data.values.length === 0) {
+        needsHeaders = true;
+        // Fetch the sheetId for this existing tab
+        const meta = await sheets.spreadsheets.get({ spreadsheetId });
+        sheetId = meta.data.sheets?.find((s) => s.properties?.title === tabName)
+          ?.properties?.sheetId;
+      }
     } catch (error) {
-      // Create Tab
+      // Tab does NOT exist -> Create it
       const newSheet = await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
         requestBody: {
@@ -77,9 +91,13 @@ export async function POST(req: Request) {
           ],
         },
       });
-      const sheetId = newSheet.data.replies?.[0].addSheet?.properties?.sheetId;
+      sheetId = newSheet.data.replies?.[0].addSheet?.properties?.sheetId;
+      needsHeaders = true;
+    }
 
-      // Headers (14 Columns)
+    // 5. Apply Design & Headers (Only if needed)
+    if (needsHeaders && sheetId !== undefined && sheetId !== null) {
+      // A. Write Header Text
       await sheets.spreadsheets.values.update({
         spreadsheetId,
         range: `${tabName}!A1:N1`,
@@ -106,125 +124,128 @@ export async function POST(req: Request) {
         },
       });
 
-      // Styling
-      if (sheetId !== undefined) {
-        await sheets.spreadsheets.batchUpdate({
-          spreadsheetId,
-          requestBody: {
-            requests: [
-              {
-                repeatCell: {
-                  range: { sheetId, startRowIndex: 0, endRowIndex: 1 },
-                  cell: {
-                    userEnteredFormat: {
-                      backgroundColor: { red: 0.09, green: 0.1, blue: 0.2 },
-                      textFormat: {
-                        foregroundColor: { red: 1, green: 1, blue: 1 },
-                        bold: true,
-                        fontSize: 10,
-                        fontFamily: "Verdana",
-                      },
-                      horizontalAlignment: "CENTER",
-                      verticalAlignment: "MIDDLE",
+      // B. Apply Blue Styling & Column Widths
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            // Blue Background & White Text for Header
+            {
+              repeatCell: {
+                range: { sheetId, startRowIndex: 0, endRowIndex: 1 },
+                cell: {
+                  userEnteredFormat: {
+                    backgroundColor: { red: 0.09, green: 0.1, blue: 0.2 },
+                    textFormat: {
+                      foregroundColor: { red: 1, green: 1, blue: 1 },
+                      bold: true,
+                      fontSize: 10,
+                      fontFamily: "Verdana",
                     },
+                    horizontalAlignment: "CENTER",
+                    verticalAlignment: "MIDDLE",
                   },
-                  fields:
-                    "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)",
+                },
+                fields:
+                  "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)",
+              },
+            },
+            // Wrap Text for Data Rows
+            {
+              repeatCell: {
+                range: { sheetId, startRowIndex: 1 },
+                cell: {
+                  userEnteredFormat: {
+                    wrapStrategy: "WRAP",
+                    verticalAlignment: "TOP",
+                    textFormat: { fontSize: 10, fontFamily: "Arial" },
+                  },
+                },
+                fields:
+                  "userEnteredFormat(wrapStrategy,verticalAlignment,textFormat)",
+              },
+            },
+            // Column Widths
+            {
+              updateDimensionProperties: {
+                range: {
+                  sheetId,
+                  dimension: "COLUMNS",
+                  startIndex: 0,
+                  endIndex: 1,
+                },
+                properties: { pixelSize: 120 },
+                fields: "pixelSize",
+              },
+            }, // Status
+            {
+              updateDimensionProperties: {
+                range: {
+                  sheetId,
+                  dimension: "COLUMNS",
+                  startIndex: 2,
+                  endIndex: 4,
+                },
+                properties: { pixelSize: 180 },
+                fields: "pixelSize",
+              },
+            }, // Name/Email
+            {
+              updateDimensionProperties: {
+                range: {
+                  sheetId,
+                  dimension: "COLUMNS",
+                  startIndex: 11,
+                  endIndex: 12,
+                },
+                properties: { pixelSize: 350 },
+                fields: "pixelSize",
+              },
+            }, // Motivation
+            // Status Dropdown
+            {
+              setDataValidation: {
+                range: {
+                  sheetId,
+                  startRowIndex: 1,
+                  endRowIndex: 1000,
+                  startColumnIndex: 0,
+                  endColumnIndex: 1,
+                },
+                rule: {
+                  condition: {
+                    type: "ONE_OF_LIST",
+                    values: [
+                      { userEnteredValue: "🆕 New" },
+                      { userEnteredValue: "👀 Reviewing" },
+                      { userEnteredValue: "📞 Contacted" },
+                      { userEnteredValue: "✅ Accepted" },
+                      { userEnteredValue: "❌ Rejected" },
+                    ],
+                  },
+                  showCustomUi: true,
+                  strict: true,
                 },
               },
-              {
-                repeatCell: {
+            },
+            // Alternating Row Colors
+            {
+              addBanding: {
+                bandedRange: {
                   range: { sheetId, startRowIndex: 1 },
-                  cell: {
-                    userEnteredFormat: {
-                      wrapStrategy: "WRAP",
-                      verticalAlignment: "TOP",
-                      textFormat: { fontSize: 10, fontFamily: "Arial" },
-                    },
-                  },
-                  fields:
-                    "userEnteredFormat(wrapStrategy,verticalAlignment,textFormat)",
-                },
-              },
-              {
-                updateDimensionProperties: {
-                  range: {
-                    sheetId,
-                    dimension: "COLUMNS",
-                    startIndex: 0,
-                    endIndex: 1,
-                  },
-                  properties: { pixelSize: 130 },
-                  fields: "pixelSize",
-                },
-              },
-              {
-                updateDimensionProperties: {
-                  range: {
-                    sheetId,
-                    dimension: "COLUMNS",
-                    startIndex: 5,
-                    endIndex: 6,
-                  },
-                  properties: { pixelSize: 150 },
-                  fields: "pixelSize",
-                },
-              }, // Languages
-              {
-                updateDimensionProperties: {
-                  range: {
-                    sheetId,
-                    dimension: "COLUMNS",
-                    startIndex: 11,
-                    endIndex: 12,
-                  },
-                  properties: { pixelSize: 350 },
-                  fields: "pixelSize",
-                },
-              }, // Motivation
-              {
-                setDataValidation: {
-                  range: {
-                    sheetId,
-                    startRowIndex: 1,
-                    endRowIndex: 1000,
-                    startColumnIndex: 0,
-                    endColumnIndex: 1,
-                  },
-                  rule: {
-                    condition: {
-                      type: "ONE_OF_LIST",
-                      values: [
-                        { userEnteredValue: "🆕 New" },
-                        { userEnteredValue: "👀 Reviewing" },
-                        { userEnteredValue: "📞 Contacted" },
-                        { userEnteredValue: "✅ Accepted" },
-                        { userEnteredValue: "❌ Rejected" },
-                      ],
-                    },
-                    showCustomUi: true,
-                    strict: true,
+                  rowProperties: {
+                    firstBandColor: { red: 1, green: 1, blue: 1 },
+                    secondBandColor: { red: 0.96, green: 0.98, blue: 1 },
                   },
                 },
               },
-              {
-                addBanding: {
-                  bandedRange: {
-                    range: { sheetId, startRowIndex: 1 },
-                    rowProperties: {
-                      firstBandColor: { red: 1, green: 1, blue: 1 },
-                      secondBandColor: { red: 0.96, green: 0.98, blue: 1 },
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        });
-      }
+            },
+          ],
+        },
+      });
     }
 
-    // 5. Append Data (14 Columns)
+    // 6. Append Data (Row 2 onwards)
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range: `${tabName}!A:N`,
@@ -237,8 +258,8 @@ export async function POST(req: Request) {
             fullName,
             email,
             phone,
-            languages, // New
-            socialLink, // New
+            languages,
+            socialLink,
             currentCityCountry,
             postalCode,
             currentStudy,
@@ -251,7 +272,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // 6. SEND EMAILS
+    // 7. Send Emails
     if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
       const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -261,7 +282,7 @@ export async function POST(req: Request) {
         },
       });
 
-      // --- Admin HTML (Pass New Vars) ---
+      // Admin Email
       const adminTemplatePath = path.join(
         process.cwd(),
         "email-templates",
@@ -271,8 +292,8 @@ export async function POST(req: Request) {
         fullName,
         email,
         phone,
-        languages, // New
-        socialLink, // New
+        languages,
+        socialLink,
         location: currentCityCountry,
         postalCode,
         study: currentStudy,
@@ -281,7 +302,6 @@ export async function POST(req: Request) {
         hasCV,
       });
 
-      // Send Admin Email
       await transporter.sendMail({
         from: process.env.GMAIL_USER,
         to: process.env.GMAIL_USER,
@@ -290,7 +310,7 @@ export async function POST(req: Request) {
         attachments: attachments,
       });
 
-      // --- Student HTML ---
+      // Student Email
       const studentTemplatePath = path.join(
         process.cwd(),
         "email-templates",
@@ -301,7 +321,6 @@ export async function POST(req: Request) {
         year: new Date().getFullYear(),
       });
 
-      // Send Student Email
       await transporter.sendMail({
         from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
         to: email,

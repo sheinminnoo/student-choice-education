@@ -193,13 +193,13 @@ export default function AmbassadorForm() {
         }}
       ></div>
 
-      {/* Container - Widened to max-w-4xl for better spacing */}
-      <div className="relative z-10 w-full max-w-4xl">
+      {/* Main Form Container */}
+      <div className="relative z-10 w-full max-w-5xl">
         {submitted ? (
-          <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500 bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-100 mb-6 shadow-sm">
+          <div className="flex flex-col items-center justify-center py-16 text-center animate-in fade-in zoom-in duration-500 bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-green-100 mb-6 shadow-sm">
               <svg
-                className="h-10 w-10 text-green-600"
+                className="h-12 w-12 text-green-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -212,10 +212,10 @@ export default function AmbassadorForm() {
                 />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-slate-900">
+            <h3 className="text-3xl font-bold text-slate-900">
               Application Received!
             </h3>
-            <p className="text-slate-600 mt-3 max-w-md leading-relaxed">
+            <p className="text-slate-600 mt-4 max-w-lg text-lg leading-relaxed">
               Thank you for applying. We have received your details and CV. Our
               team will review your application and contact you shortly.
             </p>
@@ -223,22 +223,21 @@ export default function AmbassadorForm() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="space-y-8 rounded-3xl border border-slate-200 bg-white p-8 md:p-10 shadow-xl"
+            className="space-y-8 rounded-3xl border border-slate-200 bg-white p-8 md:p-12 shadow-xl"
             autoComplete="on"
           >
-            {/* Header */}
-            <div className="text-center border-b border-slate-100 pb-6 mb-6">
-              <h2 className="text-2xl font-bold text-slate-900">
+            {/* Header Title */}
+            <div className="mb-8 text-center border-b border-slate-100 pb-8">
+              <h2 className="text-3xl font-bold text-slate-900">
                 Student Ambassador Application
               </h2>
-              <p className="text-sm text-slate-500 mt-1">
+              <p className="text-slate-500 mt-2 text-lg">
                 Join our team and inspire the next generation of students.
               </p>
             </div>
 
-            {/* --- FORM GRID --- */}
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Row 1 */}
+            <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
+              {/* Row 1: Name & Email */}
               <div className="space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   Full Name
@@ -249,7 +248,7 @@ export default function AmbassadorForm() {
                   required
                   value={fullName}
                   onChange={handleNameChange}
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="Your full name"
                 />
               </div>
@@ -263,17 +262,17 @@ export default function AmbassadorForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="you@example.com"
                 />
               </div>
 
-              {/* Row 2 */}
+              {/* Row 2: Phone & Languages */}
               <div className="space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   Phone / WhatsApp
                 </label>
-                <div className="flex items-center w-full h-11 px-4 bg-white border border-slate-200 rounded-xl transition-all duration-200 focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-200 [&_.PhoneInputCountry]:mr-2 [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:h-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:text-slate-900 [&_.PhoneInputInput]:placeholder-slate-400">
+                <div className="flex items-center w-full h-12 px-4 bg-white border border-slate-200 rounded-xl transition-all duration-200 focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-200 [&_.PhoneInputCountry]:mr-2 [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:h-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:text-base [&_.PhoneInputInput]:text-slate-900 [&_.PhoneInputInput]:placeholder-slate-400">
                   <PhoneInput
                     international
                     defaultCountry="GB"
@@ -292,12 +291,12 @@ export default function AmbassadorForm() {
                   required
                   value={languages}
                   onChange={(e) => setLanguages(e.target.value)}
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="e.g. English, Thai, Mandarin"
                 />
               </div>
 
-              {/* Row 3 */}
+              {/* Row 3: Location */}
               <div className="space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   Current City & Country
@@ -306,7 +305,7 @@ export default function AmbassadorForm() {
                   name="currentCityCountry"
                   type="text"
                   required
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="e.g. Hatfield, UK"
                 />
               </div>
@@ -320,7 +319,7 @@ export default function AmbassadorForm() {
                   required
                   value={postalCode}
                   onChange={handlePostalChange}
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="e.g. AL10 9AB"
                 />
                 {postalCodeError && (
@@ -328,7 +327,7 @@ export default function AmbassadorForm() {
                 )}
               </div>
 
-              {/* Row 4 */}
+              {/* Row 4: Study */}
               <div className="space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   Current University
@@ -337,7 +336,7 @@ export default function AmbassadorForm() {
                   name="currentStudy"
                   required
                   defaultValue=""
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                 >
                   <option value="" disabled>
                     Select an option
@@ -358,7 +357,7 @@ export default function AmbassadorForm() {
                   name="destination"
                   required
                   defaultValue=""
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                 >
                   <option value="" disabled>
                     Select a country
@@ -370,7 +369,7 @@ export default function AmbassadorForm() {
                 </select>
               </div>
 
-              {/* Row 5 - Full Width */}
+              {/* Row 5: Social (Full Width in Grid) */}
               <div className="md:col-span-2 space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   LinkedIn / Social Profile (Optional)
@@ -380,12 +379,12 @@ export default function AmbassadorForm() {
                   type="text"
                   value={socialLink}
                   onChange={(e) => setSocialLink(e.target.value)}
-                  className="w-full h-11 px-4 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full h-12 px-4 bg-white border border-slate-200 rounded-xl text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="e.g. linkedin.com/in/name"
                 />
               </div>
 
-              {/* Motivation - Full Width */}
+              {/* Motivation (Full Width) */}
               <div className="md:col-span-2 space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   Why do you want to be an ambassador?
@@ -393,13 +392,13 @@ export default function AmbassadorForm() {
                 <textarea
                   name="motivation"
                   required
-                  rows={4}
+                  rows={5}
                   value={motivation}
                   onChange={handleMotivationChange}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition-all duration-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-200"
                   placeholder="Tell us how you would support other students..."
                 />
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-xs text-slate-400">
                   <span>Max 200 words.</span>
                   <span
                     className={motivationWordCount > 200 ? "text-red-500" : ""}
@@ -409,26 +408,29 @@ export default function AmbassadorForm() {
                 </div>
               </div>
 
-              {/* File Upload - Full Width */}
+              {/* File Upload (Full Width) */}
               <div className="md:col-span-2 space-y-1.5">
                 <label className="text-xs font-medium uppercase tracking-wider text-slate-500">
                   CV / Resume (Optional)
                 </label>
-                <div className="flex items-center gap-2 p-2 border border-dashed border-slate-200 rounded-xl bg-slate-50">
+                <div className="flex items-center gap-3 p-2 border border-slate-200 border-dashed rounded-xl bg-slate-50/50">
                   <input
                     name="cv"
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
-                    className="w-full h-10 px-3 py-1.5 text-sm text-slate-700 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-yellow-400 file:text-slate-900 hover:file:bg-yellow-300 transition-all duration-200 cursor-pointer"
+                    className="w-full text-sm text-slate-500
+                      file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+                      file:text-xs file:font-bold file:bg-yellow-400 file:text-slate-900 
+                      hover:file:bg-yellow-300 transition-all duration-200 cursor-pointer"
                   />
                   {selectedFileName && (
                     <button
                       type="button"
                       onClick={handleRemoveFile}
-                      className="text-xs text-slate-500 hover:text-slate-800 pr-2"
+                      className="text-xs font-semibold text-red-500 hover:text-red-700 whitespace-nowrap px-2"
                     >
-                      × Remove
+                      Remove File
                     </button>
                   )}
                 </div>
@@ -437,23 +439,22 @@ export default function AmbassadorForm() {
                 )}
               </div>
             </div>
-            {/* --- END FORM GRID --- */}
 
-            {/* --- FOOTER: CONSENT & SUBMIT (Side-by-Side) --- */}
+            {/* Consent & Submit */}
+            {/* Consent & Submit */}
             <div className="pt-6 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
-              {/* Consent Checkbox */}
-              <div className="flex items-start gap-3 px-1 max-w-sm">
+              <div className="flex items-start gap-3 px-1 max-w-lg">
                 <input
                   type="checkbox"
                   required
-                  className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-yellow-400 focus:ring-yellow-400 cursor-pointer"
+                  className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-yellow-400 focus:ring-yellow-400 cursor-pointer"
                 />
-                <label className="text-xs text-slate-500 leading-relaxed">
+                <label className="text-xs text-slate-500 leading-snug">
                   I agree to the{" "}
                   <Link
-                    href="/privacy"
+                    href="/privacy-policy"
                     target="_blank"
-                    className="underline hover:text-slate-900 font-medium"
+                    className="underline hover:text-slate-900"
                   >
                     Privacy Policy
                   </Link>{" "}
@@ -461,18 +462,16 @@ export default function AmbassadorForm() {
                 </label>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full md:w-auto whitespace-nowrap rounded-full bg-yellow-400 px-8 py-3 text-sm font-bold text-slate-900 shadow-lg hover:bg-yellow-300 disabled:opacity-70 transition transform hover:-translate-y-0.5"
+                className="w-full md:w-auto rounded-full bg-yellow-400 px-10 py-3.5 text-base font-bold text-slate-900 shadow-lg hover:bg-yellow-300 disabled:opacity-70 transition transform hover:-translate-y-0.5 whitespace-nowrap"
               >
                 {isSubmitting ? "Sending..." : "Submit Application"}
               </button>
             </div>
-
             {error && (
-              <p className="text-center text-xs font-medium text-red-600 bg-red-50 py-2 rounded-lg">
+              <p className="text-center text-sm font-medium text-red-600 bg-red-50 py-2 rounded-lg">
                 {error}
               </p>
             )}

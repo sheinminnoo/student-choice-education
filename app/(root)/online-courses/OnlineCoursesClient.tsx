@@ -71,10 +71,10 @@ export default function OnlineCoursesClient() {
         new Set(
           courses
             .map((c) => c.level)
-            .filter((v): v is CourseLevel => v !== undefined)
-        )
+            .filter((v): v is CourseLevel => v !== undefined),
+        ),
       ),
-    []
+    [],
   );
 
   const filteredCourses = useMemo(() => {
@@ -107,12 +107,12 @@ export default function OnlineCoursesClient() {
         break;
       case "duration-asc":
         sorted.sort(
-          (a, b) => getDurationValue(a.duration) - getDurationValue(b.duration)
+          (a, b) => getDurationValue(a.duration) - getDurationValue(b.duration),
         );
         break;
       case "duration-desc":
         sorted.sort(
-          (a, b) => getDurationValue(b.duration) - getDurationValue(a.duration)
+          (a, b) => getDurationValue(b.duration) - getDurationValue(a.duration),
         );
         break;
       case "recommended":
@@ -236,12 +236,6 @@ export default function OnlineCoursesClient() {
               <h2 className="mt-2 text-xl font-semibold sm:text-2xl">
                 Find the right online course for your goals.
               </h2>
-              <p className="mt-1 text-sm text-slate-600">
-                {activeCategory === "All"
-                  ? "Browse flexible online courses in Business, IT & Cyber Security, Health & Social Care, and Counselling, Mental Health & Wellbeing."
-                  : categories.find((c) => c.id === activeCategory)
-                      ?.description}
-              </p>
             </div>
 
             <div className="flex flex-col items-end gap-2 text-xs text-slate-600">
