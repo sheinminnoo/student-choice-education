@@ -62,10 +62,6 @@ export default function IeltsFoundationCourseSection() {
             <li>Weekly online homework with tutor feedback</li>
             <li>Perfect first step before intensive IELTS preparation</li>
           </ul>
-
-          <a href="#ielts-form" className={PRIMARY_BTN}>
-            Enquire about foundation course
-          </a>
         </div>
       </motion.div>
     </section>

@@ -58,10 +58,6 @@ export default function IeltsWritingCourseSection() {
             <li>Practise timed writing with tutor feedback online</li>
             <li>Build useful academic vocabulary for common IELTS topics</li>
           </ul>
-
-          <a href="#ielts-form" className={PRIMARY_BTN}>
-            Book online Writing support
-          </a>
         </div>
       </motion.div>
     </section>

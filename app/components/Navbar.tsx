@@ -122,19 +122,17 @@ export default function Navbar() {
           className="mx-auto max-w-7xl h-16 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2"
           aria-label="Main navigation"
         >
-          <Link
-            href="/"
-            className={`flex items-center gap-2 sm:gap-3 min-w-0 ${focusRingDark}`}
-          >
-            <div className="h-10 w-10 sm:h-11 sm:w-11 xl:h-12 xl:w-12 rounded-full bg-white shadow flex items-center justify-center flex-shrink-0">
+          <Link href="/" className={`flex items-center gap-3 ${focusRingDark}`}>
+            <div className="relative h-12 w-12 sm:h-13 sm:w-13 rounded-full bg-white shadow flex-shrink-0 overflow-hidden">
               <Image
-                src="/logo.png"
+                src="/logo/logo-main.jpeg"
                 alt="Student Choice Education Logo"
-                width={34}
-                height={34}
-                className="object-contain"
+                fill
+                className="object-cover scale-125" // zoom-in without changing circle size
+                priority
               />
             </div>
+
             <span className="font-bold text-white tracking-wide text-base md:text-lg hidden xl:inline">
               STUDENT CHOICE EDUCATION
             </span>

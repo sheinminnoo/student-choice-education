@@ -205,6 +205,8 @@ export default function ContactFormCard() {
                 <option value="" disabled>
                   Study Level
                 </option>
+                <option>Foundation</option>
+
                 <option>Undergraduate</option>
                 <option>Postgraduate</option>
               </select>
@@ -221,9 +223,10 @@ export default function ContactFormCard() {
                 Preferred Destination
               </option>
               <option>United Kingdom</option>
-              <option>USA</option>
-              <option>Canada</option>
-              <option>Australia</option>
+              <option>Germany</option>
+              <option>France</option>
+              <option>Spain</option>
+              <option>Germany</option>
             </select>
 
             {/* Message Area */}

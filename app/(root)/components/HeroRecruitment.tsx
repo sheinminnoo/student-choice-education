@@ -49,8 +49,8 @@ const heroSlides: HeroSlide[] = [
     title: "Make your admission simple and stress-free.",
     description:
       "We stay with you from choosing a course to getting your offer and visa.",
-    primaryCta: { label: "Book free consultation", href: "/eligibility" },
-    secondaryCta: { label: "How it works", href: "/ourservices" },
+    primaryCta: { label: "Book free consultation", href: "/contact-us" },
+    secondaryCta: { label: "How it works", href: "/our-services" },
   },
 ];
 
