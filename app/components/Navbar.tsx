@@ -282,22 +282,23 @@ export default function Navbar() {
           }`}
         >
           <div className="h-16 flex items-center justify-between px-4 border-b bg-[#0B2348]">
-            <div className="flex items-center gap-2">
-              <div className="h-9 w-9 rounded-full bg-white flex items-center justify-center">
+            <div className="flex items-center gap-3">
+              <div className="relative h-11 w-11 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
                 <Image
-                  src="/logo.png"
+                  src="/logo/logo-main.jpeg"
                   alt="Student Choice Education Logo"
-                  width={26}
-                  height={26}
-                  className="object-contain"
+                  fill
+                  className="object-cover scale-125"
                 />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-white leading-tight">
+
+              <span className="text-sm font-semibold text-white leading-tight">
                 STUDENT CHOICE
                 <br />
                 EDUCATION
               </span>
             </div>
+
             <button
               onClick={() => setDrawer(false)}
               className={`p-2 text-gray-100 rounded-full ${focusRingLight}`}
