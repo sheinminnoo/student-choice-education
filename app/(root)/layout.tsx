@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function RootGroupLayout({
   children,
@@ -24,6 +25,7 @@ export default function RootGroupLayout({
       <Navbar />
       <main className="flex-1 pt-14 lg:pt-[5.5rem]">{children}</main>
       <Footer />
+      <Analytics />
     </div>
   );
 }
