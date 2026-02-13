@@ -61,14 +61,6 @@ const courses: CourseCard[] = [
     logo: "/home/arden.jpg",
     href: "/universities/arden-university-berlin",
   },
-  {
-    title: "International Relations & Diplomacy",
-    uni: "Schiller International University, Madrid",
-    description:
-      "Prepare for careers in diplomacy, NGOs and international organisations with a global learning environment.",
-    logo: "/home/Schiller.jpg",
-    href: "/universities/schiller-international-university-madrid",
-  },
 ];
 
 export default function Courses() {

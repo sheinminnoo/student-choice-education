@@ -266,7 +266,7 @@ export default function AmbassadorPage() {
                   href="mailto:hi@studentchoice.com"
                   className="font-semibold text-slate-900 underline-offset-2 hover:underline"
                 >
-                  hi@studentchoice.com
+                  info@studentchoiceeducation.co.uk
                 </a>
                 .
               </p>

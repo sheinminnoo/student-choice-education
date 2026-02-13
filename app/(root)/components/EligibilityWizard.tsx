@@ -329,20 +329,22 @@ export default function EligibilityWizard() {
                       Destination
                     </label>
                     <div className="grid grid-cols-2 gap-3">
-                      {["UK", "USA", "Canada", "Australia"].map((dest) => (
-                        <button
-                          key={dest}
-                          onClick={() => handleSelection("destination", dest)}
-                          className={`rounded-xl border-2 px-4 py-4 text-sm font-bold transition-all duration-200
+                      {["UK", "Germany", "France", "Spain", "Malta"].map(
+                        (dest) => (
+                          <button
+                            key={dest}
+                            onClick={() => handleSelection("destination", dest)}
+                            className={`rounded-xl border-2 px-4 py-4 text-sm font-bold transition-all duration-200
                             ${
                               formData.destination === dest
                                 ? "border-[#020b2c] bg-[#020b2c] text-white shadow-md"
                                 : "border-slate-100 bg-slate-50 text-slate-600 hover:bg-white hover:border-slate-300"
                             }`}
-                        >
-                          {dest}
-                        </button>
-                      ))}
+                          >
+                            {dest}
+                          </button>
+                        ),
+                      )}
                     </div>
                   </div>
                   <div>

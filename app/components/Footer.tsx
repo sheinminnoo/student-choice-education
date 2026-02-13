@@ -5,7 +5,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Universities", href: "/universities" },
   { label: "Scholarships", href: "/scholarships" },
-  { label: "Online Courses", href: "/onlinecourses" },
+  { label: "Online Courses", href: "/online-courses" },
   { label: "Ambassadors", href: "/ambassadors" },
   { label: "Contact", href: "/contact-us" },
 ];

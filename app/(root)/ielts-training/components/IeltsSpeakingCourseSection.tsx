@@ -61,10 +61,6 @@ export default function IeltsSpeakingCourseSection() {
             <li>Real-time online feedback after speaking tasks</li>
             <li>Common topics and high-scoring example ideas</li>
           </ul>
-
-          <a href="#ielts-form" className={PRIMARY_BTN}>
-            Book online Speaking practice
-          </a>
         </div>
       </motion.div>
     </section>

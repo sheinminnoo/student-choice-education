@@ -42,7 +42,7 @@ export default function EligibilityPage() {
         <div className="mt-16 border-t border-slate-200 pt-8">
           <div className="grid grid-cols-2 gap-6 text-center sm:grid-cols-4">
             {[
-              { label: "Partner Universities", val: "100+" },
+              { label: "Partner Universities", val: "20+" },
               { label: "Visa Success Rate", val: "98%" },
               { label: "Students Placed", val: "5k+" },
               { label: "Free Support", val: "100%" },

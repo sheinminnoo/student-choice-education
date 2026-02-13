@@ -15,6 +15,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Student Choice Education",
   description: "Empowering Students Worldwide",
+  icons: {
+    icon: [
+      { url: "/icons/favicon.ico" },
+      { url: "/icons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: "/icons/apple-touch-icon.png",
+  },
+  manifest: "/icons/site.webmanifest",
 };
 
 export default function RootLayout({

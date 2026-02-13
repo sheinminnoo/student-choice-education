@@ -62,7 +62,7 @@ export default function EligibilityBanner() {
 
             <p className="max-w-2xl text-sm leading-relaxed text-white/80 sm:text-[15px]">
               Answer simple questions and instantly see your chances for the UK,
-              USA, Canada, Australia, Europe and more — based on real entry
+              Germany, France, Spain, Malta and more — based on real entry
               requirements.
             </p>
           </div>
