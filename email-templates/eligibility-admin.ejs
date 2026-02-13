@@ -1,112 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        padding: 20px;
-      }
-      .card {
-        background: white;
-        max-width: 600px;
-        margin: 0 auto;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        overflow: hidden;
-      }
-      .head {
-        background: #020b2c;
-        padding: 15px;
-        color: white;
-      }
-      .row {
-        padding: 12px 20px;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-      }
-      .label {
-        color: #666;
-        font-size: 12px;
-        text-transform: uppercase;
-        font-weight: bold;
-      }
-      .val {
-        font-weight: bold;
-        color: #333;
-        text-align: right;
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Eligibility Lead</title>
   </head>
-  <body>
-    <div class="card">
-      <div class="head">
-        <h2 style="margin: 0; font-size: 18px">🎯 New Eligibility Lead</h2>
-      </div>
-
-      <div class="row">
-        <span class="label">Name</span>
-        <span class="val"><%= fullName %></span>
-      </div>
-      <div class="row">
-        <span class="label">Phone</span>
-        <span class="val"><a href="tel:<%= phone %>"><%= phone %></a></span>
-      </div>
-      <div class="row">
-        <span class="label">Email</span>
-        <span class="val"><a href="mailto:<%= email %>"><%= email %></a></span>
-      </div>
-
-      <div
-        style="
-          background: #f8fafc;
-          padding: 10px 20px;
-          font-size: 11px;
-          font-weight: bold;
-          color: #999;
-          letter-spacing: 1px;
-          margin-top: 10px;
-        "
-      >
-        ACADEMIC PROFILE
-      </div>
-
-      <div class="row">
-        <span class="label">Level</span>
-        <span class="val"><%= educationLevel %></span>
-      </div>
-      <div class="row">
-        <span class="label">Grades</span>
-        <span class="val"><%= grades %></span>
-      </div>
-      <div class="row">
-        <span class="label">English</span>
-        <span class="val"><%= englishLevel %></span>
-      </div>
-
-      <div
-        style="
-          background: #f8fafc;
-          padding: 10px 20px;
-          font-size: 11px;
-          font-weight: bold;
-          color: #999;
-          letter-spacing: 1px;
-          margin-top: 10px;
-        "
-      >
-        INTERESTS
-      </div>
-
-      <div class="row">
-        <span class="label">Destination</span>
-        <span class="val" style="color: #020b2c"><%= destination %></span>
-      </div>
-      <div class="row" style="border-bottom: none">
-        <span class="label">Subject</span>
-        <span class="val"><%= subject %></span>
-      </div>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background: #0b1220;
+      font-family: Arial, Helvetica, sans-serif;
+    "
+  >
+    <div
+      style="
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        color: transparent;
+      "
+    >
+      New eligibility lead submitted.
     </div>
+
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      style="background: #0b1220"
+    >
+      <tr>
+        <td align="center" style="padding: 28px 12px">
+          <table
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="
+              max-width: 680px;
+              background: #ffffff;
+              border-radius: 16px;
+              overflow: hidden;
+              box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+            "
+          >
+            <tr>
+              <td style="background: #020b2c; padding: 20px 22px">
+                <div style="font-size: 12px; color: #cbd5e1">
+                  Student Choice Education
+                </div>
+                <div
+                  style="
+                    margin-top: 6px;
+                    font-size: 18px;
+                    color: #ffffff;
+                    font-weight: 700;
+                  "
+                >
+                  New eligibility lead
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="height: 3px; background: #d4af37"></td>
+            </tr>
+
+            <tr>
+              <td style="padding: 22px; color: #0f172a">
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  style="
+                    background: #f8fafc;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                  "
+                >
+                  <tr>
+                    <td style="padding: 14px 16px">
+                      <div style="font-size: 12px; color: #64748b">Contact</div>
+                      <div
+                        style="
+                          margin-top: 6px;
+                          font-size: 14px;
+                          font-weight: 700;
+                        "
+                      >
+                        <%= fullName %>
+                      </div>
+                      <div style="margin-top: 6px; font-size: 14px">
+                        <a
+                          href="tel:<%= phone %>"
+                          style="color: #0f172a; text-decoration: none"
+                          ><%= phone %></a
+                        >
+                      </div>
+                      <div style="margin-top: 6px; font-size: 14px">
+                        <a
+                          href="mailto:<%= email %>"
+                          style="color: #1d4ed8; text-decoration: none"
+                          ><%= email %></a
+                        >
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  style="
+                    margin-top: 14px;
+                    background: #f8fafc;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                  "
+                >
+                  <tr>
+                    <td style="padding: 14px 16px">
+                      <div style="font-size: 12px; color: #64748b">
+                        Academic profile
+                      </div>
+                      <div
+                        style="
+                          margin-top: 8px;
+                          font-size: 14px;
+                          line-height: 1.7;
+                          color: #334155;
+                        "
+                      >
+                        Level: <strong><%= educationLevel %></strong><br />
+                        Grades: <strong><%= grades %></strong><br />
+                        English: <strong><%= englishLevel %></strong>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  style="
+                    margin-top: 14px;
+                    background: #0b1220;
+                    border: 1px solid #111827;
+                    border-radius: 12px;
+                  "
+                >
+                  <tr>
+                    <td style="padding: 14px 16px">
+                      <div style="font-size: 12px; color: #d4af37">
+                        Interests
+                      </div>
+                      <div
+                        style="
+                          margin-top: 8px;
+                          font-size: 14px;
+                          line-height: 1.7;
+                          color: #e5e7eb;
+                        "
+                      >
+                        Destination:
+                        <strong style="color: #ffffff"
+                          ><%= destination %></strong
+                        ><br />
+                        Subject: <strong><%= subject %></strong>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td
+                style="
+                  background: #f8fafc;
+                  border-top: 1px solid #e5e7eb;
+                  padding: 16px;
+                  text-align: center;
+                "
+              >
+                <div style="font-size: 12px; color: #64748b">
+                  Sent from Student Choice Education platform
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

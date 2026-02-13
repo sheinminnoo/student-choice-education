@@ -452,7 +452,7 @@ export default function AmbassadorForm() {
                 <label className="text-xs text-slate-500 leading-snug">
                   I agree to the{" "}
                   <Link
-                    href="/privacy-policy"
+                    href="/privacy"
                     target="_blank"
                     className="underline hover:text-slate-900"
                   >
