@@ -1,90 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style>
-    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb; }
-    .header { background-color: #020b2c; padding: 20px; color: #ffffff; }
-    .header h2 { margin: 0; font-size: 20px; font-weight: 600; }
-    .badge { background-color: #facc15; color: #020b2c; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; float: right; margin-top: -24px; }
-    .content { padding: 30px; }
-    .field-row { margin-bottom: 12px; border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; }
-    .field-label { font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
-    .field-value { font-size: 15px; color: #111827; font-weight: 500; }
-    .motivation-box { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 15px; margin-top: 20px; }
-    .footer { background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #9ca3af; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Ambassador Application</title>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h2>New Ambassador App</h2>
-      <span class="badge">PENDING REVIEW</span>
-    </div>
-    
-    <div class="content">
-      <div class="field-row">
-        <span class="field-label">Full Name</span>
-        <div class="field-value"><%= fullName %></div>
-      </div>
-
-      <div class="field-row">
-        <span class="field-label">Contact Info</span>
-        <div class="field-value"><a href="mailto:<%= email %>" style="color:#2563eb; text-decoration:none;"><%= email %></a></div>
-        <div class="field-value" style="margin-top:4px;"><%= phone %></div>
-      </div>
-
-      <div class="field-row">
-        <span class="field-label">Languages Spoken</span>
-        <div class="field-value"><%= languages %></div>
-      </div>
-
-      <div class="field-row">
-        <span class="field-label">Social Profile</span>
-        <div class="field-value">
-           <% if (socialLink) { %>
-             <a href="<%= socialLink.startsWith('http') ? socialLink : 'https://' + socialLink %>" target="_blank" style="color:#2563eb;">View Profile</a>
-             <span style="font-size:12px; color:#666;">(<%= socialLink %>)</span>
-           <% } else { %>
-             Not provided
-           <% } %>
-        </div>
-      </div>
-
-      <div class="field-row">
-        <span class="field-label">Location</span>
-        <div class="field-value"><%= location %> (<%= postalCode %>)</div>
-      </div>
-
-      <div class="field-row">
-        <span class="field-label">Current University</span>
-        <div class="field-value"><%= study %></div>
-      </div>
-
-      <div class="field-row">
-        <span class="field-label">Preferred Destination</span>
-        <div class="field-value"><%= destination %></div>
-      </div>
-
-      <div class="motivation-box">
-        <span class="field-label">Why they want to join:</span>
-        <p style="margin: 8px 0 0 0; color: #374151; font-size: 14px; line-height: 1.6;">
-          "<%= motivation %>"
-        </p>
-      </div>
-
-      <div style="margin-top: 20px; padding: 10px; background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; color: #065f46; font-size: 14px; font-weight: 600; display: flex; align-items: center;">
-        <% if (hasCV) { %>
-          📎 A CV is attached to this email.
-        <% } else { %>
-          ⚠️ No CV was uploaded.
-        <% } %>
-      </div>
-    </div>
-
-    <div class="footer">
-      Sent from Student Choice Education Website
-    </div>
+<body style="margin:0;padding:0;background:#0b1220;font-family:Arial,Helvetica,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
+    New ambassador application received.
   </div>
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0b1220;">
+    <tr>
+      <td align="center" style="padding:28px 12px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+          style="max-width:680px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,0.32);">
+
+          <tr>
+            <td style="background:#020b2c;padding:20px 22px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left">
+                    <div style="font-size:12px;color:#cbd5e1;">Student Choice Education</div>
+                    <div style="margin-top:6px;font-size:18px;line-height:1.3;color:#ffffff;font-weight:700;">
+                      Ambassador application
+                    </div>
+                  </td>
+                  <td align="right" valign="top">
+                    <span style="display:inline-block;background:#facc15;color:#020b2c;font-weight:700;
+                      font-size:11px;padding:6px 10px;border-radius:999px;">
+                      Pending review
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="height:3px;background:#d4af37;"></td></tr>
+
+          <tr>
+            <td style="padding:22px;color:#0f172a;">
+              <div style="font-size:14px;line-height:1.7;color:#334155;">
+                A new ambassador application was submitted. Details:
+              </div>
+
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="margin-top:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;">
+                <tr>
+                  <td style="padding:14px 16px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+                      <tr><td style="padding:10px 0;border-bottom:1px solid #eef2f7;">
+                        <div style="font-size:12px;color:#64748b;">Full name</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:700;color:#0f172a;"><%= fullName %></div>
+                      </td></tr>
+
+                      <tr><td style="padding:10px 0;border-bottom:1px solid #eef2f7;">
+                        <div style="font-size:12px;color:#64748b;">Contact</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:600;">
+                          <a href="mailto:<%= email %>" style="color:#1d4ed8;text-decoration:none;"><%= email %></a>
+                        </div>
+                        <div style="margin-top:6px;font-size:14px;font-weight:600;color:#0f172a;"><%= phone %></div>
+                      </td></tr>
+
+                      <tr><td style="padding:10px 0;border-bottom:1px solid #eef2f7;">
+                        <div style="font-size:12px;color:#64748b;">Languages</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:600;color:#0f172a;"><%= languages %></div>
+                      </td></tr>
+
+                      <tr><td style="padding:10px 0;border-bottom:1px solid #eef2f7;">
+                        <div style="font-size:12px;color:#64748b;">Social profile</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:600;color:#0f172a;">
+                          <% if (socialLink) { %>
+                            <a href="<%= socialLink.startsWith('http') ? socialLink : 'https://' + socialLink %>"
+                              target="_blank" style="color:#1d4ed8;text-decoration:none;">View profile</a>
+                            <span style="font-size:12px;color:#64748b;"> — <%= socialLink %></span>
+                          <% } else { %>
+                            <span style="color:#64748b;">Not provided</span>
+                          <% } %>
+                        </div>
+                      </td></tr>
+
+                      <tr><td style="padding:10px 0;border-bottom:1px solid #eef2f7;">
+                        <div style="font-size:12px;color:#64748b;">Location</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:600;color:#0f172a;">
+                          <%= location %> <% if (postalCode) { %><span style="color:#64748b;">(<%= postalCode %>)</span><% } %>
+                        </div>
+                      </td></tr>
+
+                      <tr><td style="padding:10px 0;border-bottom:1px solid #eef2f7;">
+                        <div style="font-size:12px;color:#64748b;">Current university</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:600;color:#0f172a;"><%= study %></div>
+                      </td></tr>
+
+                      <tr><td style="padding:10px 0;">
+                        <div style="font-size:12px;color:#64748b;">Preferred destination</div>
+                        <div style="margin-top:4px;font-size:14px;font-weight:600;color:#0f172a;"><%= destination %></div>
+                      </td></tr>
+
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;">
+                <tr>
+                  <td style="background:#0b1220;border-radius:12px;padding:14px;border:1px solid #111827;">
+                    <div style="font-size:12px;color:#d4af37;">Motivation</div>
+                    <div style="margin-top:8px;font-size:14px;line-height:1.7;color:#e5e7eb;">
+                      <%= motivation %>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;">
+                <tr>
+                  <td style="border-radius:12px;padding:12px 14px;border:1px solid #e5e7eb;background:#ffffff;">
+                    <% if (hasCV) { %>
+                      <div style="font-size:14px;font-weight:700;color:#065f46;">📎 CV attached</div>
+                    <% } else { %>
+                      <div style="font-size:14px;font-weight:700;color:#b45309;">⚠️ No CV uploaded</div>
+                    <% } %>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <tr>
+            <td style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:16px;text-align:center;">
+              <div style="font-size:12px;color:#64748b;">Sent from Student Choice Education platform</div>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>

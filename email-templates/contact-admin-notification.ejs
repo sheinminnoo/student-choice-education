@@ -1,146 +1,228 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <style>
-      body {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        max-width: 600px;
-        margin: 20px auto;
-        background: #ffffff;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 1px solid #e5e7eb;
-      }
-      .header {
-        background-color: #020b2c;
-        padding: 20px;
-        color: #ffffff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .header h2 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-      }
-      .tag {
-        background-color: #facc15;
-        color: #020b2c;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: bold;
-        text-transform: uppercase;
-      }
-      .content {
-        padding: 30px;
-      }
-      .section-title {
-        font-size: 12px;
-        color: #6b7280;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 8px;
-        margin-top: 20px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 4px;
-      }
-      .section-title:first-child {
-        margin-top: 0;
-      }
-      .row {
-        margin-bottom: 8px;
-        display: flex;
-      }
-      .label {
-        width: 120px;
-        font-size: 13px;
-        color: #666;
-        font-weight: 500;
-      }
-      .value {
-        flex: 1;
-        font-size: 14px;
-        color: #111;
-        font-weight: 500;
-      }
-      .message-box {
-        background-color: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        padding: 15px;
-        margin-top: 10px;
-        font-size: 14px;
-        line-height: 1.5;
-        color: #374151;
-      }
-      .footer {
-        background-color: #f9fafb;
-        padding: 15px;
-        text-align: center;
-        font-size: 12px;
-        color: #9ca3af;
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Website Enquiry</title>
   </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h2>New Website Enquiry</h2>
-        <span class="tag">Contact Form</span>
-      </div>
-
-      <div class="content">
-        <div class="section-title">Student Details</div>
-        <div class="row">
-          <span class="label">Name:</span
-          ><span class="value"><%= firstName %> <%= lastName %></span>
-        </div>
-        <div class="row">
-          <span class="label">Email:</span
-          ><span class="value"
-            ><a href="mailto:<%= email %>" style="color: #2563eb"
-              ><%= email %></a
-            ></span
-          >
-        </div>
-        <div class="row">
-          <span class="label">Phone:</span
-          ><span class="value"><%= phone %></span>
-        </div>
-
-        <div class="section-title">Interest & Preferences</div>
-        <div class="row">
-          <span class="label">Main Topic:</span
-          ><span class="value" style="font-weight: bold; color: #020b2c"
-            ><%= interest %></span
-          >
-        </div>
-        <div class="row">
-          <span class="label">Start Year:</span
-          ><span class="value"><%= startYear %></span>
-        </div>
-        <div class="row">
-          <span class="label">Study Level:</span
-          ><span class="value"><%= studyLevel %></span>
-        </div>
-        <div class="row">
-          <span class="label">Destination:</span
-          ><span class="value"><%= destination %></span>
-        </div>
-
-        <div class="section-title">Message</div>
-        <div class="message-box">"<%= message %>"</div>
-      </div>
-
-      <div class="footer">Sent from Student Choice Education Website</div>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background: #0b1220;
+      font-family: Arial, Helvetica, sans-serif;
+    "
+  >
+    <div
+      style="
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        color: transparent;
+      "
+    >
+      New website enquiry received.
     </div>
+
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      style="background: #0b1220"
+    >
+      <tr>
+        <td align="center" style="padding: 28px 12px">
+          <table
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="
+              max-width: 680px;
+              background: #ffffff;
+              border-radius: 16px;
+              overflow: hidden;
+              box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+            "
+          >
+            <tr>
+              <td style="background: #020b2c; padding: 20px 22px">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="left">
+                      <div style="font-size: 12px; color: #cbd5e1">
+                        Student Choice Education
+                      </div>
+                      <div
+                        style="
+                          margin-top: 6px;
+                          font-size: 18px;
+                          color: #ffffff;
+                          font-weight: 700;
+                        "
+                      >
+                        New website enquiry
+                      </div>
+                    </td>
+                    <td align="right" valign="top">
+                      <span
+                        style="
+                          display: inline-block;
+                          background: #facc15;
+                          color: #020b2c;
+                          font-weight: 700;
+                          font-size: 11px;
+                          padding: 6px 10px;
+                          border-radius: 999px;
+                        "
+                        >Contact form</span
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="height: 3px; background: #d4af37"></td>
+            </tr>
+
+            <tr>
+              <td style="padding: 22px; color: #0f172a">
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  style="
+                    background: #f8fafc;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                  "
+                >
+                  <tr>
+                    <td style="padding: 14px 16px">
+                      <div style="font-size: 12px; color: #64748b">Student</div>
+                      <div
+                        style="
+                          margin-top: 6px;
+                          font-size: 14px;
+                          font-weight: 700;
+                        "
+                      >
+                        <%= firstName %> <%= lastName %>
+                      </div>
+                      <div style="margin-top: 6px; font-size: 14px">
+                        <a
+                          href="mailto:<%= email %>"
+                          style="color: #1d4ed8; text-decoration: none"
+                          ><%= email %></a
+                        >
+                      </div>
+                      <div
+                        style="margin-top: 6px; font-size: 14px; color: #0f172a"
+                      >
+                        <%= phone %>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  style="
+                    margin-top: 14px;
+                    background: #f8fafc;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 12px;
+                  "
+                >
+                  <tr>
+                    <td style="padding: 14px 16px">
+                      <div style="font-size: 12px; color: #64748b">
+                        Interest
+                      </div>
+                      <div
+                        style="
+                          margin-top: 6px;
+                          font-size: 14px;
+                          font-weight: 700;
+                          color: #020b2c;
+                        "
+                      >
+                        <%= interest %>
+                      </div>
+                      <div
+                        style="
+                          margin-top: 10px;
+                          font-size: 14px;
+                          line-height: 1.7;
+                          color: #334155;
+                        "
+                      >
+                        Start year: <strong><%= startYear %></strong><br />
+                        Study level: <strong><%= studyLevel %></strong><br />
+                        Destination: <strong><%= destination %></strong>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  style="margin-top: 14px"
+                >
+                  <tr>
+                    <td
+                      style="
+                        background: #0b1220;
+                        border-radius: 12px;
+                        padding: 14px;
+                        border: 1px solid #111827;
+                      "
+                    >
+                      <div style="font-size: 12px; color: #d4af37">Message</div>
+                      <div
+                        style="
+                          margin-top: 8px;
+                          font-size: 14px;
+                          line-height: 1.7;
+                          color: #e5e7eb;
+                        "
+                      >
+                        <%= message %>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td
+                style="
+                  background: #f8fafc;
+                  border-top: 1px solid #e5e7eb;
+                  padding: 16px;
+                  text-align: center;
+                "
+              >
+                <div style="font-size: 12px; color: #64748b">
+                  Sent from Student Choice Education platform
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

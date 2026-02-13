@@ -5,47 +5,251 @@ import { z } from "zod";
 import nodemailer from "nodemailer";
 import ejs from "ejs";
 import path from "path";
+import type { sheets_v4 } from "googleapis";
 
-// --- 1. SHARED TYPES ---
+// --- SHARED TYPES ---
 export type FormState = {
   success: boolean;
   message: string;
 };
 
-// ==========================================
-//  PART A: CONTACT FORM LOGIC
-// ==========================================
+// --- HELPER: UK Time ---
+function getUKDateTime() {
+  return new Date().toLocaleString("en-GB", { timeZone: "Europe/London" });
+}
 
+// --- HELPER: Auth ---
+async function getSheetsClient() {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: (process.env.GOOGLE_PRIVATE_KEY ?? "").replace(/\\n/g, "\n"),
+    },
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+  return google.sheets({ version: "v4", auth });
+}
+
+// --- HELPER: Create & Format Tab ---
+async function ensureTabExists(
+  sheets: sheets_v4.Sheets,
+  spreadsheetId: string,
+  tabName: string,
+  headers: string[],
+) {
+  let sheetId: number | undefined;
+
+  try {
+    const meta = await sheets.spreadsheets.get({ spreadsheetId });
+    const sheet = meta.data.sheets?.find(
+      (s: sheets_v4.Schema$Sheet) => s.properties?.title === tabName,
+    );
+
+    if (sheet) {
+      sheetId = sheet.properties?.sheetId ?? undefined;
+    } else {
+      const newSheet = await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              addSheet: {
+                properties: {
+                  title: tabName,
+                  gridProperties: { frozenRowCount: 1 },
+                },
+              },
+            },
+          ],
+        },
+      });
+      const maybeSheetId =
+        newSheet.data.replies?.[0].addSheet?.properties?.sheetId;
+      sheetId = maybeSheetId === null ? undefined : maybeSheetId;
+
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `${tabName}!A1`,
+        valueInputOption: "USER_ENTERED",
+        requestBody: { values: [headers] },
+      });
+    }
+
+    if (sheetId !== undefined) {
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            // Header Style
+            {
+              repeatCell: {
+                range: { sheetId, startRowIndex: 0, endRowIndex: 1 },
+                cell: {
+                  userEnteredFormat: {
+                    backgroundColor: { red: 0.1, green: 0.2, blue: 0.4 },
+                    textFormat: {
+                      foregroundColor: { red: 1, green: 1, blue: 1 },
+                      bold: true,
+                    },
+                    wrapStrategy: "WRAP",
+                    verticalAlignment: "MIDDLE",
+                  },
+                },
+                fields:
+                  "userEnteredFormat(backgroundColor,textFormat,wrapStrategy,verticalAlignment)",
+              },
+            },
+            // Data Rows Style: WRAP (Allows vertical expansion, prevents horizontal bleed)
+            {
+              repeatCell: {
+                range: { sheetId, startRowIndex: 1 },
+                cell: {
+                  userEnteredFormat: {
+                    wrapStrategy: "WRAP", // <-- FIXED
+                    verticalAlignment: "TOP",
+                  },
+                },
+                fields: "userEnteredFormat(wrapStrategy,verticalAlignment)",
+              },
+            },
+            // Standard Columns Width
+            {
+              updateDimensionProperties: {
+                range: {
+                  sheetId,
+                  dimension: "COLUMNS",
+                  startIndex: 0,
+                  endIndex: headers.length - 1,
+                },
+                properties: { pixelSize: 150 },
+                fields: "pixelSize",
+              },
+            },
+            // Message Column Width (Wide enough to read easily)
+            {
+              updateDimensionProperties: {
+                range: {
+                  sheetId,
+                  dimension: "COLUMNS",
+                  startIndex: headers.length - 1,
+                  endIndex: headers.length,
+                },
+                properties: { pixelSize: 450 }, // <-- FIXED Width
+                fields: "pixelSize",
+              },
+            },
+          ],
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Sheet Format Error:", error);
+  }
+}
+
+// --- HELPER: Send Email ---
+type ContactData = z.infer<typeof contactFormSchema>;
+type EligibilityData = z.infer<typeof eligibilitySchema>;
+
+async function sendEmails(
+  data: ContactData | EligibilityData,
+  type: "contact" | "eligibility",
+) {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return;
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD.replace(/\s/g, ""),
+    },
+  });
+
+  try {
+    if (type === "contact") {
+      const adminHtml = (await ejs.renderFile(
+        path.join(
+          process.cwd(),
+          "email-templates",
+          "contact-admin-notification.ejs",
+        ),
+        data,
+      )) as string;
+      await transporter.sendMail({
+        from: `"Website Bot" <${process.env.GMAIL_USER}>`,
+        to: process.env.GMAIL_USER,
+        replyTo: (data as ContactData).email,
+        subject: `🔔 New Enquiry: ${(data as ContactData).firstName} (${(data as ContactData).interest})`,
+        html: adminHtml,
+      });
+
+      const studentHtml = (await ejs.renderFile(
+        path.join(process.cwd(), "email-templates", "contact-confirmation.ejs"),
+        {
+          firstName: (data as ContactData).firstName,
+          interest: (data as ContactData).interest,
+          year: new Date().getFullYear(),
+        },
+      )) as string;
+      await transporter.sendMail({
+        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
+        to: (data as ContactData).email,
+        subject: `We received your enquiry, ${(data as ContactData).firstName}!`,
+        html: studentHtml,
+      });
+    } else if (type === "eligibility") {
+      const adminHtml = (await ejs.renderFile(
+        path.join(process.cwd(), "email-templates", "eligibility-admin.ejs"),
+        data,
+      )) as string;
+      await transporter.sendMail({
+        from: `"Website Bot" <${process.env.GMAIL_USER}>`,
+        to: process.env.GMAIL_USER,
+        replyTo: (data as EligibilityData).email,
+        subject: `🎯 New Eligibility Lead: ${(data as EligibilityData).fullName}`,
+        html: adminHtml,
+      });
+
+      const studentHtml = (await ejs.renderFile(
+        path.join(process.cwd(), "email-templates", "eligibility-student.ejs"),
+        {
+          firstName: (data as EligibilityData).fullName.split(" ")[0],
+          destination: (data as EligibilityData).destination,
+          year: new Date().getFullYear(),
+        },
+      )) as string;
+      await transporter.sendMail({
+        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
+        to: (data as EligibilityData).email,
+        subject: `We've received your assessment`,
+        html: studentHtml,
+      });
+    }
+  } catch (error) {
+    console.error("Email Error:", error);
+  }
+}
+
+// --- CONTACT FORM ---
 const contactFormSchema = z.object({
-  firstName: z.string().min(1, "First name is required").trim(),
-  lastName: z.string().min(1, "Last name is required").trim(),
-  email: z
-    .string()
-    .email("Please enter a valid email address")
-    .trim()
-    .toLowerCase(),
-  phone: z.string().regex(/^\+\d{7,15}$/, "Phone must include country code"),
-  interest: z.string().min(1, "Please select a help topic"),
-  startYear: z.string().min(1, "Please select a start year"),
-  studyLevel: z.string().min(1, "Please select a study level"),
-  destination: z.string().min(1, "Please select a destination"),
-  message: z
-    .string()
-    .min(10, "Message too short")
-    .max(2000, "Message too long")
-    .trim(),
-  terms: z.string().refine((val) => val === "on", {
-    message: "You must agree to the terms.",
-  }),
+  firstName: z.string().min(1).trim(),
+  lastName: z.string().min(1).trim(),
+  email: z.string().email().toLowerCase().trim(),
+  phone: z.string().min(5),
+  interest: z.string().min(1),
+  startYear: z.string().min(1),
+  studyLevel: z.string().min(1),
+  destination: z.string().min(1),
+  message: z.string().min(1).max(2000),
+  terms: z.string().refine((val) => val === "on"),
   honeyPot: z.string().max(0),
 });
 
 export async function submitToGoogleSheet(
-  prevState: FormState,
+  _prevState: FormState,
   formData: FormData,
 ): Promise<FormState> {
   try {
-    // 1. Sanitize Data
     const rawData = {
       firstName: (formData.get("first_name") as string) || "",
       lastName: (formData.get("last_name") as string) || "",
@@ -60,96 +264,32 @@ export async function submitToGoogleSheet(
       honeyPot: (formData.get("job_role_hidden") as string) || "",
     };
 
-    // 2. Validate
     const validatedData = contactFormSchema.parse(rawData);
-
-    // 3. Auth
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: (process.env.GOOGLE_PRIVATE_KEY ?? "").replace(
-          /\\n/g,
-          "\n",
-        ),
-      },
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
-
-    const sheets = google.sheets({ version: "v4", auth });
+    const sheets = await getSheetsClient();
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const tabName = "Contact_Leads";
 
-    // 4. Setup Sheet Headers (If not exists)
-    try {
-      const checkHeader = await sheets.spreadsheets.values.get({
-        spreadsheetId,
-        range: "Sheet1!A1",
-      });
-      if (!checkHeader.data.values || checkHeader.data.values.length === 0) {
-        // Create Headers
-        await sheets.spreadsheets.values.update({
-          spreadsheetId,
-          range: "Sheet1!A1:J1",
-          valueInputOption: "USER_ENTERED",
-          requestBody: {
-            values: [
-              [
-                "Date",
-                "Interest",
-                "First Name",
-                "Last Name",
-                "Email",
-                "Phone",
-                "Start Year",
-                "Level",
-                "Destination",
-                "Message",
-              ],
-            ],
-          },
-        });
-        // Apply Styling (Blue Header)
-        await sheets.spreadsheets.batchUpdate({
-          spreadsheetId,
-          requestBody: {
-            requests: [
-              {
-                updateSheetProperties: {
-                  properties: { gridProperties: { frozenRowCount: 1 } },
-                  fields: "gridProperties.frozenRowCount",
-                },
-              },
-              {
-                repeatCell: {
-                  range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 },
-                  cell: {
-                    userEnteredFormat: {
-                      backgroundColor: { red: 0.1, green: 0.2, blue: 0.4 },
-                      textFormat: {
-                        foregroundColor: { red: 1, green: 1, blue: 1 },
-                        bold: true,
-                      },
-                    },
-                  },
-                  fields: "userEnteredFormat(backgroundColor,textFormat)",
-                },
-              },
-            ],
-          },
-        });
-      }
-    } catch (e) {
-      console.log("Sheet init skipped or failed", e);
-    }
+    await ensureTabExists(sheets, spreadsheetId!, tabName, [
+      "Time (UK)",
+      "Interest",
+      "First Name",
+      "Last Name",
+      "Email",
+      "Phone",
+      "Start Year",
+      "Level",
+      "Destination",
+      "Message",
+    ]);
 
-    // 5. Append Data
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "Sheet1!A:J",
+      range: `${tabName}!A:J`,
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [
           [
-            new Date().toISOString().split("T")[0],
+            getUKDateTime(),
             validatedData.interest,
             validatedData.firstName,
             validatedData.lastName,
@@ -164,58 +304,11 @@ export async function submitToGoogleSheet(
       },
     });
 
-    // 6. Send Emails (Using EJS Templates)
-    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_APP_PASSWORD,
-        },
-      });
-
-      // A. Admin Email (You receive this)
-      const adminTemplate = path.join(
-        process.cwd(),
-        "email-templates",
-        "contact-admin-notification.ejs",
-      );
-      const adminHtml = await ejs.renderFile(adminTemplate, {
-        ...validatedData,
-      });
-
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
-        to: process.env.GMAIL_USER,
-        subject: `🔔 New Enquiry: ${validatedData.firstName} (${validatedData.interest})`,
-        html: adminHtml,
-      });
-
-      // B. Student Email (They receive this)
-      const studentTemplate = path.join(
-        process.cwd(),
-        "email-templates",
-        "contact-confirmation.ejs",
-      );
-      const studentHtml = await ejs.renderFile(studentTemplate, {
-        firstName: validatedData.firstName,
-        interest: validatedData.interest,
-        year: new Date().getFullYear(),
-      });
-
-      await transporter.sendMail({
-        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
-        to: validatedData.email,
-        subject: `We received your enquiry, ${validatedData.firstName}!`,
-        html: studentHtml,
-      });
-    }
-
+    await sendEmails(validatedData, "contact");
     return { success: true, message: "Message sent successfully!" };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof z.ZodError)
       return { success: false, message: error.issues[0].message };
-    console.error("Contact Form Error:", error);
     return {
       success: false,
       message: "Something went wrong. Please try again.",
@@ -223,25 +316,22 @@ export async function submitToGoogleSheet(
   }
 }
 
-// ==========================================
-//  PART B: ELIGIBILITY WIZARD LOGIC
-// ==========================================
-
+// --- ELIGIBILITY FORM ---
 const eligibilitySchema = z.object({
-  educationLevel: z.string().min(1, "Required"),
-  grades: z.string().min(1, "Required"),
-  englishLevel: z.string().min(1, "Required"),
-  destination: z.string().min(1, "Required"),
-  subject: z.string().min(1, "Required"),
-  fullName: z.string().min(2, "Name required"),
+  educationLevel: z.string().min(1),
+  grades: z.string().min(1),
+  englishLevel: z.string().min(1),
+  destination: z.string().min(1),
+  subject: z.string().min(1),
+  fullName: z.string().min(2),
   email: z.string().email(),
-  phone: z.string().min(8, "Valid phone required"),
+  phone: z.string().min(5),
 });
 
 export async function submitEligibility(
-  prevState: FormState,
+  _prevState: FormState,
   formData: FormData,
-): Promise<{ success: boolean; message: string }> {
+): Promise<FormState> {
   try {
     const rawData = {
       educationLevel: formData.get("educationLevel") as string,
@@ -255,94 +345,46 @@ export async function submitEligibility(
     };
 
     const validated = eligibilitySchema.parse(rawData);
-
-    // 1. Google Sheets (Reusing existing Auth)
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: (process.env.GOOGLE_PRIVATE_KEY ?? "").replace(
-          /\\n/g,
-          "\n",
-        ),
-      },
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
-
-    const sheets = google.sheets({ version: "v4", auth });
+    const sheets = await getSheetsClient();
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const tabName = "Eligibility_Checks";
 
-    // Append to SAME Sheet (Mapping fields to match Contact Form columns)
-    // Columns: [Date, Interest, FName, LName, Email, Phone, StartYear, Level, Dest, Message]
+    await ensureTabExists(sheets, spreadsheetId!, tabName, [
+      "Time (UK)",
+      "Full Name",
+      "Email",
+      "Phone",
+      "Education Level",
+      "Grades",
+      "English",
+      "Subject",
+      "Destination",
+    ]);
+
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "Sheet1!A:J",
+      range: `${tabName}!A:I`,
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [
           [
-            new Date().toISOString().split("T")[0],
-            "Eligibility Check", // Mapped to 'Interest'
-            validated.fullName.split(" ")[0], // First Name
-            validated.fullName.split(" ").slice(1).join(" ") || ".", // Last Name
+            getUKDateTime(),
+            validated.fullName,
             validated.email,
             validated.phone,
-            "N/A", // Start Year
-            validated.educationLevel, // Level
+            validated.educationLevel,
+            validated.grades,
+            validated.englishLevel,
+            validated.subject,
             validated.destination,
-            `Subject: ${validated.subject} | Grades: ${validated.grades} | English: ${validated.englishLevel}`, // Mapped to 'Message'
           ],
         ],
       },
     });
 
-    // 2. Send Emails (Using EJS Templates)
-    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_APP_PASSWORD,
-        },
-      });
-
-      // A. Admin Email (Eligibility Template)
-      const adminTemplate = path.join(
-        process.cwd(),
-        "email-templates",
-        "eligibility-admin.ejs",
-      );
-      const adminHtml = await ejs.renderFile(adminTemplate, { ...validated });
-
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
-        to: process.env.GMAIL_USER,
-        subject: `🎯 New Eligibility Lead: ${validated.fullName}`,
-        html: adminHtml,
-      });
-
-      // B. Student Email (Eligibility Template)
-      const studentTemplate = path.join(
-        process.cwd(),
-        "email-templates",
-        "eligibility-student.ejs",
-      );
-      const studentHtml = await ejs.renderFile(studentTemplate, {
-        firstName: validated.fullName.split(" ")[0],
-        destination: validated.destination,
-        year: new Date().getFullYear(),
-      });
-
-      await transporter.sendMail({
-        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
-        to: validated.email,
-        subject: `We've received your assessment`,
-        html: studentHtml,
-      });
-    }
-
+    await sendEmails(validated, "eligibility");
     return { success: true, message: "Check complete!" };
   } catch (error) {
-    console.error("Eligibility Error:", error);
     return { success: false, message: "Submission failed." };
   }
 }
