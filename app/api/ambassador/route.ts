@@ -6,24 +6,59 @@ import path from "path";
 
 export const dynamic = "force-dynamic";
 
+function getUKDateTime() {
+  return new Date().toLocaleString("en-GB", { timeZone: "Europe/London" });
+}
+
+function createTransporter() {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return null;
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD.replace(/\s/g, ""),
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
+  });
+}
+
+async function sendMailWithTimeout(
+  transporter: nodemailer.Transporter,
+  mailOptions: nodemailer.SendMailOptions,
+  ms: number,
+) {
+  await Promise.race([
+    transporter.sendMail(mailOptions),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Email timeout")), ms),
+    ),
+  ]);
+}
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
-    const fullName = formData.get("fullName") as string;
-    const email = formData.get("email") as string;
-    const phone = formData.get("phone") as string;
-    const languages = formData.get("languages") as string;
-    const socialLink = formData.get("socialLink") as string;
-    const currentCityCountry = formData.get("currentCityCountry") as string;
-    const postalCode = formData.get("postalCode") as string;
-    const currentStudy = formData.get("currentStudy") as string;
-    const destination = formData.get("destination") as string;
-    const motivation = formData.get("motivation") as string;
+
+    const fullName = (formData.get("fullName") as string) || "";
+    const email = (formData.get("email") as string) || "";
+    const phone = (formData.get("phone") as string) || "";
+    const languages = (formData.get("languages") as string) || "";
+    const socialLink = (formData.get("socialLink") as string) || "";
+    const currentCityCountry =
+      (formData.get("currentCityCountry") as string) || "";
+    const postalCode = (formData.get("postalCode") as string) || "";
+    const currentStudy = (formData.get("currentStudy") as string) || "";
+    const destination = (formData.get("destination") as string) || "";
+    const motivation = (formData.get("motivation") as string) || "";
     const cvFile = formData.get("cv") as File | null;
 
-    const attachments = [];
+    const attachments: { filename: string; content: Buffer }[] = [];
     let cvStatus = "No CV";
     let hasCV = false;
+
     if (cvFile && cvFile.size > 0) {
       const arrayBuffer = await cvFile.arrayBuffer();
       attachments.push({
@@ -44,8 +79,16 @@ export async function POST(req: Request) {
       },
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
+
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    if (!spreadsheetId) {
+      return NextResponse.json(
+        { success: false, error: "Missing GOOGLE_SHEET_ID" },
+        { status: 500 },
+      );
+    }
+
     const tabName = "Ambassadors";
 
     let sheetId: number | undefined;
@@ -54,6 +97,7 @@ export async function POST(req: Request) {
       const sheet = meta.data.sheets?.find(
         (s) => s.properties?.title === tabName,
       );
+
       if (sheet) {
         sheetId = sheet.properties?.sheetId ?? undefined;
       } else {
@@ -72,8 +116,10 @@ export async function POST(req: Request) {
             ],
           },
         });
+
         sheetId =
           newSheet.data.replies?.[0].addSheet?.properties?.sheetId ?? undefined;
+
         await sheets.spreadsheets.values.update({
           spreadsheetId,
           range: `${tabName}!A1`,
@@ -106,7 +152,6 @@ export async function POST(req: Request) {
           spreadsheetId,
           requestBody: {
             requests: [
-              // 1. Header Styles
               {
                 repeatCell: {
                   range: { sheetId, startRowIndex: 0, endRowIndex: 1 },
@@ -124,8 +169,6 @@ export async function POST(req: Request) {
                     "userEnteredFormat(backgroundColor,textFormat,wrapStrategy)",
                 },
               },
-
-              // 2. Data Rows Style (WRAP)
               {
                 repeatCell: {
                   range: { sheetId, startRowIndex: 1 },
@@ -138,8 +181,6 @@ export async function POST(req: Request) {
                   fields: "userEnteredFormat(wrapStrategy,verticalAlignment)",
                 },
               },
-
-              // 3. Dropdown Menu (Data Validation) - THIS WAS MISSING!
               {
                 setDataValidation: {
                   range: {
@@ -165,8 +206,6 @@ export async function POST(req: Request) {
                   },
                 },
               },
-
-              // 4. Column Widths
               {
                 updateDimensionProperties: {
                   range: {
@@ -199,9 +238,8 @@ export async function POST(req: Request) {
       console.error(e);
     }
 
-    const ukTime = new Date().toLocaleString("en-GB", {
-      timeZone: "Europe/London",
-    });
+    const ukTime = getUKDateTime();
+
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range: `${tabName}!A:N`,
@@ -228,59 +266,73 @@ export async function POST(req: Request) {
       },
     });
 
-    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_APP_PASSWORD.replace(/\s/g, ""),
-        },
-      });
-      const adminHtml = await ejs.renderFile(
-        path.join(
-          process.cwd(),
-          "email-templates",
-          "ambassador-admin-notification.ejs",
-        ),
-        {
-          fullName,
-          email,
-          phone,
-          languages,
-          socialLink,
-          location: currentCityCountry,
-          postalCode,
-          study: currentStudy,
-          destination,
-          motivation,
-          hasCV,
-        },
-      );
-      await transporter.sendMail({
-        from: `"Website Bot" <${process.env.GMAIL_USER}>`,
-        to: process.env.GMAIL_USER,
-        replyTo: email,
-        subject: `🌟 New Ambassador App: ${fullName}`,
-        html: adminHtml,
-        attachments,
-      });
-      const studentHtml = await ejs.renderFile(
-        path.join(
-          process.cwd(),
-          "email-templates",
-          "ambassador-confirmation.ejs",
-        ),
-        { name: fullName.split(" ")[0], year: new Date().getFullYear() },
-      );
-      await transporter.sendMail({
-        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
-        to: email,
-        subject: `Application Received: Student Ambassador Program`,
-        html: studentHtml,
-      });
-    }
+    void (async () => {
+      const transporter = createTransporter();
+      if (!transporter) return;
 
-    return NextResponse.json({ success: true });
+      try {
+        const adminHtml = await ejs.renderFile(
+          path.join(
+            process.cwd(),
+            "email-templates",
+            "ambassador-admin-notification.ejs",
+          ),
+          {
+            fullName,
+            email,
+            phone,
+            languages,
+            socialLink,
+            location: currentCityCountry,
+            postalCode,
+            study: currentStudy,
+            destination,
+            motivation,
+            hasCV,
+          },
+        );
+
+        await sendMailWithTimeout(
+          transporter,
+          {
+            from: `"Website Bot" <${process.env.GMAIL_USER}>`,
+            to: process.env.GMAIL_USER,
+            replyTo: email,
+            subject: `🌟 New Ambassador App: ${fullName}`,
+            html: adminHtml,
+            attachments,
+          },
+          20000,
+        );
+
+        const studentHtml = await ejs.renderFile(
+          path.join(
+            process.cwd(),
+            "email-templates",
+            "ambassador-confirmation.ejs",
+          ),
+          { name: fullName.split(" ")[0], year: new Date().getFullYear() },
+        );
+
+        await sendMailWithTimeout(
+          transporter,
+          {
+            from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
+            to: email,
+            subject: `Application Received: Student Ambassador Program`,
+            html: studentHtml,
+          },
+          20000,
+        );
+      } catch (err) {
+        console.error("Ambassador Email Error:", err);
+      }
+    })();
+
+    return NextResponse.json({
+      success: true,
+      message: "Submitted successfully",
+    });
   } catch (error) {
     console.error("Ambassador API Error:", error);
     return NextResponse.json(

@@ -7,18 +7,15 @@ import ejs from "ejs";
 import path from "path";
 import type { sheets_v4 } from "googleapis";
 
-// --- SHARED TYPES ---
 export type FormState = {
   success: boolean;
   message: string;
 };
 
-// --- HELPER: UK Time ---
 function getUKDateTime() {
   return new Date().toLocaleString("en-GB", { timeZone: "Europe/London" });
 }
 
-// --- HELPER: Auth ---
 async function getSheetsClient() {
   const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -30,7 +27,6 @@ async function getSheetsClient() {
   return google.sheets({ version: "v4", auth });
 }
 
-// --- HELPER: Create & Format Tab ---
 async function ensureTabExists(
   sheets: sheets_v4.Sheets,
   spreadsheetId: string,
@@ -63,6 +59,7 @@ async function ensureTabExists(
           ],
         },
       });
+
       const maybeSheetId =
         newSheet.data.replies?.[0].addSheet?.properties?.sheetId;
       sheetId = maybeSheetId === null ? undefined : maybeSheetId;
@@ -80,7 +77,6 @@ async function ensureTabExists(
         spreadsheetId,
         requestBody: {
           requests: [
-            // Header Style
             {
               repeatCell: {
                 range: { sheetId, startRowIndex: 0, endRowIndex: 1 },
@@ -99,20 +95,18 @@ async function ensureTabExists(
                   "userEnteredFormat(backgroundColor,textFormat,wrapStrategy,verticalAlignment)",
               },
             },
-            // Data Rows Style: WRAP (Allows vertical expansion, prevents horizontal bleed)
             {
               repeatCell: {
                 range: { sheetId, startRowIndex: 1 },
                 cell: {
                   userEnteredFormat: {
-                    wrapStrategy: "WRAP", // <-- FIXED
+                    wrapStrategy: "WRAP",
                     verticalAlignment: "TOP",
                   },
                 },
                 fields: "userEnteredFormat(wrapStrategy,verticalAlignment)",
               },
             },
-            // Standard Columns Width
             {
               updateDimensionProperties: {
                 range: {
@@ -125,7 +119,6 @@ async function ensureTabExists(
                 fields: "pixelSize",
               },
             },
-            // Message Column Width (Wide enough to read easily)
             {
               updateDimensionProperties: {
                 range: {
@@ -134,7 +127,7 @@ async function ensureTabExists(
                   startIndex: headers.length - 1,
                   endIndex: headers.length,
                 },
-                properties: { pixelSize: 450 }, // <-- FIXED Width
+                properties: { pixelSize: 450 },
                 fields: "pixelSize",
               },
             },
@@ -147,90 +140,6 @@ async function ensureTabExists(
   }
 }
 
-// --- HELPER: Send Email ---
-type ContactData = z.infer<typeof contactFormSchema>;
-type EligibilityData = z.infer<typeof eligibilitySchema>;
-
-async function sendEmails(
-  data: ContactData | EligibilityData,
-  type: "contact" | "eligibility",
-) {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return;
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD.replace(/\s/g, ""),
-    },
-  });
-
-  try {
-    if (type === "contact") {
-      const adminHtml = (await ejs.renderFile(
-        path.join(
-          process.cwd(),
-          "email-templates",
-          "contact-admin-notification.ejs",
-        ),
-        data,
-      )) as string;
-      await transporter.sendMail({
-        from: `"Website Bot" <${process.env.GMAIL_USER}>`,
-        to: process.env.GMAIL_USER,
-        replyTo: (data as ContactData).email,
-        subject: `🔔 New Enquiry: ${(data as ContactData).firstName} (${(data as ContactData).interest})`,
-        html: adminHtml,
-      });
-
-      const studentHtml = (await ejs.renderFile(
-        path.join(process.cwd(), "email-templates", "contact-confirmation.ejs"),
-        {
-          firstName: (data as ContactData).firstName,
-          interest: (data as ContactData).interest,
-          year: new Date().getFullYear(),
-        },
-      )) as string;
-      await transporter.sendMail({
-        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
-        to: (data as ContactData).email,
-        subject: `We received your enquiry, ${(data as ContactData).firstName}!`,
-        html: studentHtml,
-      });
-    } else if (type === "eligibility") {
-      const adminHtml = (await ejs.renderFile(
-        path.join(process.cwd(), "email-templates", "eligibility-admin.ejs"),
-        data,
-      )) as string;
-      await transporter.sendMail({
-        from: `"Website Bot" <${process.env.GMAIL_USER}>`,
-        to: process.env.GMAIL_USER,
-        replyTo: (data as EligibilityData).email,
-        subject: `🎯 New Eligibility Lead: ${(data as EligibilityData).fullName}`,
-        html: adminHtml,
-      });
-
-      const studentHtml = (await ejs.renderFile(
-        path.join(process.cwd(), "email-templates", "eligibility-student.ejs"),
-        {
-          firstName: (data as EligibilityData).fullName.split(" ")[0],
-          destination: (data as EligibilityData).destination,
-          year: new Date().getFullYear(),
-        },
-      )) as string;
-      await transporter.sendMail({
-        from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
-        to: (data as EligibilityData).email,
-        subject: `We've received your assessment`,
-        html: studentHtml,
-      });
-    }
-  } catch (error) {
-    console.error("Email Error:", error);
-  }
-}
-
-// --- CONTACT FORM ---
 const contactFormSchema = z.object({
   firstName: z.string().min(1).trim(),
   lastName: z.string().min(1).trim(),
@@ -244,6 +153,142 @@ const contactFormSchema = z.object({
   terms: z.string().refine((val) => val === "on"),
   honeyPot: z.string().max(0),
 });
+
+const eligibilitySchema = z.object({
+  educationLevel: z.string().min(1),
+  grades: z.string().min(1),
+  englishLevel: z.string().min(1),
+  destination: z.string().min(1),
+  subject: z.string().min(1),
+  fullName: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().min(5),
+});
+
+type ContactData = z.infer<typeof contactFormSchema>;
+type EligibilityData = z.infer<typeof eligibilitySchema>;
+
+function createTransporter() {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return null;
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD.replace(/\s/g, ""),
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
+  });
+}
+
+async function sendMailWithTimeout(
+  transporter: nodemailer.Transporter,
+  mailOptions: nodemailer.SendMailOptions,
+  ms: number,
+) {
+  await Promise.race([
+    transporter.sendMail(mailOptions),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Email timeout")), ms),
+    ),
+  ]);
+}
+
+async function sendEmails(
+  data: ContactData | EligibilityData,
+  type: "contact" | "eligibility",
+) {
+  const transporter = createTransporter();
+  if (!transporter) return;
+
+  try {
+    if (type === "contact") {
+      const adminHtml = (await ejs.renderFile(
+        path.join(
+          process.cwd(),
+          "email-templates",
+          "contact-admin-notification.ejs",
+        ),
+        data,
+      )) as string;
+
+      await sendMailWithTimeout(
+        transporter,
+        {
+          from: `"Website Bot" <${process.env.GMAIL_USER}>`,
+          to: process.env.GMAIL_USER,
+          replyTo: (data as ContactData).email,
+          subject: `🔔 New Enquiry: ${(data as ContactData).firstName} (${(data as ContactData).interest})`,
+          html: adminHtml,
+        },
+        20000,
+      );
+
+      const studentHtml = (await ejs.renderFile(
+        path.join(process.cwd(), "email-templates", "contact-confirmation.ejs"),
+        {
+          firstName: (data as ContactData).firstName,
+          interest: (data as ContactData).interest,
+          year: new Date().getFullYear(),
+        },
+      )) as string;
+
+      await sendMailWithTimeout(
+        transporter,
+        {
+          from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
+          to: (data as ContactData).email,
+          subject: `We received your enquiry, ${(data as ContactData).firstName}!`,
+          html: studentHtml,
+        },
+        20000,
+      );
+    }
+
+    if (type === "eligibility") {
+      const adminHtml = (await ejs.renderFile(
+        path.join(process.cwd(), "email-templates", "eligibility-admin.ejs"),
+        data,
+      )) as string;
+
+      await sendMailWithTimeout(
+        transporter,
+        {
+          from: `"Website Bot" <${process.env.GMAIL_USER}>`,
+          to: process.env.GMAIL_USER,
+          replyTo: (data as EligibilityData).email,
+          subject: `🎯 New Eligibility Lead: ${(data as EligibilityData).fullName}`,
+          html: adminHtml,
+        },
+        20000,
+      );
+
+      const studentHtml = (await ejs.renderFile(
+        path.join(process.cwd(), "email-templates", "eligibility-student.ejs"),
+        {
+          firstName: (data as EligibilityData).fullName.split(" ")[0],
+          destination: (data as EligibilityData).destination,
+          year: new Date().getFullYear(),
+        },
+      )) as string;
+
+      await sendMailWithTimeout(
+        transporter,
+        {
+          from: `"Student Choice Education" <${process.env.GMAIL_USER}>`,
+          to: (data as EligibilityData).email,
+          subject: `We've received your assessment`,
+          html: studentHtml,
+        },
+        20000,
+      );
+    }
+  } catch (error) {
+    console.error("Email Error:", error);
+  }
+}
 
 export async function submitToGoogleSheet(
   _prevState: FormState,
@@ -265,11 +310,16 @@ export async function submitToGoogleSheet(
     };
 
     const validatedData = contactFormSchema.parse(rawData);
+
     const sheets = await getSheetsClient();
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    if (!spreadsheetId) {
+      return { success: false, message: "Missing GOOGLE_SHEET_ID." };
+    }
+
     const tabName = "Contact_Leads";
 
-    await ensureTabExists(sheets, spreadsheetId!, tabName, [
+    await ensureTabExists(sheets, spreadsheetId, tabName, [
       "Time (UK)",
       "Interest",
       "First Name",
@@ -304,11 +354,14 @@ export async function submitToGoogleSheet(
       },
     });
 
-    await sendEmails(validatedData, "contact");
+    void sendEmails(validatedData, "contact");
+
     return { success: true, message: "Message sent successfully!" };
   } catch (error) {
-    if (error instanceof z.ZodError)
+    if (error instanceof z.ZodError) {
       return { success: false, message: error.issues[0].message };
+    }
+    console.error(error);
     return {
       success: false,
       message: "Something went wrong. Please try again.",
@@ -316,40 +369,33 @@ export async function submitToGoogleSheet(
   }
 }
 
-// --- ELIGIBILITY FORM ---
-const eligibilitySchema = z.object({
-  educationLevel: z.string().min(1),
-  grades: z.string().min(1),
-  englishLevel: z.string().min(1),
-  destination: z.string().min(1),
-  subject: z.string().min(1),
-  fullName: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(5),
-});
-
 export async function submitEligibility(
   _prevState: FormState,
   formData: FormData,
 ): Promise<FormState> {
   try {
     const rawData = {
-      educationLevel: formData.get("educationLevel") as string,
-      grades: formData.get("grades") as string,
-      englishLevel: formData.get("englishLevel") as string,
-      destination: formData.get("destination") as string,
-      subject: formData.get("subject") as string,
-      fullName: formData.get("fullName") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
+      educationLevel: (formData.get("educationLevel") as string) || "",
+      grades: (formData.get("grades") as string) || "",
+      englishLevel: (formData.get("englishLevel") as string) || "",
+      destination: (formData.get("destination") as string) || "",
+      subject: (formData.get("subject") as string) || "",
+      fullName: (formData.get("fullName") as string) || "",
+      email: (formData.get("email") as string) || "",
+      phone: (formData.get("phone") as string) || "",
     };
 
     const validated = eligibilitySchema.parse(rawData);
+
     const sheets = await getSheetsClient();
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    if (!spreadsheetId) {
+      return { success: false, message: "Missing GOOGLE_SHEET_ID." };
+    }
+
     const tabName = "Eligibility_Checks";
 
-    await ensureTabExists(sheets, spreadsheetId!, tabName, [
+    await ensureTabExists(sheets, spreadsheetId, tabName, [
       "Time (UK)",
       "Full Name",
       "Email",
@@ -382,9 +428,14 @@ export async function submitEligibility(
       },
     });
 
-    await sendEmails(validated, "eligibility");
+    void sendEmails(validated, "eligibility");
+
     return { success: true, message: "Check complete!" };
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { success: false, message: error.issues[0].message };
+    }
+    console.error(error);
     return { success: false, message: "Submission failed." };
   }
 }
