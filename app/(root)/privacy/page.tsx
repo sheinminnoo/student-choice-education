@@ -219,7 +219,7 @@ export default function PrivacyPolicyPage() {
                   href="mailto:info@studentchoice.com"
                   className="text-blue-600 hover:underline"
                 >
-                  info@studentchoice.com
+                  info@studentchoiceeducation.co.uk
                 </a>
               </p>
               <p className="mt-2">
